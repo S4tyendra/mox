@@ -128,17 +128,17 @@ tswatch:
 
 node_modules/.bin/tsc:
 	-mkdir -p node_modules/.bin
-	npm ci --ignore-scripts
+	bun ci --ignore-scripts
 
 node_modules/.bin/esbuild:
 	-mkdir -p node_modules/.bin
-	npm ci --ignore-scripts
+	bun ci --ignore-scripts
 
 install-js: node_modules/.bin/tsc node_modules/.bin/esbuild
 
 install-js0:
 	-mkdir -p node_modules/.bin
-	npm install --ignore-scripts --save-dev --save-exact typescript@7.0.2 esbuild@v0.28.1
+	bun install --ignore-scripts --save-dev --save-exact typescript@7.0.2 esbuild@v0.28.1
 
 webmail/webmail.js: webmail/webmail.ts webmail/api.ts webmail/lib.ts lib.ts
 	./tsc.sh $@ webmail/webmail.ts webmail/api.ts webmail/lib.ts lib.ts
