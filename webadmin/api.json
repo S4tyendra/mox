@@ -5664,7 +5664,14 @@
 				},
 				{
 					"Name": "SMTPUTF8",
-					"Docs": "Whether message requires use of SMTPUTF8.",
+					"Docs": "Whether message requires use of SMTPUTF8, e.g. for non-ASCII in headers.",
+					"Typewords": [
+						"bool"
+					]
+				},
+				{
+					"Name": "SMTPUTF8Addr",
+					"Docs": "Whether envelope addresses (MAIL FROM/RCPT TO localparts) contain non-ASCII characters. Cannot be downgraded.",
 					"Typewords": [
 						"bool"
 					]
@@ -6049,6 +6056,13 @@
 				{
 					"Name": "SMTPUTF8",
 					"Docs": "Whether message requires use of SMTPUTF8.",
+					"Typewords": [
+						"bool"
+					]
+				},
+				{
+					"Name": "SMTPUTF8Addr",
+					"Docs": "Whether envelope addresses contain non-ASCII characters.",
 					"Typewords": [
 						"bool"
 					]
