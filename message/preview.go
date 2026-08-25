@@ -37,13 +37,33 @@ func (p Part) Preview(log mlog.Log) (string, error) {
 	mt := p.MediaType + "/" + p.MediaSubType
 	switch mt {
 	case "TEXT/PLAIN", "/":
-		r := &moxio.LimitReader{R: p.ReaderUTF8OrBinary(), Limit: 1024 * 1024}
-		s, err := previewText(r)
+		buf, err := io.ReadAll(&moxio.LimitReader{R: p.ReaderUTF8OrBinary(), Limit: 1024 * 1024})
 		if err != nil {
 			if errors.Is(err, moxio.ErrLimit) {
 				log.Debug("no preview in first mb of text message")
 				return "", nil
 			}
+			return "", fmt.Errorf("reading text part for preview: %v", err)
+		}
+		// Some senders dump HTML, or just the contents of <style> blocks, into the
+		// text/plain part. Strip a leading run of CSS rules so raw CSS doesn't leak
+		// into the preview, then, if what remains still looks like HTML, extract text
+		// through the HTML path so tags, entities and styles don't leak either.
+		text := stripLeadingCSS(string(buf))
+		if looksLikeHTML([]byte(text)) {
+			s, err := previewHTML(strings.NewReader(text))
+			if err != nil {
+				log.Debugx("parsing html-like text part for preview (ignored)", err)
+				return "", nil
+			}
+			s, err = previewText(strings.NewReader(s))
+			if err != nil {
+				return "", fmt.Errorf("making preview from html-like text part: %v", err)
+			}
+			return s, nil
+		}
+		s, err := previewText(strings.NewReader(text))
+		if err != nil {
 			return "", fmt.Errorf("making preview from text part: %v", err)
 		}
 		return s, nil
@@ -83,6 +103,85 @@ func (p Part) Preview(log mlog.Log) (string, error) {
 		}
 	}
 	return "", nil
+}
+
+// looksLikeHTML reports whether a text/plain body actually appears to contain
+// HTML. Some senders put HTML (with entities and <style> blocks) in the
+// text/plain part; detecting it lets us extract a clean preview via the HTML
+// path instead of leaking tags/entities/CSS.
+func looksLikeHTML(buf []byte) bool {
+	if len(buf) > 4096 {
+		buf = buf[:4096]
+	}
+	s := strings.ToLower(string(buf))
+	for _, sig := range []string{"</", "<!doctype", "<html", "<style", "<table", "<div", "<span", "<br", "&nbsp;", "&lt;", "&gt;"} {
+		if strings.Contains(s, sig) {
+			return true
+		}
+	}
+	return false
+}
+
+// stripLeadingCSS removes a leading run of CSS rules ("selector { ... }", including
+// nested at-rules like @media) from a text/plain body. Some senders generate the
+// text alternative by stripping HTML tags but leaving the contents of <style>
+// blocks, which then leak into previews as raw CSS. We only strip from the start
+// (where such dumps sit, and where the preview is taken) and only blocks that look
+// like CSS declarations, so ordinary text with braces is left untouched.
+func stripLeadingCSS(s string) string {
+	for {
+		// Skip leading whitespace.
+		i := 0
+		for i < len(s) && (s[i] == ' ' || s[i] == '\t' || s[i] == '\r' || s[i] == '\n') {
+			i++
+		}
+		rest := s[i:]
+		if rest == "" {
+			return rest
+		}
+		// A CSS selector starts with one of these.
+		c := rest[0]
+		if !(c == '#' || c == '.' || c == '@' || c == '*' || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')) {
+			return rest
+		}
+		// Read the selector up to '{', staying on selector-like characters (no tags,
+		// statement terminators or newlines, and bounded in length).
+		j := 0
+		for j < len(rest) && j < 120 {
+			ch := rest[j]
+			if ch == '{' {
+				break
+			}
+			if ch == '}' || ch == '<' || ch == '>' || ch == ';' || ch == '\n' {
+				return rest
+			}
+			j++
+		}
+		if j >= len(rest) || rest[j] != '{' {
+			return rest
+		}
+		// Find the matching close brace, accounting for nested braces (at-rules).
+		depth := 1
+		k := j + 1
+		for ; k < len(rest) && depth > 0; k++ {
+			if rest[k] == '{' {
+				depth++
+			} else if rest[k] == '}' {
+				depth--
+			}
+		}
+		if depth != 0 {
+			return rest
+		}
+		// Require the block to look like CSS declarations: a "prop: value" colon, and
+		// either a ';' separator or a clearly CSS selector (#, ., @, *). This keeps
+		// ordinary prose like "config = {a: b}" from being stripped.
+		block := rest[j+1 : k]
+		if !strings.Contains(block, ":") || !(strings.Contains(block, ";") || c == '#' || c == '.' || c == '@' || c == '*') {
+			return rest
+		}
+		s = rest[k:]
+	}
 }
 
 // previewText returns a line the client can display next to the subject line
@@ -251,7 +350,21 @@ var regexpSpace = regexp.MustCompile(`[ \t]+`)                                  
 var regexpNewline = regexp.MustCompile(`\n\n\n+`)                                                 // Replaced with single newline.
 var regexpZeroWidth = regexp.MustCompile("[\u00a0\u200b\u200c\u200d][\u00a0\u200b\u200c\u200d]+") // Removed, combinations don't make sense, generated.
 
+// HTMLToText converts an HTML document to plain text. Block elements introduce
+// newlines, text inside <blockquote> is prefixed with "> " per nesting level.
+// The entire input is read. Used to derive a text/plain alternative for HTML
+// messages composed in webmail.
+func HTMLToText(r io.Reader) (string, error) {
+	return htmlToText(r, 0)
+}
+
 func previewHTML(r io.Reader) (string, error) {
+	return htmlToText(r, 4*1024)
+}
+
+// htmlToText walks the HTML DOM building plain text. If limit > 0, walking stops
+// once at least limit bytes have been gathered (used for previews).
+func htmlToText(r io.Reader, limit int) (string, error) {
 	// Stack/state, based on elements.
 	var ignores []bool
 	var inlines []bool
@@ -334,10 +447,10 @@ func previewHTML(r io.Reader) (string, error) {
 				}
 				text += s
 			}
-			// We need to generate at most 256 characters of preview. The text we're gathering
-			// will be cleaned up, with quoting removed, so we'll end up with less. Hopefully,
-			// 4k bytes is enough to read.
-			if len(text) >= 4*1024 {
+			// When a limit is set (preview use), stop once we have enough. Previews need at
+			// most 256 characters, and the gathered text is cleaned up afterwards (quoting
+			// removed), so a few kilobytes is plenty. A limit of 0 means read everything.
+			if limit > 0 && len(text) >= limit {
 				return false
 			}
 		}

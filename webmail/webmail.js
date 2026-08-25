@@ -282,13 +282,13 @@
 		"Address": { "Name": "Address", "Docs": "", "Fields": [{ "Name": "Name", "Docs": "", "Typewords": ["string"] }, { "Name": "User", "Docs": "", "Typewords": ["string"] }, { "Name": "Host", "Docs": "", "Typewords": ["string"] }] },
 		"ParsedMessage": { "Name": "ParsedMessage", "Docs": "", "Fields": [{ "Name": "ID", "Docs": "", "Typewords": ["int64"] }, { "Name": "Part", "Docs": "", "Typewords": ["Part"] }, { "Name": "Headers", "Docs": "", "Typewords": ["{}", "[]", "string"] }, { "Name": "ViewMode", "Docs": "", "Typewords": ["ViewMode"] }, { "Name": "Texts", "Docs": "", "Typewords": ["[]", "string"] }, { "Name": "HasHTML", "Docs": "", "Typewords": ["bool"] }, { "Name": "ListReplyAddress", "Docs": "", "Typewords": ["nullable", "MessageAddress"] }, { "Name": "TextPaths", "Docs": "", "Typewords": ["[]", "[]", "int32"] }, { "Name": "HTMLPath", "Docs": "", "Typewords": ["[]", "int32"] }] },
 		"FromAddressSettings": { "Name": "FromAddressSettings", "Docs": "", "Fields": [{ "Name": "FromAddress", "Docs": "", "Typewords": ["string"] }, { "Name": "ViewMode", "Docs": "", "Typewords": ["ViewMode"] }] },
-		"ComposeMessage": { "Name": "ComposeMessage", "Docs": "", "Fields": [{ "Name": "From", "Docs": "", "Typewords": ["string"] }, { "Name": "To", "Docs": "", "Typewords": ["[]", "string"] }, { "Name": "Cc", "Docs": "", "Typewords": ["[]", "string"] }, { "Name": "Bcc", "Docs": "", "Typewords": ["[]", "string"] }, { "Name": "ReplyTo", "Docs": "", "Typewords": ["string"] }, { "Name": "Subject", "Docs": "", "Typewords": ["string"] }, { "Name": "TextBody", "Docs": "", "Typewords": ["string"] }, { "Name": "ResponseMessageID", "Docs": "", "Typewords": ["int64"] }, { "Name": "DraftMessageID", "Docs": "", "Typewords": ["int64"] }] },
-		"SubmitMessage": { "Name": "SubmitMessage", "Docs": "", "Fields": [{ "Name": "From", "Docs": "", "Typewords": ["string"] }, { "Name": "To", "Docs": "", "Typewords": ["[]", "string"] }, { "Name": "Cc", "Docs": "", "Typewords": ["[]", "string"] }, { "Name": "Bcc", "Docs": "", "Typewords": ["[]", "string"] }, { "Name": "ReplyTo", "Docs": "", "Typewords": ["string"] }, { "Name": "Subject", "Docs": "", "Typewords": ["string"] }, { "Name": "TextBody", "Docs": "", "Typewords": ["string"] }, { "Name": "Attachments", "Docs": "", "Typewords": ["[]", "File"] }, { "Name": "ForwardAttachments", "Docs": "", "Typewords": ["ForwardAttachments"] }, { "Name": "IsForward", "Docs": "", "Typewords": ["bool"] }, { "Name": "ResponseMessageID", "Docs": "", "Typewords": ["int64"] }, { "Name": "UserAgent", "Docs": "", "Typewords": ["string"] }, { "Name": "RequireTLS", "Docs": "", "Typewords": ["nullable", "bool"] }, { "Name": "FutureRelease", "Docs": "", "Typewords": ["nullable", "timestamp"] }, { "Name": "ArchiveThread", "Docs": "", "Typewords": ["bool"] }, { "Name": "ArchiveReferenceMailboxID", "Docs": "", "Typewords": ["int64"] }, { "Name": "DraftMessageID", "Docs": "", "Typewords": ["int64"] }] },
+		"ComposeMessage": { "Name": "ComposeMessage", "Docs": "", "Fields": [{ "Name": "From", "Docs": "", "Typewords": ["string"] }, { "Name": "To", "Docs": "", "Typewords": ["[]", "string"] }, { "Name": "Cc", "Docs": "", "Typewords": ["[]", "string"] }, { "Name": "Bcc", "Docs": "", "Typewords": ["[]", "string"] }, { "Name": "ReplyTo", "Docs": "", "Typewords": ["string"] }, { "Name": "Subject", "Docs": "", "Typewords": ["string"] }, { "Name": "TextBody", "Docs": "", "Typewords": ["string"] }, { "Name": "HTMLBody", "Docs": "", "Typewords": ["string"] }, { "Name": "ResponseMessageID", "Docs": "", "Typewords": ["int64"] }, { "Name": "DraftMessageID", "Docs": "", "Typewords": ["int64"] }] },
+		"SubmitMessage": { "Name": "SubmitMessage", "Docs": "", "Fields": [{ "Name": "From", "Docs": "", "Typewords": ["string"] }, { "Name": "To", "Docs": "", "Typewords": ["[]", "string"] }, { "Name": "Cc", "Docs": "", "Typewords": ["[]", "string"] }, { "Name": "Bcc", "Docs": "", "Typewords": ["[]", "string"] }, { "Name": "ReplyTo", "Docs": "", "Typewords": ["string"] }, { "Name": "Subject", "Docs": "", "Typewords": ["string"] }, { "Name": "TextBody", "Docs": "", "Typewords": ["string"] }, { "Name": "HTMLBody", "Docs": "", "Typewords": ["string"] }, { "Name": "Attachments", "Docs": "", "Typewords": ["[]", "File"] }, { "Name": "ForwardAttachments", "Docs": "", "Typewords": ["ForwardAttachments"] }, { "Name": "IsForward", "Docs": "", "Typewords": ["bool"] }, { "Name": "ResponseMessageID", "Docs": "", "Typewords": ["int64"] }, { "Name": "UserAgent", "Docs": "", "Typewords": ["string"] }, { "Name": "RequireTLS", "Docs": "", "Typewords": ["nullable", "bool"] }, { "Name": "FutureRelease", "Docs": "", "Typewords": ["nullable", "timestamp"] }, { "Name": "ArchiveThread", "Docs": "", "Typewords": ["bool"] }, { "Name": "ArchiveReferenceMailboxID", "Docs": "", "Typewords": ["int64"] }, { "Name": "DraftMessageID", "Docs": "", "Typewords": ["int64"] }] },
 		"File": { "Name": "File", "Docs": "", "Fields": [{ "Name": "Filename", "Docs": "", "Typewords": ["string"] }, { "Name": "DataURI", "Docs": "", "Typewords": ["string"] }] },
 		"ForwardAttachments": { "Name": "ForwardAttachments", "Docs": "", "Fields": [{ "Name": "MessageID", "Docs": "", "Typewords": ["int64"] }, { "Name": "Paths", "Docs": "", "Typewords": ["[]", "[]", "int32"] }] },
 		"Mailbox": { "Name": "Mailbox", "Docs": "", "Fields": [{ "Name": "ID", "Docs": "", "Typewords": ["int64"] }, { "Name": "CreateSeq", "Docs": "", "Typewords": ["ModSeq"] }, { "Name": "ModSeq", "Docs": "", "Typewords": ["ModSeq"] }, { "Name": "Expunged", "Docs": "", "Typewords": ["bool"] }, { "Name": "ParentID", "Docs": "", "Typewords": ["int64"] }, { "Name": "Name", "Docs": "", "Typewords": ["string"] }, { "Name": "UIDValidity", "Docs": "", "Typewords": ["uint32"] }, { "Name": "UIDNext", "Docs": "", "Typewords": ["UID"] }, { "Name": "Archive", "Docs": "", "Typewords": ["bool"] }, { "Name": "Draft", "Docs": "", "Typewords": ["bool"] }, { "Name": "Junk", "Docs": "", "Typewords": ["bool"] }, { "Name": "Sent", "Docs": "", "Typewords": ["bool"] }, { "Name": "Trash", "Docs": "", "Typewords": ["bool"] }, { "Name": "Keywords", "Docs": "", "Typewords": ["[]", "string"] }, { "Name": "HaveCounts", "Docs": "", "Typewords": ["bool"] }, { "Name": "Total", "Docs": "", "Typewords": ["int64"] }, { "Name": "Deleted", "Docs": "", "Typewords": ["int64"] }, { "Name": "Unread", "Docs": "", "Typewords": ["int64"] }, { "Name": "Unseen", "Docs": "", "Typewords": ["int64"] }, { "Name": "Size", "Docs": "", "Typewords": ["int64"] }] },
 		"RecipientSecurity": { "Name": "RecipientSecurity", "Docs": "", "Fields": [{ "Name": "STARTTLS", "Docs": "", "Typewords": ["SecurityResult"] }, { "Name": "MTASTS", "Docs": "", "Typewords": ["SecurityResult"] }, { "Name": "DNSSEC", "Docs": "", "Typewords": ["SecurityResult"] }, { "Name": "DANE", "Docs": "", "Typewords": ["SecurityResult"] }, { "Name": "RequireTLS", "Docs": "", "Typewords": ["SecurityResult"] }] },
-		"Settings": { "Name": "Settings", "Docs": "", "Fields": [{ "Name": "ID", "Docs": "", "Typewords": ["uint8"] }, { "Name": "Signature", "Docs": "", "Typewords": ["string"] }, { "Name": "Quoting", "Docs": "", "Typewords": ["Quoting"] }, { "Name": "ShowAddressSecurity", "Docs": "", "Typewords": ["bool"] }, { "Name": "ShowHTML", "Docs": "", "Typewords": ["bool"] }, { "Name": "NoShowShortcuts", "Docs": "", "Typewords": ["bool"] }, { "Name": "ShowHeaders", "Docs": "", "Typewords": ["[]", "string"] }] },
+		"Settings": { "Name": "Settings", "Docs": "", "Fields": [{ "Name": "ID", "Docs": "", "Typewords": ["uint8"] }, { "Name": "Signature", "Docs": "", "Typewords": ["string"] }, { "Name": "Quoting", "Docs": "", "Typewords": ["Quoting"] }, { "Name": "ShowAddressSecurity", "Docs": "", "Typewords": ["bool"] }, { "Name": "ShowHTML", "Docs": "", "Typewords": ["bool"] }, { "Name": "ComposeHTML", "Docs": "", "Typewords": ["bool"] }, { "Name": "WebmailTheme", "Docs": "", "Typewords": ["string"] }, { "Name": "WebmailScheme", "Docs": "", "Typewords": ["string"] }, { "Name": "WebmailAccent", "Docs": "", "Typewords": ["string"] }, { "Name": "WebmailListScale", "Docs": "", "Typewords": ["string"] }, { "Name": "WebmailSubjectScale", "Docs": "", "Typewords": ["string"] }, { "Name": "WebmailListFromStyle", "Docs": "", "Typewords": ["string"] }, { "Name": "WebmailListSubjectStyle", "Docs": "", "Typewords": ["string"] }, { "Name": "WebmailListPreviewStyle", "Docs": "", "Typewords": ["string"] }, { "Name": "WebmailListDateStyle", "Docs": "", "Typewords": ["string"] }, { "Name": "WebmailViewSenderStyle", "Docs": "", "Typewords": ["string"] }, { "Name": "WebmailUnreadStyle", "Docs": "", "Typewords": ["string"] }, { "Name": "NoShowShortcuts", "Docs": "", "Typewords": ["bool"] }, { "Name": "ShowHeaders", "Docs": "", "Typewords": ["[]", "string"] }] },
 		"Ruleset": { "Name": "Ruleset", "Docs": "", "Fields": [{ "Name": "SMTPMailFromRegexp", "Docs": "", "Typewords": ["string"] }, { "Name": "MsgFromRegexp", "Docs": "", "Typewords": ["string"] }, { "Name": "VerifiedDomain", "Docs": "", "Typewords": ["string"] }, { "Name": "HeadersRegexp", "Docs": "", "Typewords": ["{}", "string"] }, { "Name": "IsForward", "Docs": "", "Typewords": ["bool"] }, { "Name": "ListAllowDomain", "Docs": "", "Typewords": ["string"] }, { "Name": "AcceptRejectsToMailbox", "Docs": "", "Typewords": ["string"] }, { "Name": "Mailbox", "Docs": "", "Typewords": ["string"] }, { "Name": "Comment", "Docs": "", "Typewords": ["string"] }, { "Name": "VerifiedDNSDomain", "Docs": "", "Typewords": ["Domain"] }, { "Name": "ListAllowDNSDomain", "Docs": "", "Typewords": ["Domain"] }] },
 		"EventStart": { "Name": "EventStart", "Docs": "", "Fields": [{ "Name": "SSEID", "Docs": "", "Typewords": ["int64"] }, { "Name": "LoginAddress", "Docs": "", "Typewords": ["MessageAddress"] }, { "Name": "Addresses", "Docs": "", "Typewords": ["[]", "MessageAddress"] }, { "Name": "DomainAddressConfigs", "Docs": "", "Typewords": ["{}", "DomainAddressConfig"] }, { "Name": "MailboxName", "Docs": "", "Typewords": ["string"] }, { "Name": "Mailboxes", "Docs": "", "Typewords": ["[]", "Mailbox"] }, { "Name": "Introbox", "Docs": "", "Typewords": ["string"] }, { "Name": "RejectsMailbox", "Docs": "", "Typewords": ["string"] }, { "Name": "Settings", "Docs": "", "Typewords": ["Settings"] }, { "Name": "AccountPath", "Docs": "", "Typewords": ["string"] }, { "Name": "Version", "Docs": "", "Typewords": ["string"] }] },
 		"DomainAddressConfig": { "Name": "DomainAddressConfig", "Docs": "", "Fields": [{ "Name": "LocalpartCatchallSeparators", "Docs": "", "Typewords": ["[]", "string"] }, { "Name": "LocalpartCaseSensitive", "Docs": "", "Typewords": ["bool"] }] },
@@ -498,6 +498,17 @@
 			const paramTypes = [["ComposeMessage"], ["int64"]];
 			const returnTypes = [["int64"]];
 			const params = [m, mailboxID];
+			return await _sherpaCall(this.baseURL, this.authState, { ...this.options }, paramTypes, returnTypes, fn, params);
+		}
+		// MessageComposeQuoteHTML returns the first text/html part of the message with
+		// the given ID, cleaned to the safe "Balanced" HTML subset, for use as a quote
+		// when replying or forwarding. Returns an empty string if the message has no
+		// HTML part.
+		async MessageComposeQuoteHTML(messageID) {
+			const fn = "MessageComposeQuoteHTML";
+			const paramTypes = [["int64"]];
+			const returnTypes = [["string"]];
+			const params = [messageID];
 			return await _sherpaCall(this.baseURL, this.authState, { ...this.options }, paramTypes, returnTypes, fn, params);
 		}
 		// MessageSubmit sends a message by submitting it the outgoing email queue. The
@@ -1080,7 +1091,7 @@
 		ensureCSS("." + className, styles2, important);
 		return dom._class(className);
 	}, "css");
-	ensureCSS(":root", {
+	var baseTokens = {
 		"--color": ["black", "#ddd"],
 		"--colorMild": ["#555", "#bbb"],
 		"--colorMilder": ["#666", "#aaa"],
@@ -1112,21 +1123,215 @@
 		"--warningBackgroundColor": ["#ffca91", "#a85700"],
 		"--successBackground": ["#d2f791", "#1fa204"],
 		"--emphasisBackground": ["#666", "#aaa"],
-		// For authentication/security results.
-		"--underlineGreen": "#50c40f",
-		"--underlineRed": "#e15d1c",
-		"--underlineBlue": "#09f",
-		"--underlineGrey": "#888",
+		"--underlineGreen": ["#50c40f", "#50c40f"],
+		"--underlineRed": ["#e15d1c", "#e15d1c"],
+		"--underlineBlue": ["#09f", "#09f"],
+		"--underlineGrey": ["#888", "#888"],
 		"--quoted1Color": ["#03828f", "#71f2ff"],
-		// red
 		"--quoted2Color": ["#c7445c", "#ec4c4c"],
-		// green
 		"--quoted3Color": ["#417c10", "#73e614"],
-		// blue
 		"--scriptSwitchUnderlineColor": ["#dca053", "#e88f1e"],
 		"--linkColor": ["#096bc2", "#63b6ff"],
-		"--linkVisitedColor": ["#0704c1", "#c763ff"]
+		"--linkVisitedColor": ["#0704c1", "#c763ff"],
+		// New in phase 2. Accent is unused by the classic look (so adds no visual
+		// change); the modern theme (stage 2) routes accented elements through it.
+		"--accent": ["#2b6cff", "#2b6cff"],
+		"--accentText": ["#ffffff", "#ffffff"],
+		"--radius": [".4em", ".4em"]
+	};
+	ensureCSS(":root", baseTokens);
+	var pickScheme = /* @__PURE__ */ __name((i) => {
+		const m = {};
+		for (const [k, v] of Object.entries(baseTokens)) {
+			m[k] = v[i];
+		}
+		return m;
+	}, "pickScheme");
+	var hcLightTokens = {
+		"--color": "#000000",
+		"--colorMild": "#000000",
+		"--colorMilder": "#1a1a1a",
+		"--backgroundColor": "#ffffff",
+		"--backgroundColorMild": "#ffffff",
+		"--backgroundColorMilder": "#000000",
+		"--borderColor": "#000000",
+		"--mailboxesTopBackgroundColor": "#ffffff",
+		"--msglistBackgroundColor": "#ffffff",
+		"--boxShadow": "0 0 0 1px #000",
+		"--buttonBackground": "#ffffff",
+		"--buttonBorderColor": "#000000",
+		"--buttonHoverBackground": "#e6e6e6",
+		"--overlayOpaqueBackgroundColor": "#ffffff",
+		"--overlayBackgroundColor": "rgba(0,0,0,0.5)",
+		"--popupColor": "#000000",
+		"--popupBackgroundColor": "#ffffff",
+		"--popupBorderColor": "#000000",
+		"--highlightBackground": "#0044cc",
+		"--highlightBorderColor": "#000000",
+		"--highlightBackgroundHover": "#0033aa",
+		"--mailboxActiveBackground": "#0044cc",
+		"--mailboxHoverBackgroundColor": "#d6e4ff",
+		"--msgItemActiveBackground": "#0044cc",
+		"--msgItemHoverBackgroundColor": "#d6e4ff",
+		"--msgItemFocusBorderColor": "#0044cc",
+		"--buttonTristateOnBackground": "#006600",
+		"--buttonTristateOffBackground": "#990000",
+		"--warningBackgroundColor": "#ffdd00",
+		"--successBackground": "#006600",
+		"--emphasisBackground": "#000000",
+		"--underlineGreen": "#006600",
+		"--underlineRed": "#990000",
+		"--underlineBlue": "#0044cc",
+		"--underlineGrey": "#000000",
+		"--quoted1Color": "#000000",
+		"--quoted2Color": "#000000",
+		"--quoted3Color": "#000000",
+		"--scriptSwitchUnderlineColor": "#990000",
+		"--linkColor": "#0000ee",
+		"--linkVisitedColor": "#551a8b",
+		"--accent": "#0044cc",
+		"--accentText": "#ffffff",
+		"--radius": ".4em"
+	};
+	var hcDarkTokens = {
+		"--color": "#ffffff",
+		"--colorMild": "#ffffff",
+		"--colorMilder": "#e6e6e6",
+		"--backgroundColor": "#000000",
+		"--backgroundColorMild": "#000000",
+		"--backgroundColorMilder": "#ffffff",
+		"--borderColor": "#ffffff",
+		"--mailboxesTopBackgroundColor": "#000000",
+		"--msglistBackgroundColor": "#000000",
+		"--boxShadow": "0 0 0 1px #fff",
+		"--buttonBackground": "#000000",
+		"--buttonBorderColor": "#ffffff",
+		"--buttonHoverBackground": "#1a1a1a",
+		"--overlayOpaqueBackgroundColor": "#000000",
+		"--overlayBackgroundColor": "rgba(0,0,0,0.7)",
+		"--popupColor": "#ffffff",
+		"--popupBackgroundColor": "#000000",
+		"--popupBorderColor": "#ffffff",
+		"--highlightBackground": "#66aaff",
+		"--highlightBorderColor": "#ffffff",
+		"--highlightBackgroundHover": "#3388ff",
+		"--mailboxActiveBackground": "#0066ff",
+		"--mailboxHoverBackgroundColor": "#003366",
+		"--msgItemActiveBackground": "#0066ff",
+		"--msgItemHoverBackgroundColor": "#003366",
+		"--msgItemFocusBorderColor": "#66aaff",
+		"--buttonTristateOnBackground": "#00cc00",
+		"--buttonTristateOffBackground": "#ff5555",
+		"--warningBackgroundColor": "#ffdd00",
+		"--successBackground": "#00cc00",
+		"--emphasisBackground": "#ffffff",
+		"--underlineGreen": "#00ff00",
+		"--underlineRed": "#ff5555",
+		"--underlineBlue": "#66aaff",
+		"--underlineGrey": "#ffffff",
+		"--quoted1Color": "#ffffff",
+		"--quoted2Color": "#ffffff",
+		"--quoted3Color": "#ffffff",
+		"--scriptSwitchUnderlineColor": "#ffaa00",
+		"--linkColor": "#66aaff",
+		"--linkVisitedColor": "#cc99ff",
+		"--accent": "#66aaff",
+		"--accentText": "#000000",
+		"--radius": ".4em"
+	};
+	ensureCSS("html.scheme-light", pickScheme(0));
+	ensureCSS("html.scheme-dark", pickScheme(1));
+	ensureCSS("html.scheme-hclight", hcLightTokens);
+	ensureCSS("html.scheme-hcdark", hcDarkTokens);
+	ensureCSS(".theme-modern .msgItem", {
+		display: "grid",
+		// Far-left "flags" column holds the thread expand/collapse control (the flag
+		// letters themselves are hidden); it is ~0 wide when there is no control.
+		gridTemplateColumns: "auto auto minmax(0, 1fr) auto",
+		gridTemplateAreas: '"flags avatar from age" "flags avatar subject subject"',
+		columnGap: ".5em",
+		alignItems: "center",
+		padding: ".45em .6em",
+		border: "1px solid transparent",
+		borderRadius: "var(--radius)",
+		// Positioning context for the full-height thread connector bar.
+		position: "relative",
+		// Configurable list text size (1 = 100%); set via --ml-scale by applyAppearance.
+		fontSize: "calc(1em * var(--ml-scale, 1))"
 	});
+	ensureCSS(".theme-modern .msgItemCell", { padding: 0, width: "auto" });
+	ensureCSS(".theme-modern .msgItemFlags", { gridArea: "flags", display: "flex", alignItems: "center", padding: 0, width: "auto" });
+	ensureCSS(".theme-modern .msgItemFlag", { display: "none" });
+	ensureCSS(".theme-modern .msgItemFrom", { gridArea: "from", width: "auto", position: "static" });
+	ensureCSS(".theme-modern .msgItemFromText", { fontWeight: "var(--ml-from-weight, bold)", fontStyle: "var(--ml-from-style, normal)" });
+	ensureCSS(".theme-modern .msgItemThreadBar", { left: ".55em", right: "auto", borderLeft: "2px solid var(--colorMild)", borderRight: "none" });
+	ensureCSS(".theme-modern .msgItemThreadBarMiddle", { top: "-.5em", bottom: "-.5em" });
+	ensureCSS(".theme-modern .msgItemThreadBarFirst", { top: "40%", bottom: "-.5em" });
+	ensureCSS(".theme-modern .msgItemThreadBarLast", { top: "-.5em", bottom: "50%" });
+	ensureCSS(".theme-modern .msgItemSubject", { gridArea: "subject", width: "auto" });
+	ensureCSS(".theme-modern .msgItemAge", { gridArea: "age", width: "auto", color: "var(--colorMilder)", fontWeight: "var(--ml-date-weight, normal)", fontStyle: "var(--ml-date-style, normal)" });
+	ensureCSS(".theme-modern .msgItemAvatar", {
+		display: "flex",
+		gridArea: "avatar",
+		alignItems: "center",
+		justifyContent: "center",
+		width: "34px",
+		height: "34px",
+		borderRadius: "50%",
+		color: "#fff",
+		fontWeight: "bold",
+		alignSelf: "center"
+	});
+	ensureCSS(".theme-modern .msgItemSubjectText", { display: "-webkit-box", WebkitBoxOrient: "vertical", WebkitLineClamp: "2", overflow: "hidden", whiteSpace: "normal" });
+	ensureCSS(".theme-modern .msgItemSubjectTitle", { display: "inline", fontWeight: "var(--ml-subj-weight, normal)", fontStyle: "var(--ml-subj-style, normal)" });
+	ensureCSS(".theme-modern .msgItemSubjectSnippet", { display: "inline", margin: 0, fontWeight: "var(--ml-prev-weight, normal)", fontStyle: "var(--ml-prev-style, normal)" });
+	ensureCSS(".theme-modern.unread-bar .msgItem.msgItemUnread, .theme-modern.unread-barbold .msgItem.msgItemUnread", { boxShadow: "inset .2em 0 0 var(--accent)" });
+	ensureCSS(".theme-modern.unread-bold .msgItem.msgItemUnread .msgItemFromText, .theme-modern.unread-bold .msgItem.msgItemUnread .msgItemSubjectTitle, .theme-modern.unread-barbold .msgItem.msgItemUnread .msgItemFromText, .theme-modern.unread-barbold .msgItem.msgItemUnread .msgItemSubjectTitle", { fontWeight: "bold" });
+	ensureCSS(".theme-modern.unread-tint .msgItem.msgItemUnread", { background: "color-mix(in srgb, var(--accent) 10%, transparent)" });
+	ensureCSS(".theme-modern.unread-dot .msgItem.msgItemUnread::after", { content: '""', position: "absolute", left: ".2em", top: "50%", transform: "translateY(-50%)", width: ".5em", height: ".5em", borderRadius: "50%", background: "var(--accent)" });
+	ensureCSS(".theme-modern .msgItem.active", { background: "color-mix(in srgb, var(--accent) 18%, transparent)" }, true);
+	ensureCSS(".theme-modern .msgItem:hover", { backgroundColor: "color-mix(in srgb, var(--accent) 10%, transparent)" }, true);
+	ensureCSS(".theme-modern .searchbarElem", { borderRadius: "1em", padding: ".2em .8em" });
+	ensureCSS(".theme-modern .composeButton", { background: "var(--accent)", color: "var(--accentText)", borderColor: "transparent" }, true);
+	ensureCSS(".theme-modern .composeButton:hover:not(:disabled)", { background: "color-mix(in srgb, var(--accent) 85%, var(--color))" }, true);
+	ensureCSS(".theme-modern .mailboxItem", { borderRadius: "var(--radius)" });
+	ensureCSS(".theme-modern .mailboxItem.active", { background: "color-mix(in srgb, var(--accent) 18%, transparent)" }, true);
+	ensureCSS(".theme-modern .mailboxItem:hover", { backgroundColor: "color-mix(in srgb, var(--accent) 10%, transparent)" }, true);
+	ensureCSS(".theme-modern .mailboxIcon", { display: "inline-block", width: "1.3em", marginRight: ".3em", textAlign: "center", flex: "none" });
+	ensureCSS(".theme-modern .mailboxUnread:not(:empty)", { background: "var(--accent)", color: "var(--accentText)", borderRadius: "1em", padding: "0 .5em", fontSize: ".85em", fontWeight: "normal" });
+	ensureCSS(".theme-modern .msgmeta", { display: "flex", flexDirection: "column", padding: ".6em .8em", gap: ".15em" });
+	ensureCSS(".theme-modern .msgModernSubject", { display: "block", order: "1", margin: ".1em 0 .2em", fontSize: "calc(1.5em * var(--mv-subj-scale, 1))", fontWeight: "600", lineHeight: "1.25" });
+	ensureCSS(".theme-modern .msgModernSender", { display: "flex", order: "2", alignItems: "center", gap: ".6em", marginBottom: ".35em" });
+	ensureCSS(".theme-modern .msgButtons", { order: "3" });
+	ensureCSS(".theme-modern .msgDetails", { order: "4" });
+	ensureCSS(".theme-modern .headerBodySeparator", { order: "5" });
+	ensureCSS(".theme-modern .msgModernAvatar", { display: "flex", alignItems: "center", justifyContent: "center", flex: "none", width: "40px", height: "40px", borderRadius: "50%", color: "#fff", fontWeight: "bold" });
+	ensureCSS(".theme-modern .msgModernSenderText", { display: "flex", flexDirection: "column", minWidth: "0" });
+	ensureCSS(".theme-modern .msgModernSenderName", { fontWeight: "var(--mv-sender-weight, 600)", fontStyle: "var(--mv-sender-style, normal)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" });
+	ensureCSS(".theme-modern .msgModernSenderTime", { color: "var(--colorMild)", fontSize: ".9em" });
+	ensureCSS(".theme-modern .msgModernSenderActions", { marginLeft: "auto", display: "flex", alignItems: "center", gap: ".4em", flex: "none" });
+	ensureCSS(".theme-modern .msgModernSenderActions button", { borderRadius: "1em", padding: ".15em .7em", fontSize: ".85em" }, true);
+	ensureCSS(".theme-modern .msgMode", { display: "none" });
+	ensureCSS(".theme-modern .msgmeta .msgHeaders", { display: "none" });
+	ensureCSS(".theme-modern .msgmeta.detailsExpanded .msgHeaders", { display: "table" });
+	ensureCSS(".theme-modern .msgmeta .msgButtons button", { borderRadius: "1em", padding: ".25em .9em" }, true);
+	ensureCSS(".theme-modern .msgmeta .msgReplyButton", { background: "var(--accent)", color: "var(--accentText)", borderColor: "transparent" }, true);
+	ensureCSS(".theme-modern .msgmeta .msgReplyButton:hover:not(:disabled)", { background: "color-mix(in srgb, var(--accent) 85%, var(--color))" }, true);
+	ensureCSS(".theme-modern .msgscroll", { padding: "1em 1.2em" });
+	ensureCSS(".theme-modern .refineTitle", { display: "none" });
+	ensureCSS(".theme-modern .msgListFilterSorting", { padding: ".3em .5em", gap: ".5em", alignItems: "center" });
+	ensureCSS(".theme-modern .msgListFilterSorting > div", { display: "flex", alignItems: "center", gap: ".35em", flexWrap: "nowrap" });
+	ensureCSS(".theme-modern .msgListFilterSorting .btngroup", { display: "inline-flex", alignItems: "center", gap: ".3em" });
+	ensureCSS(".theme-modern .msgListFilterSorting button", { borderRadius: "1em", padding: ".2em .7em", fontSize: ".85em", lineHeight: "1.3", border: "1px solid transparent" }, true);
+	ensureCSS(".theme-modern .msgListFilterSorting select", { borderRadius: "1em", fontSize: ".85em", padding: ".15em .5em" });
+	ensureCSS(".theme-modern .msgListFilterSorting button.active, .theme-modern .msgListFilterSorting button.invert", { background: "var(--accent)", color: "var(--accentText)", borderColor: "transparent" }, true);
+	ensureCSS(".theme-modern .msgListFilterSorting .refineIcon", { fontSize: "0", width: "1.9rem", height: "1.9rem", padding: "0", borderRadius: "50%", display: "inline-flex", alignItems: "center", justifyContent: "center", background: "transparent", border: "1px solid transparent" }, true);
+	ensureCSS(".theme-modern .msgListFilterSorting .refineIcon:hover", { background: "color-mix(in srgb, var(--accent) 14%, transparent)" }, true);
+	ensureCSS(".theme-modern .refineUnread::before", { content: '"\u{1F4E9}"', fontSize: "1rem", lineHeight: "1" });
+	ensureCSS(".theme-modern .refineRead::before", { content: '"\u{1F4D6}"', fontSize: "1rem", lineHeight: "1" });
+	ensureCSS(".theme-modern .refineAttachments::before", { content: '"\u{1F4CE}"', fontSize: "1rem", lineHeight: "1" });
+	ensureCSS(".theme-modern .refineClear::before", { content: '"\u2715"', fontSize: "1rem", lineHeight: "1" });
+	ensureCSS(".theme-modern .refineLabel::before", { content: '"\u{1F3F7}"', fontSize: "1rem", lineHeight: "1" });
 	var styles = {
 		color: "var(--color)",
 		colorMild: "var(--colorMild)",
@@ -1429,6 +1634,11 @@
 	css("autosize", { display: "inline-grid", maxWidth: "90vw" });
 	ensureCSS(".autosize.input", { gridArea: "1 / 2" });
 	ensureCSS(".autosize::after", { content: "attr(data-value)", marginRight: "1em", lineHeight: 0, visibility: "hidden", whiteSpace: "pre-wrap", overflowX: "hidden" });
+	ensureCSS(".htmleditor ul", { listStyle: "disc", margin: ".5em 0", paddingLeft: "2em" });
+	ensureCSS(".htmleditor ol", { listStyle: "decimal", margin: ".5em 0", paddingLeft: "2em" });
+	ensureCSS(".htmleditor li", { margin: ".15em 0" });
+	ensureCSS(".htmleditor p", { margin: ".5em 0" });
+	ensureCSS(".htmleditor blockquote", { margin: ".5em 0", paddingLeft: "1ex", borderLeft: "2px solid #ccc" });
 	var moxversion;
 	var moxgoos;
 	var moxgoarch;
@@ -1442,6 +1652,134 @@
 	}
 	var accountSettings;
 	var introboxMailbox = "";
+	var accentColors = {
+		"": "#2b6cff",
+		// blue (default)
+		indigo: "#6c5cff",
+		teal: "#11a3a3",
+		graphite: "#8a8f98"
+	};
+	var accentTextFor = /* @__PURE__ */ __name((_color) => "#ffffff", "accentTextFor");
+	var applyAppearance = /* @__PURE__ */ __name((a) => {
+		const el = document.documentElement;
+		for (const c of ["scheme-light", "scheme-dark", "scheme-hclight", "scheme-hcdark"]) {
+			el.classList.remove(c);
+		}
+		if (a.scheme === "light" || a.scheme === "dark" || a.scheme === "hclight" || a.scheme === "hcdark") {
+			el.classList.add("scheme-" + a.scheme);
+		}
+		el.classList.toggle("theme-modern", a.theme === "modern");
+		for (const c of ["unread-bar", "unread-bold", "unread-barbold", "unread-tint", "unread-dot"]) {
+			el.classList.remove(c);
+		}
+		el.classList.add("unread-" + (a.unreadStyle || "bar"));
+		if (a.scheme === "hclight" || a.scheme === "hcdark") {
+			el.style.removeProperty("--accent");
+			el.style.removeProperty("--accentText");
+		} else {
+			const color = a.accent.startsWith("#") ? a.accent : accentColors[a.accent] || accentColors[""];
+			el.style.setProperty("--accent", color);
+			el.style.setProperty("--accentText", accentTextFor(color));
+		}
+		const setVar = /* @__PURE__ */ __name((name, value) => {
+			if (value) {
+				el.style.setProperty(name, value);
+			} else {
+				el.style.removeProperty(name);
+			}
+		}, "setVar");
+		setVar("--ml-scale", a.listScale);
+		setVar("--mv-subj-scale", a.subjectScale);
+		const setStyle = /* @__PURE__ */ __name((style2, weightVar, styleVar) => {
+			if (!style2) {
+				el.style.removeProperty(weightVar);
+				el.style.removeProperty(styleVar);
+				return;
+			}
+			el.style.setProperty(weightVar, style2 === "bold" || style2 === "bolditalic" ? "bold" : "normal");
+			el.style.setProperty(styleVar, style2 === "italic" || style2 === "bolditalic" ? "italic" : "normal");
+		}, "setStyle");
+		setStyle(a.fromStyle, "--ml-from-weight", "--ml-from-style");
+		setStyle(a.subjectStyle, "--ml-subj-weight", "--ml-subj-style");
+		setStyle(a.previewStyle, "--ml-prev-weight", "--ml-prev-style");
+		setStyle(a.dateStyle, "--ml-date-weight", "--ml-date-style");
+		setStyle(a.viewSenderStyle, "--mv-sender-weight", "--mv-sender-style");
+		try {
+			window.localStorage.setItem("appearance", JSON.stringify(a));
+		} catch (e) {
+		}
+	}, "applyAppearance");
+	var settingsAppearance = /* @__PURE__ */ __name((s) => ({
+		theme: s?.WebmailTheme || "",
+		scheme: s?.WebmailScheme || "",
+		accent: s?.WebmailAccent || "",
+		listScale: s?.WebmailListScale || "",
+		subjectScale: s?.WebmailSubjectScale || "",
+		fromStyle: s?.WebmailListFromStyle || "",
+		subjectStyle: s?.WebmailListSubjectStyle || "",
+		previewStyle: s?.WebmailListPreviewStyle || "",
+		dateStyle: s?.WebmailListDateStyle || "",
+		viewSenderStyle: s?.WebmailViewSenderStyle || "",
+		unreadStyle: s?.WebmailUnreadStyle || ""
+	}), "settingsAppearance");
+	var applyTheme = /* @__PURE__ */ __name((s) => {
+		applyAppearance(settingsAppearance(s));
+	}, "applyTheme");
+	try {
+		const stored = window.localStorage.getItem("appearance");
+		if (stored) {
+			const o = JSON.parse(stored);
+			applyAppearance({
+				theme: o.theme || "",
+				scheme: o.scheme || "",
+				accent: o.accent || "",
+				listScale: o.listScale || "",
+				subjectScale: o.subjectScale || "",
+				fromStyle: o.fromStyle || "",
+				subjectStyle: o.subjectStyle || "",
+				previewStyle: o.previewStyle || "",
+				dateStyle: o.dateStyle || "",
+				viewSenderStyle: o.viewSenderStyle || "",
+				unreadStyle: o.unreadStyle || ""
+			});
+		}
+	} catch (e) {
+	}
+	var avatarText = /* @__PURE__ */ __name((a) => {
+		if (!a) {
+			return "?";
+		}
+		const s = (a.Name || a.User || "").trim();
+		const ch = s ? s[0] : "?";
+		return ch.toUpperCase();
+	}, "avatarText");
+	var avatarColor = /* @__PURE__ */ __name((a) => {
+		const key = a ? a.User + "@" + (a.Domain ? a.Domain.ASCII : "") : "";
+		let h = 0;
+		for (let i = 0; i < key.length; i++) {
+			h = h * 31 + key.charCodeAt(i) >>> 0;
+		}
+		return "hsl(" + h % 360 + ", 45%, 38%)";
+	}, "avatarColor");
+	var mailboxIcon = /* @__PURE__ */ __name((mb) => mb.Sent ? "\u{1F4E4}" : (
+		// outbox tray
+		mb.Draft ? "\u{1F4DD}" : (
+			// memo
+			mb.Archive ? "\u{1F5C4}" : (
+				// file cabinet
+				mb.Trash ? "\u{1F5D1}" : (
+					// wastebasket
+					mb.Junk ? "\u26A0\uFE0F" : (
+						// warning (with emoji variation selector)
+						mb.Name === "Inbox" ? "\u{1F4E5}" : (
+							// inbox tray
+							"\u{1F4C1}"
+						)
+					)
+				)
+			)
+		)
+	), "mailboxIcon");
 	var defaultSettings = {
 		mailboxesWidth: 240,
 		layout: "auto",
@@ -2203,11 +2541,18 @@
 		let quoting;
 		let showAddressSecurity;
 		let showHTML;
+		let composeHTML;
 		let showShortcuts;
 		let showHeaders;
+		let webmailTheme, webmailScheme, webmailAccent;
+		let webmailListScale, webmailSubjectScale;
+		let webmailListFromStyle, webmailListSubjectStyle, webmailListPreviewStyle, webmailListDateStyle, webmailViewSenderStyle;
+		let webmailUnreadStyle;
 		if (!accountSettings) {
 			throw new Error("No account settings fetched yet.");
 		}
+		const styleSelect = /* @__PURE__ */ __name((cur) => dom.select(dom.option("Default", attr.value(""), cur === "" ? attr.selected("") : []), dom.option("Normal", attr.value("normal"), cur === "normal" ? attr.selected("") : []), dom.option("Bold", attr.value("bold"), cur === "bold" ? attr.selected("") : []), dom.option("Italic", attr.value("italic"), cur === "italic" ? attr.selected("") : []), dom.option("Bold italic", attr.value("bolditalic"), cur === "bolditalic" ? attr.selected("") : [])), "styleSelect");
+		const scaleSelect = /* @__PURE__ */ __name((cur, big) => dom.select(dom.option("80%", attr.value("0.8"), cur === "0.8" ? attr.selected("") : []), dom.option("85%", attr.value("0.85"), cur === "0.85" ? attr.selected("") : []), dom.option("90%", attr.value("0.9"), cur === "0.9" ? attr.selected("") : []), dom.option("95%", attr.value("0.95"), cur === "0.95" ? attr.selected("") : []), dom.option("100% (default)", attr.value(""), cur === "" ? attr.selected("") : []), dom.option("110%", attr.value("1.1"), cur === "1.1" ? attr.selected("") : []), dom.option("120%", attr.value("1.2"), cur === "1.2" ? attr.selected("") : []), big ? dom.option("130%", attr.value("1.3"), cur === "1.3" ? attr.selected("") : []) : [], big ? dom.option("140%", attr.value("1.4"), cur === "1.4" ? attr.selected("") : []) : []), "scaleSelect");
 		const remove = popup(css("popupSettings", { minWidth: "30em" }), style({ maxWidth: "50em" }), dom.h1("Settings"), dom.form(/* @__PURE__ */ __name(async function submit(e) {
 			e.preventDefault();
 			e.stopPropagation();
@@ -2217,13 +2562,26 @@
 				Quoting: quoting.value,
 				ShowAddressSecurity: showAddressSecurity.checked,
 				ShowHTML: showHTML.checked,
+				ComposeHTML: composeHTML.checked,
 				NoShowShortcuts: !showShortcuts.checked,
-				ShowHeaders: showHeaders.value.split("\n").map((s) => s.trim()).filter((s) => !!s)
+				ShowHeaders: showHeaders.value.split("\n").map((s) => s.trim()).filter((s) => !!s),
+				WebmailTheme: webmailTheme.value,
+				WebmailScheme: webmailScheme.value,
+				WebmailAccent: webmailAccent.value,
+				WebmailListScale: webmailListScale.value,
+				WebmailSubjectScale: webmailSubjectScale.value,
+				WebmailListFromStyle: webmailListFromStyle.value,
+				WebmailListSubjectStyle: webmailListSubjectStyle.value,
+				WebmailListPreviewStyle: webmailListPreviewStyle.value,
+				WebmailListDateStyle: webmailListDateStyle.value,
+				WebmailViewSenderStyle: webmailViewSenderStyle.value,
+				WebmailUnreadStyle: webmailUnreadStyle.value
 			};
 			await withDisabled(fieldset, client.SettingsSave(accSet));
 			accountSettings = accSet;
+			applyTheme(accountSettings);
 			remove();
-		}, "submit"), fieldset = dom.fieldset(dom.label(style({ margin: "1ex 0", display: "block" }), dom.div("Signature"), signature = dom.textarea(new String(accountSettings.Signature), style({ width: "100%" }), attr.rows("" + Math.max(3, 1 + accountSettings.Signature.split("\n").length)))), dom.label(style({ margin: "1ex 0", display: "block" }), dom.div("Reply above/below original"), attr.title("Auto: If text is selected, only the replied text is quoted and editing starts below. Otherwise, the full message is quoted and editing starts at the top."), quoting = dom.select(dom.option(attr.value(""), "Auto"), dom.option(attr.value("bottom"), "Bottom", accountSettings.Quoting === Quoting.Bottom ? attr.selected("") : []), dom.option(attr.value("top"), "Top", accountSettings.Quoting === Quoting.Top ? attr.selected("") : []))), dom.label(style({ margin: "1ex 0", display: "block" }), showAddressSecurity = dom.input(attr.type("checkbox"), accountSettings.ShowAddressSecurity ? attr.checked("") : []), " Show address security indications", attr.title("Show bars underneath address input fields, indicating support for STARTTLS/DNSSEC/DANE/MTA-STS/RequireTLS.")), dom.label(style({ margin: "1ex 0", display: "block" }), showHTML = dom.input(attr.type("checkbox"), accountSettings.ShowHTML ? attr.checked("") : []), " Show email as HTML instead of text by default for first-time senders", attr.title("Whether to show HTML or text is remembered per sender. This sets the default for unknown correspondents.")), dom.label(style({ margin: "1ex 0", display: "block" }), showShortcuts = dom.input(attr.type("checkbox"), accountSettings.NoShowShortcuts ? [] : attr.checked("")), " Show shortcut keys in bottom left after interaction with mouse"), dom.label(style({ margin: "1ex 0", display: "block" }), dom.div("Show additional headers"), showHeaders = dom.textarea(new String((accountSettings.ShowHeaders || []).join("\n")), style({ width: "100%" }), attr.rows("" + Math.max(3, 1 + (accountSettings.ShowHeaders || []).length))), dom.div(style({ fontStyle: "italic" }), "One header name per line, for example Delivered-To, X-Mox-Reason, User-Agent, ...; Refresh mailbox view for changes to take effect.")), dom.div(style({ marginTop: "2ex" }), 'Register "mailto:" links with the browser/operating system to compose a message in webmail.', dom.br(), dom.clickbutton("Register", attr.title("In most browsers, registering is only allowed on HTTPS URLs. Your browser may ask for confirmation. If nothing appears to happen, the registration may already have been present."), /* @__PURE__ */ __name(function click() {
+		}, "submit"), fieldset = dom.fieldset(dom.label(style({ margin: "1ex 0", display: "block" }), dom.div("Signature"), signature = dom.textarea(new String(accountSettings.Signature), style({ width: "100%" }), attr.rows("" + Math.max(3, 1 + accountSettings.Signature.split("\n").length)))), dom.label(style({ margin: "1ex 0", display: "block" }), dom.div("Reply above/below original"), attr.title("Auto: If text is selected, only the replied text is quoted and editing starts below. Otherwise, the full message is quoted and editing starts at the top."), quoting = dom.select(dom.option(attr.value(""), "Auto"), dom.option(attr.value("bottom"), "Bottom", accountSettings.Quoting === Quoting.Bottom ? attr.selected("") : []), dom.option(attr.value("top"), "Top", accountSettings.Quoting === Quoting.Top ? attr.selected("") : []))), dom.label(style({ margin: "1ex 0", display: "block" }), showAddressSecurity = dom.input(attr.type("checkbox"), accountSettings.ShowAddressSecurity ? attr.checked("") : []), " Show address security indications", attr.title("Show bars underneath address input fields, indicating support for STARTTLS/DNSSEC/DANE/MTA-STS/RequireTLS.")), dom.label(style({ margin: "1ex 0", display: "block" }), showHTML = dom.input(attr.type("checkbox"), accountSettings.ShowHTML ? attr.checked("") : []), " Show email as HTML instead of text by default for first-time senders", attr.title("Whether to show HTML or text is remembered per sender. This sets the default for unknown correspondents.")), dom.label(style({ margin: "1ex 0", display: "block" }), composeHTML = dom.input(attr.type("checkbox"), accountSettings.ComposeHTML ? attr.checked("") : []), " Compose new messages in HTML by default"), dom.label(style({ margin: "1ex 0", display: "block" }), showShortcuts = dom.input(attr.type("checkbox"), accountSettings.NoShowShortcuts ? [] : attr.checked("")), " Show shortcut keys in bottom left after interaction with mouse"), dom.label(style({ margin: "1ex 0", display: "block" }), dom.div("Show additional headers"), showHeaders = dom.textarea(new String((accountSettings.ShowHeaders || []).join("\n")), style({ width: "100%" }), attr.rows("" + Math.max(3, 1 + (accountSettings.ShowHeaders || []).length))), dom.div(style({ fontStyle: "italic" }), "One header name per line, for example Delivered-To, X-Mox-Reason, User-Agent, ...; Refresh mailbox view for changes to take effect.")), dom.label(style({ margin: "1ex 0", display: "block" }), dom.div("Appearance theme"), webmailTheme = dom.select(dom.option("Classic", attr.value(""), accountSettings.WebmailTheme === "" ? attr.selected("") : []), dom.option("Modern", attr.value("modern"), accountSettings.WebmailTheme === "modern" ? attr.selected("") : [])), attr.title("Modern is an alternative, more compact visual theme. Classic is the default look.")), dom.label(style({ margin: "1ex 0", display: "block" }), dom.div("Colour scheme"), webmailScheme = dom.select(dom.option("Auto (follow system)", attr.value(""), accountSettings.WebmailScheme === "" ? attr.selected("") : []), dom.option("Light", attr.value("light"), accountSettings.WebmailScheme === "light" ? attr.selected("") : []), dom.option("Dark", attr.value("dark"), accountSettings.WebmailScheme === "dark" ? attr.selected("") : []), dom.option("High contrast light", attr.value("hclight"), accountSettings.WebmailScheme === "hclight" ? attr.selected("") : []), dom.option("High contrast dark", attr.value("hcdark"), accountSettings.WebmailScheme === "hcdark" ? attr.selected("") : []))), dom.label(style({ margin: "1ex 0", display: "block" }), dom.div("Accent colour"), webmailAccent = dom.select(dom.option("Blue", attr.value(""), accountSettings.WebmailAccent === "" ? attr.selected("") : []), dom.option("Indigo", attr.value("indigo"), accountSettings.WebmailAccent === "indigo" ? attr.selected("") : []), dom.option("Teal", attr.value("teal"), accountSettings.WebmailAccent === "teal" ? attr.selected("") : []), dom.option("Graphite", attr.value("graphite"), accountSettings.WebmailAccent === "graphite" ? attr.selected("") : []))), dom.div(style({ margin: "1ex 0" }), dom.div(style({ fontStyle: "italic", color: styles.colorMild }), "Modern theme typography (no effect on the classic theme)"), dom.div(style({ display: "flex", flexWrap: "wrap", gap: "1ex 2ex", marginTop: ".5ex" }), dom.label(dom.div("Message list size"), webmailListScale = scaleSelect(accountSettings.WebmailListScale, false)), dom.label(dom.div("Reading subject size"), webmailSubjectScale = scaleSelect(accountSettings.WebmailSubjectScale, true)), dom.label(dom.div("List: sender"), webmailListFromStyle = styleSelect(accountSettings.WebmailListFromStyle)), dom.label(dom.div("List: subject"), webmailListSubjectStyle = styleSelect(accountSettings.WebmailListSubjectStyle)), dom.label(dom.div("List: preview"), webmailListPreviewStyle = styleSelect(accountSettings.WebmailListPreviewStyle)), dom.label(dom.div("List: date"), webmailListDateStyle = styleSelect(accountSettings.WebmailListDateStyle)), dom.label(dom.div("Reading: sender"), webmailViewSenderStyle = styleSelect(accountSettings.WebmailViewSenderStyle)), dom.label(dom.div("Unread emphasis"), webmailUnreadStyle = dom.select(dom.option("Accent bar (default)", attr.value(""), accountSettings.WebmailUnreadStyle === "" ? attr.selected("") : []), dom.option("Bold", attr.value("bold"), accountSettings.WebmailUnreadStyle === "bold" ? attr.selected("") : []), dom.option("Accent bar + bold", attr.value("barbold"), accountSettings.WebmailUnreadStyle === "barbold" ? attr.selected("") : []), dom.option("Background tint", attr.value("tint"), accountSettings.WebmailUnreadStyle === "tint" ? attr.selected("") : []), dom.option("Dot", attr.value("dot"), accountSettings.WebmailUnreadStyle === "dot" ? attr.selected("") : []))))), dom.div(style({ marginTop: "2ex" }), 'Register "mailto:" links with the browser/operating system to compose a message in webmail.', dom.br(), dom.clickbutton("Register", attr.title("In most browsers, registering is only allowed on HTTPS URLs. Your browser may ask for confirmation. If nothing appears to happen, the registration may already have been present."), /* @__PURE__ */ __name(function click() {
 			if (!window.navigator.registerProtocolHandler) {
 				window.alert('Registering a protocol handler ("mailto:") is not supported by your browser.');
 				return;
@@ -2349,6 +2707,58 @@
 		}));
 	}, "cmdTooltip");
 	var composeView = null;
+	var plainToHTML = /* @__PURE__ */ __name((s) => {
+		const esc = s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+		return esc.split("\n").join("<br>");
+	}, "plainToHTML");
+	var blockTags = {
+		P: true,
+		DIV: true,
+		LI: true,
+		TR: true,
+		PRE: true,
+		HR: true,
+		H1: true,
+		H2: true,
+		H3: true,
+		H4: true,
+		H5: true,
+		H6: true,
+		UL: true,
+		OL: true,
+		TABLE: true,
+		DL: true,
+		DD: true,
+		DT: true
+	};
+	var htmlToPlain = /* @__PURE__ */ __name((s) => {
+		const render = /* @__PURE__ */ __name((node) => {
+			let out = "";
+			for (let c = node.firstChild; c; c = c.nextSibling) {
+				if (c.nodeType === Node.TEXT_NODE) {
+					out += (c.textContent || "").replace(/\u00a0/g, " ");
+				} else if (c.nodeType === Node.ELEMENT_NODE) {
+					const el = c;
+					if (el.tagName === "BR") {
+						out += "\n";
+						continue;
+					}
+					if (el.tagName === "BLOCKQUOTE") {
+						const inner = render(el).replace(/\n+$/, "").split("\n").map((l) => "> " + l).join("\n");
+						out += (out && !out.endsWith("\n") ? "\n" : "") + inner + "\n";
+						continue;
+					}
+					out += render(el);
+					if (blockTags[el.tagName] && !out.endsWith("\n")) {
+						out += "\n";
+					}
+				}
+			}
+			return out;
+		}, "render");
+		const doc = new window.DOMParser().parseFromString(s, "text/html");
+		return render(doc.body).replace(/\n{3,}/g, "\n\n").replace(/[ \t]+\n/g, "\n").trim();
+	}, "htmlToPlain");
 	var compose = /* @__PURE__ */ __name((opts, listMailboxes, setLocationHash) => {
 		log("compose", opts);
 		if (composeView) {
@@ -2361,6 +2771,11 @@
 		let subjectAutosize;
 		let subject;
 		let body;
+		let bodyhtml;
+		let htmltoolbar;
+		let fontFamily, fontSize, fontColor;
+		let editor = null;
+		let modeHTML = opts.modeHTML || !!opts.htmlBody || (accountSettings?.ComposeHTML ?? false);
 		let attachments;
 		let requiretls;
 		let toBtn, ccBtn, bccBtn, replyToBtn, customFromBtn;
@@ -2371,15 +2786,67 @@
 		let draftMessageID = opts.draftMessageID || 0;
 		let draftSaveTimer = 0;
 		let draftSavePromise = Promise.resolve(0);
-		let draftLastText = opts.body;
+		let draftLastText = (opts.body || "") + "\0" + (opts.htmlBody || "");
 		const draftCancelSaveTimer = /* @__PURE__ */ __name(() => {
 			if (draftSaveTimer) {
 				window.clearTimeout(draftSaveTimer);
 				draftSaveTimer = 0;
 			}
 		}, "draftCancelSaveTimer");
+		const bodyText = /* @__PURE__ */ __name(() => modeHTML && editor ? htmlToPlain(editor.getHTML()) : body.value, "bodyText");
+		const bodyHTML = /* @__PURE__ */ __name(() => modeHTML && editor ? editor.getHTML() : "", "bodyHTML");
+		const ensureEditor = /* @__PURE__ */ __name(() => {
+			if (!editor) {
+				editor = new Squire(bodyhtml);
+				if (listMailboxes().find((mb) => mb.Draft)) {
+					editor.getRoot().addEventListener("input", () => draftScheduleSave());
+				}
+			}
+		}, "ensureEditor");
+		const fmtButton = /* @__PURE__ */ __name((label, title, action) => dom.clickbutton(label, attr.title(title), /* @__PURE__ */ __name(function mousedown(e) {
+			e.preventDefault();
+		}, "mousedown"), /* @__PURE__ */ __name(function click() {
+			ensureEditor();
+			action();
+			editor.focus();
+		}, "click")), "fmtButton");
+		let savedRange = null;
+		const captureRange = /* @__PURE__ */ __name(() => {
+			ensureEditor();
+			savedRange = editor.getSelection();
+		}, "captureRange");
+		const fmtApply = /* @__PURE__ */ __name((action) => {
+			ensureEditor();
+			if (savedRange) {
+				editor.setSelection(savedRange);
+			}
+			action();
+			editor.focus();
+		}, "fmtApply");
+		const setModeHTML = /* @__PURE__ */ __name((on) => {
+			if (on === modeHTML) {
+				return;
+			}
+			if (on) {
+				ensureEditor();
+				editor.setHTML(plainToHTML(body.value));
+				body.style.display = "none";
+				bodyhtml.style.display = "";
+				htmltoolbar.style.display = "";
+			} else {
+				if (editor && !window.confirm("Switch to plain text? HTML formatting will be lost.")) {
+					return;
+				}
+				body.value = editor ? htmlToPlain(editor.getHTML()) : body.value;
+				bodyhtml.style.display = "none";
+				htmltoolbar.style.display = "none";
+				body.style.display = "";
+			}
+			modeHTML = on;
+		}, "setModeHTML");
+		const bodySnapshot = /* @__PURE__ */ __name(() => bodyText() + "\0" + bodyHTML(), "bodySnapshot");
 		const draftScheduleSave = /* @__PURE__ */ __name(() => {
-			if (draftSaveTimer || body.value === draftLastText) {
+			if (draftSaveTimer || bodySnapshot() === draftLastText) {
 				return;
 			}
 			draftSaveTimer = window.setTimeout(async () => {
@@ -2401,7 +2868,8 @@
 				Bcc: bccViews.map((v) => v.input.value).filter((s) => s),
 				ReplyTo: replyTo,
 				Subject: subject.value,
-				TextBody: body.value,
+				TextBody: bodyText(),
+				HTMLBody: bodyHTML(),
 				ResponseMessageID: opts.responseMessageID || 0,
 				DraftMessageID: draftMessageID
 			};
@@ -2417,9 +2885,9 @@
 			} finally {
 				draftSavePromise = Promise.resolve(0);
 			}
-			draftLastText = cm.TextBody;
+			draftLastText = cm.TextBody + "\0" + (cm.HTMLBody || "");
 		}, "draftSave");
-		const unsavedChanges = /* @__PURE__ */ __name(() => opts.body !== body.value && (!draftMessageID || draftLastText !== body.value), "unsavedChanges");
+		const unsavedChanges = /* @__PURE__ */ __name(() => (opts.body || "") + "\0" + (opts.htmlBody || "") !== bodySnapshot() && (!draftMessageID || draftLastText !== bodySnapshot()), "unsavedChanges");
 		const cmdClose = /* @__PURE__ */ __name(async () => {
 			draftCancelSaveTimer();
 			await draftSavePromise;
@@ -2494,7 +2962,8 @@
 				ReplyTo: replyTo,
 				UserAgent: "moxwebmail/" + moxversion,
 				Subject: subject.value,
-				TextBody: body.value,
+				TextBody: bodyText(),
+				HTMLBody: bodyHTML(),
 				Attachments: files,
 				ForwardAttachments: forwardAttachmentPaths.length === 0 ? { MessageID: 0, Paths: [] } : { MessageID: opts.attachmentsMessageItem.Message.ID, Paths: forwardAttachmentPaths },
 				IsForward: opts.isForward || false,
@@ -2845,7 +3314,8 @@
 			dom._class("mono"),
 			style({
 				flexGrow: "1",
-				width: "100%"
+				width: "100%",
+				display: modeHTML ? "none" : ""
 			}),
 			initHeight === 0 ? attr.rows("15") : [],
 			// Drives default size, removed on compose window resize.
@@ -2861,7 +3331,44 @@
 			!listMailboxes().find((mb) => mb.Draft) ? [] : /* @__PURE__ */ __name(function input() {
 				draftScheduleSave();
 			}, "input")
-		), !(opts.attachmentsMessageItem && opts.attachmentsMessageItem.Attachments && opts.attachmentsMessageItem.Attachments.length > 0) ? [] : dom.div(style({ margin: ".5em 0" }), "Forward attachments: ", forwardAttachmentViews = (opts.attachmentsMessageItem?.Attachments || []).map((a) => {
+		), htmltoolbar = dom.div(style({ display: modeHTML ? "" : "none", margin: ".25em 0" }), fmtButton("B", "Bold (Ctrl/Cmd+B). Toggles on the selection.", () => editor.hasFormat("B") ? editor.removeBold() : editor.bold()), " ", fmtButton("I", "Italic (Ctrl/Cmd+I).", () => editor.hasFormat("I") ? editor.removeItalic() : editor.italic()), " ", fmtButton("U", "Underline (Ctrl/Cmd+U).", () => editor.hasFormat("U") ? editor.removeUnderline() : editor.underline()), " ", fmtButton("\u2022 List", "Bulleted list (toggle).", () => editor.hasFormat("UL") ? editor.removeList() : editor.makeUnorderedList()), " ", fmtButton("1. List", "Numbered list (toggle).", () => editor.hasFormat("OL") ? editor.removeList() : editor.makeOrderedList()), " ", fmtButton("Quote +", "Increase quote level.", () => editor.increaseQuoteLevel()), " ", fmtButton("Quote \u2212", "Decrease quote level.", () => editor.decreaseQuoteLevel()), " ", fmtButton("Link", "Insert link.", () => {
+			const url = window.prompt("Link URL:", "https://");
+			if (url) {
+				editor.makeLink(url);
+			}
+		}), " ", fontFamily = dom.select(attr.title("Font family."), /* @__PURE__ */ __name(function mousedown() {
+			captureRange();
+		}, "mousedown"), /* @__PURE__ */ __name(function focus() {
+			captureRange();
+		}, "focus"), /* @__PURE__ */ __name(function change() {
+			fmtApply(() => editor.setFontFace(fontFamily.value || null));
+		}, "change"), dom.option("Font", attr.value("")), dom.option("Sans-serif", attr.value("sans-serif")), dom.option("Serif", attr.value("serif")), dom.option("Monospace", attr.value("monospace")), dom.option("Arial", attr.value("Arial")), dom.option("Georgia", attr.value("Georgia")), dom.option("Verdana", attr.value("Verdana")), dom.option("Tahoma", attr.value("Tahoma"))), " ", fontSize = dom.select(attr.title("Font size."), /* @__PURE__ */ __name(function mousedown() {
+			captureRange();
+		}, "mousedown"), /* @__PURE__ */ __name(function focus() {
+			captureRange();
+		}, "focus"), /* @__PURE__ */ __name(function change() {
+			fmtApply(() => editor.setFontSize(fontSize.value || null));
+		}, "change"), dom.option("Size", attr.value("")), dom.option("Small", attr.value("0.85em")), dom.option("Normal", attr.value("1em")), dom.option("Large", attr.value("1.35em")), dom.option("Huge", attr.value("2em"))), " ", fontColor = dom.input(attr.type("color"), attr.title("Text colour."), /* @__PURE__ */ __name(function mousedown() {
+			captureRange();
+		}, "mousedown"), /* @__PURE__ */ __name(function focus() {
+			captureRange();
+		}, "focus"), /* @__PURE__ */ __name(function change() {
+			fmtApply(() => editor.setTextColor(fontColor.value));
+		}, "change"))), bodyhtml = dom.div(dom._class("htmleditor"), style({
+			flexGrow: "1",
+			// A contenteditable div, unlike <textarea>, has no intrinsic height and
+			// doesn't scroll its own content. Without a bounded height it grows with
+			// the (possibly huge quoted) content and pushes the form off-screen. So
+			// we give it a default height when the compose window hasn't been resized
+			// yet (mirroring the textarea's rows=15) and scroll the overflow; once
+			// the window is resized, flex-grow + min-height:0 size it to the window.
+			minHeight: "0",
+			width: "100%",
+			display: modeHTML ? "" : "none",
+			overflow: "auto",
+			border: "1px solid #ccc",
+			padding: "0 .25em"
+		}), initHeight === 0 ? style({ height: "15em" }) : []), !(opts.attachmentsMessageItem && opts.attachmentsMessageItem.Attachments && opts.attachmentsMessageItem.Attachments.length > 0) ? [] : dom.div(style({ margin: ".5em 0" }), "Forward attachments: ", forwardAttachmentViews = (opts.attachmentsMessageItem?.Attachments || []).map((a) => {
 			const filename = a.Filename || "(unnamed)";
 			const size = formatSize(a.Part.DecodedSize);
 			const checkbox = dom.input(attr.type("checkbox"), /* @__PURE__ */ __name(function change() {
@@ -2913,7 +3420,9 @@
 			scheduleTime.value = "";
 		}, "click")), dom.div(style({ marginTop: "1ex" }), scheduleTime = dom.input(attr.type("datetime-local"), /* @__PURE__ */ __name(function change() {
 			scheduleTimeChanged();
-		}, "change")), " in local timezone " + (Intl.DateTimeFormat().resolvedOptions().timeZone || "") + ", ", scheduleWeekday = dom.span()))), dom.div(style({ margin: "3ex 0 1ex 0", display: "block" }), dom.submitbutton("Send"), " ", opts.responseMessageID && listMailboxes().find((mb) => mb.Archive) ? dom.clickbutton("Send and archive thread", clickCmd(cmdSendArchive, shortcuts)) : [])), /* @__PURE__ */ __name(async function submit2(e) {
+		}, "change")), " in local timezone " + (Intl.DateTimeFormat().resolvedOptions().timeZone || "") + ", ", scheduleWeekday = dom.span()))), dom.div(style({ margin: "3ex 0 1ex 0", display: "block" }), dom.submitbutton("Send"), " ", opts.responseMessageID && listMailboxes().find((mb) => mb.Archive) ? dom.clickbutton("Send and archive thread", clickCmd(cmdSendArchive, shortcuts)) : [], " ", dom.clickbutton("Plain/HTML", attr.title("Toggle between plain text and HTML editing."), /* @__PURE__ */ __name(function click() {
+			setModeHTML(!modeHTML);
+		}, "click")))), /* @__PURE__ */ __name(async function submit2(e) {
 			e.preventDefault();
 			shortcutCmd(cmdSend, shortcuts);
 		}, "submit")));
@@ -2933,9 +3442,15 @@
 		if (!opts.replyto) {
 			replyToRow.style.display = "none";
 		}
+		if (modeHTML) {
+			ensureEditor();
+			editor.setHTML(opts.htmlBody || plainToHTML(opts.body || ""));
+		}
 		document.body.appendChild(composeElem);
 		if (toViews.length > 0 && !toViews[0].input.value) {
 			toViews[0].input.focus();
+		} else if (modeHTML) {
+			editor.focus();
 		} else {
 			body.focus();
 		}
@@ -2960,6 +3475,10 @@
 		if (env.InReplyTo) {
 			refMsgID = await withStatus("Looking up referenced message", client.MessageFindMessageID(env.InReplyTo));
 		}
+		let htmlBody = "";
+		if (pm.HasHTML) {
+			htmlBody = await withStatus("Loading draft body", client.MessageComposeQuoteHTML(m.ID));
+		}
 		const isForward = !!env.Subject.match(/^\[?fwd?:/i) || !!env.Subject.match(/\(fwd\)[ \t]*$/i);
 		const opts = {
 			from: env.From || [],
@@ -2970,6 +3489,8 @@
 			subject: env.Subject,
 			isForward,
 			body: pm.Texts && pm.Texts.length > 0 ? pm.Texts[0].replace(/\r/g, "") : "",
+			htmlBody: htmlBody || void 0,
+			modeHTML: !!htmlBody,
 			responseMessageID: refMsgID,
 			draftMessageID: m.ID
 		};
@@ -3273,6 +3794,7 @@
 			ensureCSS(".msgItem.focus", { borderColor: styles.msgItemFocusBorderColor, border: "1px solid" });
 			ensureCSS(".msgItem:hover", { backgroundColor: styles.msgItemHoverBackgroundColor });
 			ensureCSS(".msgItem.active", { background: styles.msgItemActiveBackground });
+			ensureCSS(".msgItemAvatar", { display: "none" });
 			const active = msgitemView.root && msgitemView.root.classList.contains("active");
 			const focus = msgitemView.root && msgitemView.root.classList.contains("focus");
 			const elem = dom.div(
@@ -3304,6 +3826,10 @@
 				isUnread() ? css("msgItemUnread", { fontWeight: "bold" }) : [],
 				// Relevant means not muted and matching the query.
 				isRelevant() ? [] : css("msgItemNotRelevant", { opacity: ".4" }),
+				(() => {
+					const a = mi2.Envelope.From && mi2.Envelope.From[0] || mi2.Envelope.To && mi2.Envelope.To[0] || void 0;
+					return dom.div(dom._class("msgItemAvatar"), style({ backgroundColor: avatarColor(a) }), avatarText(a));
+				})(),
 				dom.div(msgItemCellStyle, dom._class("msgItemFlags"), dom.div(css("msgItemFlagsSpread", { display: "flex", justifyContent: "space-between" }), dom.div(flagList(msgitemView)), !msgitemView.parent && msgitemView.kids.length > 0 && msgitemView.collapsed ? dom.clickbutton("" + (1 + msgitemView.descendants().length), attr.tabindex("-1"), attr.title("Expand thread."), attr.arialabel("Expand thread."), /* @__PURE__ */ __name(function click(e) {
 					e.stopPropagation();
 					if (settings.threading === ThreadMode.ThreadOn) {
@@ -3325,9 +3851,15 @@
 					// Thread messages are connected by a vertical bar. The first and last message are
 					// only half the height of the item, to indicate start/end, and so it stands out
 					// from any thread above/below.
-					(msgitemView.parent || msgitemView.kids.length > 0) && !msgitemView.threadRoot().collapsed ? dom.div(css("msgItemThreadBar", { position: "absolute", right: 0, top: 0, bottom: 0, borderRight: "2px solid", borderRightColor: styles.colorMilder }), !msgitemView.parent ? css("msgItemThreadBarFirst", { top: "50%", bottom: "-1px" }) : isThreadLast() ? css("msgItemThreadBarLast", { top: "-1px", bottom: "50%" }) : css("msgItemThreadBarMiddle", { top: "-1px", bottom: "-1px" })) : []
+					(msgitemView.parent || msgitemView.kids.length > 0) && !msgitemView.threadRoot().collapsed ? dom.div(
+						css("msgItemThreadBar", { position: "absolute", right: 0, top: 0, bottom: 0, borderRight: "2px solid", borderRightColor: styles.colorMilder }),
+						// The middle and the connecting ends overlap their neighbours by a
+						// couple of pixels so consecutive per-row segments merge into one
+						// continuous line instead of showing seams between rows.
+						!msgitemView.parent ? css("msgItemThreadBarFirst", { top: "50%", bottom: "-2px" }) : isThreadLast() ? css("msgItemThreadBarLast", { top: "-2px", bottom: "50%" }) : css("msgItemThreadBarMiddle", { top: "-2px", bottom: "-2px" })
+					) : []
 				),
-				dom.div(msgItemCellStyle, css("msgItemSubject", { position: "relative" }), dom.div(css("msgItemSubjectSpread", { display: "flex", justifyContent: "space-between", position: "relative" }), dom.div(css("msgItemSubjectText", { whiteSpace: "nowrap", overflow: "hidden" }), threadIndent > 0 ? dom.span(threadChar, style({ paddingLeft: threadIndent / 2 + "em" }), css("msgItemThreadChar", { opacity: ".75", fontWeight: "normal" }), threadCharTitle ? attr.title(threadCharTitle) : []) : [], msgitemView.parent ? [] : mi2.Envelope.Subject || "(no subject)", dom.span(css("msgItemSubjectSnippet", { fontWeight: "normal", color: styles.colorMilder }), " " + (mi2.Message.Preview || ""))), dom.div(keywords, mailboxtags))),
+				dom.div(msgItemCellStyle, css("msgItemSubject", { position: "relative" }), dom.div(css("msgItemSubjectSpread", { display: "flex", justifyContent: "space-between", position: "relative" }), dom.div(css("msgItemSubjectText", { whiteSpace: "nowrap", overflow: "hidden" }), threadIndent > 0 ? dom.span(threadChar, style({ paddingLeft: threadIndent / 2 + "em" }), css("msgItemThreadChar", { opacity: ".75", fontWeight: "normal" }), threadCharTitle ? attr.title(threadCharTitle) : []) : [], msgitemView.parent ? [] : dom.span(css("msgItemSubjectTitle", {}), mi2.Envelope.Subject || "(no subject)"), dom.span(css("msgItemSubjectSnippet", { fontWeight: "normal", color: styles.colorMilder }), " " + (mi2.Message.Preview || ""))), dom.div(keywords, mailboxtags))),
 				dom.div(msgItemCellStyle, dom._class("msgItemAge"), age(received())),
 				/* @__PURE__ */ __name(function click(e) {
 					e.preventDefault();
@@ -3421,6 +3953,26 @@
 				body = pm.Texts[0];
 			}
 			body = body.replace(/\r/g, "").replace(/\n\n\n\n*/g, "\n\n").trim();
+			const wantHTML = (accountSettings?.ComposeHTML ?? false) || pm.HasHTML;
+			let htmlBody = "";
+			let savedQuoteHTML = "";
+			if (wantHTML) {
+				if (pm.HasHTML) {
+					savedQuoteHTML = await withStatus("Loading quote", client.MessageComposeQuoteHTML(m.ID));
+				}
+				if (!savedQuoteHTML) {
+					savedQuoteHTML = plainToHTML(body);
+				}
+				let attribution = "";
+				if (!forward && mi.Envelope.Date && mi.Envelope.From && mi.Envelope.From.length === 1) {
+					const fa = mi.Envelope.From[0];
+					const name = fa.Name || formatEmail(fa);
+					const datetime = mi.Envelope.Date.toLocaleDateString(void 0, { weekday: "short", year: "numeric", month: "short", day: "numeric" }) + " at " + mi.Envelope.Date.toLocaleTimeString();
+					attribution = plainToHTML("On " + datetime + ", " + name + " wrote:");
+				}
+				const sig = accountSettings?.Signature ? plainToHTML(accountSettings.Signature) : "";
+				htmlBody = "<p><br></p>" + (sig ? sig + "<br>" : "") + (attribution ? attribution + "<br>" : "") + "<blockquote>" + savedQuoteHTML + "</blockquote>";
+			}
 			let editOffset = 0;
 			if (forward) {
 				const env = mi.Envelope;
@@ -3455,6 +4007,10 @@
 				add("Reply-To:", replyTo);
 				add("To:", to2);
 				add("Cc:", cc2);
+				if (wantHTML) {
+					const sig = accountSettings?.Signature ? plainToHTML(accountSettings.Signature) : "";
+					htmlBody = "<p><br></p>" + (sig ? sig + "<br>" : "") + plainToHTML(prefix) + "<blockquote>" + savedQuoteHTML + "</blockquote>";
+				}
 				body = prefix + "\n" + body;
 			} else {
 				body = body.split("\n").map((line) => "> " + line).join("\n");
@@ -3485,6 +4041,8 @@
 				bcc: bcc.map((a) => formatAddress(a)),
 				subject,
 				body,
+				htmlBody: htmlBody || void 0,
+				modeHTML: wantHTML,
 				isForward: forward,
 				attachmentsMessageItem: forward ? mi : void 0,
 				responseMessageID: m.ID,
@@ -3587,11 +4145,16 @@
 			loadHeaderDetails(pm);
 		}, "cmdToggleHeaders");
 		let textbtn, htmlbtn, htmlextbtn;
+		let msgModernModeToggle;
 		const activeBtn = /* @__PURE__ */ __name((b) => {
 			for (const xb of [textbtn, htmlbtn, htmlextbtn]) {
 				if (xb) {
 					xb.classList.toggle("active", xb === b);
 				}
+			}
+			if (msgModernModeToggle) {
+				const lbl = b === textbtn ? "Text" : b === htmlextbtn ? "HTML+ext" : "HTML";
+				dom._kids(msgModernModeToggle, (!textbtn ? "\u26A0 " : "") + lbl + " \u25BE");
 			}
 		}, "activeBtn");
 		const fromAddressSettingsSave = /* @__PURE__ */ __name(async (mode) => {
@@ -3679,12 +4242,26 @@
 		let urlType;
 		let msgbuttonElem, msgheaderElem, msgattachmentElem, msgmodeElem;
 		let msgheaderFullElem;
+		const fromAddr0 = mi.Envelope.From && mi.Envelope.From[0] || void 0;
+		const receivedLocal = mi.Message.Received;
+		const msgModernSubjectElem = dom.h2(css("msgModernSubject", { display: "none" }), mi.Envelope.Subject || "(no subject)");
+		const msgModernDetailsToggle = dom.clickbutton(css("msgModernDetailsToggle", {}), "Details", attr.title("Show recipients and date."), /* @__PURE__ */ __name(function click() {
+			msgmetaElem.classList.toggle("detailsExpanded");
+		}, "click"));
+		const msgModernSenderElem = dom.div(css("msgModernSender", { display: "none" }), dom.span(css("msgModernAvatar", {}), style({ backgroundColor: avatarColor(fromAddr0) }), avatarText(fromAddr0)), dom.div(css("msgModernSenderText", {}), dom.div(css("msgModernSenderName", {}), fromAddr0 ? fromAddr0.Name || formatEmail(fromAddr0) : "(unknown sender)"), dom.div(css("msgModernSenderTime", {}), receivedLocal.toDateString() + " " + receivedLocal.toTimeString().split(" ")[0])), dom.div(
+			css("msgModernSenderActions", {}),
+			// Populated/shown by the message-load code when there is an HTML/text choice.
+			msgModernModeToggle = dom.clickbutton(css("msgModernModeToggle", {}), style({ display: "none" }), attr.title("Switch between text and HTML view."), ""),
+			msgModernDetailsToggle
+		));
 		const msgmetaElem = dom.div(
 			css("msgmeta", { backgroundColor: styles.backgroundColorMild, borderBottom: "5px solid", borderBottomColor: ["white", "black"], maxHeight: "90%", overflowY: "auto" }),
 			attr.role("region"),
 			attr.arialabel("Buttons and headers for message"),
-			msgbuttonElem = dom.div(),
-			dom.div(attr.arialive("assertive"), dom.table(styleClasses.msgHeaders, msgheaderElem = dom.tbody()), msgheaderFullElem = dom.table(), msgattachmentElem = dom.div(), msgmodeElem = dom.div()),
+			msgModernSubjectElem,
+			msgModernSenderElem,
+			msgbuttonElem = dom.div(dom._class("msgButtons")),
+			dom.div(dom._class("msgDetails"), attr.arialive("assertive"), dom.table(styleClasses.msgHeaders, msgheaderElem = dom.tbody()), msgheaderFullElem = dom.table(), msgattachmentElem = dom.div(), msgmodeElem = dom.div(dom._class("msgMode"))),
 			// Explicit separator that separates headers from body, to
 			// prevent HTML messages from faking UI elements.
 			dom.div(css("headerBodySeparator", { height: "2px", backgroundColor: styles.borderColor }))
@@ -3694,7 +4271,7 @@
 		const trashMailboxID = listMailboxes().find((mb) => mb.Trash)?.ID;
 		const draftMailboxID = listMailboxes().find((mb) => mb.Draft)?.ID;
 		const loadButtons = /* @__PURE__ */ __name((pm) => {
-			dom._kids(msgbuttonElem, dom.div(dom._class("pad"), m.MailboxID === draftMailboxID ? dom.clickbutton("Edit", attr.title("Continue editing this draft message."), clickCmd(cmdComposeDraft, shortcuts)) : [], " ", !pm || !pm.ListReplyAddress ? [] : dom.clickbutton("Reply to list", attr.title("Compose a reply to this mailing list."), clickCmd(cmdReplyList, shortcuts)), " ", pm && pm.ListReplyAddress && formatEmail(pm.ListReplyAddress) === fromAddress ? [] : dom.clickbutton("Reply", attr.title("Compose a reply to the sender of this message."), clickCmd(cmdReply, shortcuts)), " ", (mi.Envelope.To || []).length <= 1 && (mi.Envelope.CC || []).length === 0 && (mi.Envelope.BCC || []).length === 0 ? [] : dom.clickbutton("Reply all", attr.title("Compose a reply to all participants of this message."), clickCmd(cmdReplyAll, shortcuts)), " ", dom.clickbutton("Forward", attr.title("Compose a forwarding message, optionally including attachments."), clickCmd(cmdForward, shortcuts)), " ", dom.clickbutton("Archive", attr.title("Move to the Archive mailbox."), clickCmd(msglistView.cmdArchive, shortcuts)), " ", m.MailboxID === trashMailboxID ? dom.clickbutton("Delete", attr.title("Permanently delete message."), clickCmd(msglistView.cmdDelete, shortcuts)) : dom.clickbutton("Trash", attr.title("Move to the Trash mailbox."), clickCmd(msglistView.cmdTrash, shortcuts)), " ", dom.clickbutton("Junk", attr.title("Move to Junk mailbox, marking as junk and causing this message to be used in spam classification of new incoming messages."), clickCmd(msglistView.cmdJunk, shortcuts)), " ", dom.clickbutton("Move to...", /* @__PURE__ */ __name(function click(e) {
+			dom._kids(msgbuttonElem, dom.div(dom._class("pad"), m.MailboxID === draftMailboxID ? dom.clickbutton("Edit", attr.title("Continue editing this draft message."), clickCmd(cmdComposeDraft, shortcuts)) : [], " ", !pm || !pm.ListReplyAddress ? [] : dom.clickbutton("Reply to list", attr.title("Compose a reply to this mailing list."), clickCmd(cmdReplyList, shortcuts)), " ", pm && pm.ListReplyAddress && formatEmail(pm.ListReplyAddress) === fromAddress ? [] : dom.clickbutton(dom._class("msgReplyButton"), "Reply", attr.title("Compose a reply to the sender of this message."), clickCmd(cmdReply, shortcuts)), " ", (mi.Envelope.To || []).length <= 1 && (mi.Envelope.CC || []).length === 0 && (mi.Envelope.BCC || []).length === 0 ? [] : dom.clickbutton("Reply all", attr.title("Compose a reply to all participants of this message."), clickCmd(cmdReplyAll, shortcuts)), " ", dom.clickbutton("Forward", attr.title("Compose a forwarding message, optionally including attachments."), clickCmd(cmdForward, shortcuts)), " ", dom.clickbutton("Archive", attr.title("Move to the Archive mailbox."), clickCmd(msglistView.cmdArchive, shortcuts)), " ", m.MailboxID === trashMailboxID ? dom.clickbutton("Delete", attr.title("Permanently delete message."), clickCmd(msglistView.cmdDelete, shortcuts)) : dom.clickbutton("Trash", attr.title("Move to the Trash mailbox."), clickCmd(msglistView.cmdTrash, shortcuts)), " ", dom.clickbutton("Junk", attr.title("Move to Junk mailbox, marking as junk and causing this message to be used in spam classification of new incoming messages."), clickCmd(msglistView.cmdJunk, shortcuts)), " ", dom.clickbutton("Move to...", /* @__PURE__ */ __name(function click(e) {
 				movePopover(e, listMailboxes(), [m]);
 			}, "click")), " ", dom.clickbutton("Labels...", attr.title("Add/remove labels."), /* @__PURE__ */ __name(function click(e) {
 				labelsPopover(e, [m], possibleLabels);
@@ -3878,9 +4455,11 @@
 			const haveText = pm.Texts && pm.Texts.length > 0;
 			if (!haveText && !pm.HasHTML) {
 				dom._kids(msgcontentElem);
+				msgModernModeToggle.style.display = "none";
 				dom._kids(msgmodeElem, dom.div(dom._class("pad"), msgHeaderSeparatorStyle, dom.span("No textual content", msgModeWarningStyle)));
 			} else if (haveText && !pm.HasHTML) {
 				loadText(pm);
+				msgModernModeToggle.style.display = "none";
 				dom._kids(msgmodeElem);
 			} else {
 				const text = haveText && pm.ViewMode == ViewMode.ModeText;
@@ -3888,6 +4467,24 @@
 					showShortcut("T");
 					await cmdShowHTML();
 				}, "click")), htmlextbtn = dom.clickbutton(text || !text && pm.ViewMode != ViewMode.ModeHTMLExt ? [] : dom._class("active"), "HTML with external resources", attr.title(htmlNote), clickCmd(cmdShowHTMLExternal, shortcuts)))));
+				msgModernModeToggle.style.display = "";
+				dom._kids(msgModernModeToggle, (!haveText ? "\u26A0 " : "") + (text ? "Text" : pm.ViewMode == ViewMode.ModeHTMLExt ? "HTML+ext" : "HTML") + " \u25BE");
+				msgModernModeToggle.onclick = (e) => {
+					const remove = popover(e.target, { transparent: true }, dom.div(css("popupMore", { display: "flex", flexDirection: "column", gap: ".5ex", textAlign: "right" }), [
+						haveText ? dom.clickbutton("Text", /* @__PURE__ */ __name(async function click() {
+							await cmdShowText();
+							remove();
+						}, "click")) : [],
+						dom.clickbutton("HTML", attr.title(htmlNote), /* @__PURE__ */ __name(async function click() {
+							await cmdShowHTML();
+							remove();
+						}, "click")),
+						dom.clickbutton("HTML with external resources", attr.title(htmlNote), /* @__PURE__ */ __name(async function click() {
+							await cmdShowHTMLExternal();
+							remove();
+						}, "click"))
+					].map((b) => dom.div(b))));
+				};
 				if (text) {
 					loadText(pm);
 				} else if (pm.ViewMode == ViewMode.ModeHTMLExt) {
@@ -5170,6 +5767,7 @@
 			cmdExpand();
 		}, "click"));
 		let name, unread;
+		let iconSpan, nameBox;
 		let actionBtn;
 		const cmdOpenActions = /* @__PURE__ */ __name(async () => {
 			const trashmb = mailboxlistView.mailboxes().find((mb) => mb.Trash);
@@ -5316,7 +5914,7 @@
 				const mbSrcID = mailboxMsgIDs.find((mbMsgID) => mbMsgID[1] === msgID)[0];
 				await moveAskRuleset(msgID, mbSrcID, xmb, mailboxlistView.mailboxes());
 			}
-		}, "drop"), dom.div(css("mailbox", { padding: ".15em .25em", display: "flex", justifyContent: "space-between" }), name = dom.div(css("mailboxName", { whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" })), dom.div(style({ whiteSpace: "nowrap" }), actionBtn = dom.clickbutton(
+		}, "drop"), dom.div(css("mailbox", { padding: ".15em .25em", display: "flex", justifyContent: "space-between" }), nameBox = dom.div(css("mailboxNameBox", { display: "flex", alignItems: "center", minWidth: 0 }), iconSpan = dom.span(css("mailboxIcon", { display: "none" }), mailboxIcon(xmb)), name = dom.div(css("mailboxName", { whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }))), dom.div(style({ whiteSpace: "nowrap" }), actionBtn = dom.clickbutton(
 			dom._class("mailboxHoverOnly"),
 			"...",
 			attr.tabindex("-1"),
@@ -5327,7 +5925,7 @@
 				e.stopPropagation();
 				cmdOpenActions();
 			}, "click")
-		), " ", unread = dom.b(dom._class("silenttitle")))));
+		), " ", unread = dom.b(dom._class("silenttitle"), dom._class("mailboxUnread")))));
 		const update = /* @__PURE__ */ __name(() => {
 			let moreElems = [];
 			if (settings.mailboxCollapsed[mbv.mailbox.ID]) {
@@ -5346,7 +5944,8 @@
 					}
 				}
 			}
-			dom._kids(name, dom.span(mbv.parents > 0 ? style({ paddingLeft: "" + mbv.parents * 2 / 3 + "em" }) : [], mbv.shortname, attr.title("Total messages: " + ntotal), moreElems));
+			nameBox.style.paddingLeft = mbv.parents > 0 ? mbv.parents * 2 / 3 + "em" : "";
+			dom._kids(name, dom.span(mbv.shortname, attr.title("Total messages: " + ntotal), moreElems));
 			dom._kids(unread, nunread === 0 ? ["", attr.title("")] : ["" + nunread, attr.title("" + nunread + " unread")]);
 		}, "update");
 		const mbv = {
@@ -5371,6 +5970,7 @@
 				mbv.mailbox.Junk = specialUse.Junk;
 				mbv.mailbox.Sent = specialUse.Sent;
 				mbv.mailbox.Trash = specialUse.Trash;
+				dom._kids(iconSpan, mailboxIcon(mbv.mailbox));
 			}, "setSpecialUse"),
 			setKeywords: /* @__PURE__ */ __name((keywords) => {
 				mbv.mailbox.Keywords = keywords;
@@ -6111,15 +6711,15 @@
 		}, "refineToggle");
 		let threadMode;
 		const msgColumnDraggerStyle = css("msgColumnDragger", { position: "absolute", top: 0, bottom: 0, width: "1px", backgroundColor: styles.popupBorderColor, left: "2.5px" });
-		let msglistElem = dom.div(css("msgList", { backgroundColor: styles.msglistBackgroundColor, position: "absolute", left: "0", right: 0, top: 0, bottom: 0, display: "flex", flexDirection: "column" }), dom.div(attr.role("region"), attr.arialabel("Filter and sorting buttons for message list"), css("msgListFilterSorting", { display: "flex", justifyContent: "space-between", backgroundColor: styles.backgroundColorMild, borderBottom: "1px solid", borderBottomColor: styles.borderColor, padding: ".25em .5em" }), dom.div(dom.h1("Refine:", css("refineTitle", { fontWeight: "normal", fontSize: "inherit", display: "inline", margin: 0 }), attr.title("Refine message listing with quick filters. These refinement filters are in addition to any search criteria, but the refine attachment filter overrides a search attachment criteria.")), " ", dom.span(dom._class("btngroup"), refineUnreadBtn = dom.clickbutton(settings.refine === "unread" ? dom._class("active") : [], "Unread", attr.title("Only show messages marked as unread."), /* @__PURE__ */ __name(async function click(e) {
+		let msglistElem = dom.div(css("msgList", { backgroundColor: styles.msglistBackgroundColor, position: "absolute", left: "0", right: 0, top: 0, bottom: 0, display: "flex", flexDirection: "column" }), dom.div(attr.role("region"), attr.arialabel("Filter and sorting buttons for message list"), css("msgListFilterSorting", { display: "flex", justifyContent: "space-between", backgroundColor: styles.backgroundColorMild, borderBottom: "1px solid", borderBottomColor: styles.borderColor, padding: ".25em .5em" }), dom.div(dom.h1("Refine:", css("refineTitle", { fontWeight: "normal", fontSize: "inherit", display: "inline", margin: 0 }), attr.title("Refine message listing with quick filters. These refinement filters are in addition to any search criteria, but the refine attachment filter overrides a search attachment criteria.")), " ", dom.span(dom._class("btngroup"), refineUnreadBtn = dom.clickbutton(dom._class("refineIcon", "refineUnread"), settings.refine === "unread" ? dom._class("active") : [], "Unread", attr.title("Only show messages marked as unread."), /* @__PURE__ */ __name(async function click(e) {
 			await refineToggle("unread", e.target);
-		}, "click")), refineReadBtn = dom.clickbutton(settings.refine === "read" ? dom._class("active") : [], "Read", attr.title("Only show messages marked as read."), /* @__PURE__ */ __name(async function click(e) {
+		}, "click")), refineReadBtn = dom.clickbutton(dom._class("refineIcon", "refineRead"), settings.refine === "read" ? dom._class("active") : [], "Read", attr.title("Only show messages marked as read."), /* @__PURE__ */ __name(async function click(e) {
 			await refineToggle("read", e.target);
-		}, "click")), refineAttachmentsBtn = dom.clickbutton(settings.refine === "attachments" ? dom._class("active") : [], "Attachments", attr.title("Only show messages with attachments."), /* @__PURE__ */ __name(async function click(e) {
+		}, "click")), refineAttachmentsBtn = dom.clickbutton(dom._class("refineIcon", "refineAttachments"), settings.refine === "attachments" ? dom._class("active") : [], "Attachments", attr.title("Only show messages with attachments."), /* @__PURE__ */ __name(async function click(e) {
 			await refineToggle("attachments", e.target);
 		}, "click")), refineFlaggedBtn = dom.clickbutton(settings.refine === "flagged" ? dom._class("active") : [], "Flagged", attr.title("Only show flagged/starred messages."), /* @__PURE__ */ __name(async function click(e) {
 			await refineToggle("flagged", e.target);
-		}, "click")), refineLabelBtn = dom.clickbutton(settings.refine.startsWith("label:") ? [dom._class("active"), "Label: " + settings.refine.substring("label:".length)] : "Label", attr.title("Only show messages with the selected label."), /* @__PURE__ */ __name(async function click(e) {
+		}, "click")), refineLabelBtn = dom.clickbutton(dom._class("refineIcon", "refineLabel"), settings.refine.startsWith("label:") ? [dom._class("active"), "Label: " + settings.refine.substring("label:".length)] : "Label", attr.title("Only show messages with the selected label."), /* @__PURE__ */ __name(async function click(e) {
 			const labels = possibleLabels();
 			const remove = popover(e.target, {}, dom.div(style({ display: "flex", flexDirection: "column", gap: "1ex" }), labels.map((l) => {
 				const selectLabel = /* @__PURE__ */ __name(async () => {
@@ -6130,7 +6730,7 @@
 					await selectLabel();
 				}, "click")));
 			}), labels.length === 0 ? dom.div("No labels yet, set one on a message first.") : []));
-		}, "click"))), " ", dom.clickbutton("x", style({ padding: "0 .25em" }), attr.arialabel("Clear refinement filters."), attr.title("Clear refinement filters."), /* @__PURE__ */ __name(async function click(e) {
+		}, "click"))), " ", dom.clickbutton(dom._class("refineIcon", "refineClear"), "x", style({ padding: "0 .25em" }), attr.arialabel("Clear refinement filters."), attr.title("Clear refinement filters."), /* @__PURE__ */ __name(async function click(e) {
 			settingsPut({ ...settings, refine: "" });
 			refineToggleActive(e.target);
 			await withStatus("Requesting messages", requestNewView(false));
@@ -6268,9 +6868,9 @@
 		};
 		const topMailboxesStyle = css("topMailboxes", { backgroundColor: styles.mailboxesTopBackgroundColor });
 		css("searchbarActive", { background: styles.mailboxActiveBackground });
-		const webmailroot = dom.div(css("webmailRoot", { display: "flex", flexDirection: "column", alignContent: "stretch", height: "100dvh" }), dom.div(topMailboxesStyle, style({ display: "flex" }), attr.role("region"), attr.arialabel("Top bar"), topcomposeboxElem = dom.div(dom._class("pad"), style({ width: settings.mailboxesWidth + "px", textAlign: "center" }), dom.clickbutton("Compose", attr.title("Compose new email message."), /* @__PURE__ */ __name(function click() {
+		const webmailroot = dom.div(css("webmailRoot", { display: "flex", flexDirection: "column", alignContent: "stretch", height: "100dvh" }), dom.div(topMailboxesStyle, style({ display: "flex" }), attr.role("region"), attr.arialabel("Top bar"), topcomposeboxElem = dom.div(dom._class("pad"), style({ width: settings.mailboxesWidth + "px", textAlign: "center" }), dom.clickbutton(dom._class("composeButton"), "Compose", attr.title("Compose new email message."), /* @__PURE__ */ __name(function click() {
 			shortcutCmd(cmdCompose, shortcuts);
-		}, "click"))), dom.div(dom._class("pad"), css("searchbarBox", { paddingLeft: 0, display: "flex", flexGrow: 1 }), searchbarElemBox = dom.search(style({ display: "flex", marginRight: ".5em" }), dom.form(style({ display: "flex", flexGrow: 1 }), searchbarElem = dom.input(attr.placeholder("Search..."), style({ position: "relative", width: "100%" }), attr.title("Search messages based on criteria like matching free-form text, in a mailbox, labels, addressees."), focusPlaceholder('word "with space" -notword mb:Inbox f:from@x.example t:rcpt@x.example start:2023-7-1 end:2023-7-8 s:"subject" a:images l:$Forwarded h:Reply-To:other@x.example minsize:500kb'), /* @__PURE__ */ __name(function click() {
+		}, "click"))), dom.div(dom._class("pad"), css("searchbarBox", { paddingLeft: 0, display: "flex", flexGrow: 1 }), searchbarElemBox = dom.search(style({ display: "flex", marginRight: ".5em" }), dom.form(style({ display: "flex", flexGrow: 1 }), searchbarElem = dom.input(dom._class("searchbarElem"), attr.placeholder("Search..."), style({ position: "relative", width: "100%" }), attr.title("Search messages based on criteria like matching free-form text, in a mailbox, labels, addressees."), focusPlaceholder('word "with space" -notword mb:Inbox f:from@x.example t:rcpt@x.example start:2023-7-1 end:2023-7-8 s:"subject" a:images l:$Forwarded h:Reply-To:other@x.example minsize:500kb'), /* @__PURE__ */ __name(function click() {
 			cmdSearch();
 			showShortcut("/");
 		}, "click"), /* @__PURE__ */ __name(function focus() {
@@ -6743,6 +7343,7 @@
 				log("event start", start);
 				accountSettings = start.Settings;
 				introboxMailbox = start.Introbox;
+				applyTheme(accountSettings);
 				connecting = false;
 				sseID = start.SSEID;
 				loginAddress = start.LoginAddress;
