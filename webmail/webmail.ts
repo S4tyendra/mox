@@ -171,10 +171,14 @@ let introboxMailbox: string = ''
 
 // Accent presets mapped to colours. A value starting with "#" is used directly.
 const accentColors: { [name: string]: string } = {
-	'': '#2b6cff', // blue (default)
-	indigo: '#6c5cff',
-	teal: '#11a3a3',
-	graphite: '#8a8f98',
+	'': '#111827', // dark slate (default)
+	blue: '#2563eb',
+	indigo: '#4f46e5',
+	emerald: '#059669',
+	violet: '#7c3aed',
+	teal: '#0d9488',
+	rose: '#e11d48',
+	graphite: '#4b5563',
 }
 // Accent buttons use white text. (Computing black/white by contrast was tried but
 // black text on the accent looked worse, so we keep white across all accents.)
@@ -293,9 +297,16 @@ const avatarText = (a: api.MessageAddress | undefined): string => {
 	if (!a) {
 		return '?'
 	}
-	const s = (a.Name || a.User || '').trim()
-	const ch = s ? s[0] : '?'
-	return ch.toUpperCase()
+	const name = (a.Name || '').trim()
+	if (name) {
+		const parts = name.split(/\s+/).filter(Boolean)
+		if (parts.length >= 2 && parts[0] && parts[parts.length - 1]) {
+			return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+		}
+		return name[0] ? name[0].toUpperCase() : '?'
+	}
+	const user = (a.User || '').trim()
+	return user ? user[0].toUpperCase() : '?'
 }
 const avatarColor = (a: api.MessageAddress | undefined): string => {
 	const key = a ? (a.User + '@' + (a.Domain ? a.Domain.ASCII : '')) : ''
@@ -303,20 +314,20 @@ const avatarColor = (a: api.MessageAddress | undefined): string => {
 	for (let i = 0; i < key.length; i++) {
 		h = (h * 31 + key.charCodeAt(i)) >>> 0
 	}
-	// Lightness kept low enough that the white initial stays legible across all
-	// hues (white on hsl(*,45%,38%) clears the large-text contrast floor).
-	return 'hsl(' + (h % 360) + ', 45%, 38%)'
+	// Curated hues with high contrast and pleasing saturation
+	const hue = (h % 360)
+	return 'hsl(' + hue + ', 55%, 36%)'
 }
 
-// Emoji icon for a mailbox, by special-use, for the modern theme's folder list.
+// Icon for a mailbox, by special-use, for the modern theme's folder list.
 const mailboxIcon = (mb: api.Mailbox): string =>
-	mb.Sent ? '\u{1F4E4}' :      // outbox tray
-	mb.Draft ? '\u{1F4DD}' :     // memo
-	mb.Archive ? '\u{1F5C4}' :   // file cabinet
-	mb.Trash ? '\u{1F5D1}' :     // wastebasket
-	mb.Junk ? '⚠️' :    // warning (with emoji variation selector)
-	mb.Name === 'Inbox' ? '\u{1F4E5}' : // inbox tray
-	'\u{1F4C1}'                  // folder
+	mb.Sent ? '↗' :       // Sent
+	mb.Draft ? '✎' :      // Draft
+	mb.Archive ? '📥' :   // Archive
+	mb.Trash ? '🗑' :     // Trash
+	mb.Junk ? '⚠' :      // Junk
+	mb.Name === 'Inbox' ? '✉' : // Inbox
+	'📁'                  // Custom folder
 
 // Squire rich-text editor, loaded as a global from webmail/squire.js (see webmail.html).
 declare class Squire {
@@ -1479,9 +1490,13 @@ const cmdSettings = async () => {
 					style({margin: '1ex 0', display: 'block'}),
 					dom.div('Accent colour'),
 					webmailAccent=dom.select(
-						dom.option('Blue', attr.value(''), accountSettings.WebmailAccent === '' ? attr.selected('') : []),
+						dom.option('Slate (default)', attr.value(''), accountSettings.WebmailAccent === '' ? attr.selected('') : []),
+						dom.option('Blue', attr.value('blue'), accountSettings.WebmailAccent === 'blue' ? attr.selected('') : []),
 						dom.option('Indigo', attr.value('indigo'), accountSettings.WebmailAccent === 'indigo' ? attr.selected('') : []),
+						dom.option('Emerald', attr.value('emerald'), accountSettings.WebmailAccent === 'emerald' ? attr.selected('') : []),
+						dom.option('Violet', attr.value('violet'), accountSettings.WebmailAccent === 'violet' ? attr.selected('') : []),
 						dom.option('Teal', attr.value('teal'), accountSettings.WebmailAccent === 'teal' ? attr.selected('') : []),
+						dom.option('Rose', attr.value('rose'), accountSettings.WebmailAccent === 'rose' ? attr.selected('') : []),
 						dom.option('Graphite', attr.value('graphite'), accountSettings.WebmailAccent === 'graphite' ? attr.selected('') : []),
 					),
 				),

@@ -1092,52 +1092,59 @@
 		return dom._class(className);
 	}, "css");
 	var baseTokens = {
-		"--color": ["black", "#ddd"],
-		"--colorMild": ["#555", "#bbb"],
-		"--colorMilder": ["#666", "#aaa"],
-		"--backgroundColor": ["white", "#222"],
-		"--backgroundColorMild": ["#f8f8f8", "#080808"],
-		"--backgroundColorMilder": ["#999", "#777"],
-		"--borderColor": ["#ccc", "#333"],
-		"--mailboxesTopBackgroundColor": ["#fdfdf1", "#1a1200"],
-		"--msglistBackgroundColor": ["#f5ffff", "#04130d"],
-		"--boxShadow": ["0 0 20px rgba(0, 0, 0, 0.1)", "0px 0px 20px #000"],
-		"--buttonBackground": ["#eee", "#222"],
-		"--buttonBorderColor": ["#888", "#666"],
-		"--buttonHoverBackground": ["#ddd", "#333"],
-		"--overlayOpaqueBackgroundColor": ["#eee", "#011"],
-		"--overlayBackgroundColor": ["rgba(0, 0, 0, 0.2)", "rgba(0, 0, 0, 0.5)"],
-		"--popupColor": ["black", "white"],
-		"--popupBackgroundColor": ["white", "#313233"],
-		"--popupBorderColor": ["#ccc", "#555"],
-		"--highlightBackground": ["gold", "#a70167"],
-		"--highlightBorderColor": ["#8c7600", "#fd1fa7"],
-		"--highlightBackgroundHover": ["#ffbd21", "#710447"],
-		"--mailboxActiveBackground": ["linear-gradient(135deg, #ffc7ab 0%, #ffdeab 100%)", "linear-gradient(135deg, #b63d00 0%, #8c5a0d 100%)"],
-		"--mailboxHoverBackgroundColor": ["#eee", "#421f15"],
-		"--msgItemActiveBackground": ["linear-gradient(135deg, #8bc8ff 0%, #8ee5ff 100%)", "linear-gradient(135deg, #045cac 0%, #027ba0 100%)"],
-		"--msgItemHoverBackgroundColor": ["#eee", "#073348"],
-		"--msgItemFocusBorderColor": ["#2685ff", "#2685ff"],
-		"--buttonTristateOnBackground": ["#c4ffa9", "#277e00"],
-		"--buttonTristateOffBackground": ["#ffb192", "#bf410f"],
-		"--warningBackgroundColor": ["#ffca91", "#a85700"],
-		"--successBackground": ["#d2f791", "#1fa204"],
-		"--emphasisBackground": ["#666", "#aaa"],
-		"--underlineGreen": ["#50c40f", "#50c40f"],
-		"--underlineRed": ["#e15d1c", "#e15d1c"],
-		"--underlineBlue": ["#09f", "#09f"],
-		"--underlineGrey": ["#888", "#888"],
-		"--quoted1Color": ["#03828f", "#71f2ff"],
-		"--quoted2Color": ["#c7445c", "#ec4c4c"],
-		"--quoted3Color": ["#417c10", "#73e614"],
-		"--scriptSwitchUnderlineColor": ["#dca053", "#e88f1e"],
-		"--linkColor": ["#096bc2", "#63b6ff"],
-		"--linkVisitedColor": ["#0704c1", "#c763ff"],
-		// New in phase 2. Accent is unused by the classic look (so adds no visual
-		// change); the modern theme (stage 2) routes accented elements through it.
-		"--accent": ["#2b6cff", "#2b6cff"],
-		"--accentText": ["#ffffff", "#ffffff"],
-		"--radius": [".4em", ".4em"]
+		"--color": ["#111827", "#f9fafb"],
+		"--colorMild": ["#6b7280", "#9ca3af"],
+		"--colorMilder": ["#9ca3af", "#6b7280"],
+		"--backgroundColor": ["#ffffff", "#09090b"],
+		"--backgroundColorMild": ["#f9fafb", "#121215"],
+		"--backgroundColorMilder": ["#f3f4f6", "#1c1c21"],
+		"--borderColor": ["rgba(0, 0, 0, 0.08)", "rgba(255, 255, 255, 0.1)"],
+		"--mailboxesTopBackgroundColor": ["rgba(255, 255, 255, 0.82)", "rgba(9, 9, 11, 0.82)"],
+		"--msglistBackgroundColor": ["#ffffff", "#09090b"],
+		"--boxShadow": ["0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05)", "0 1px 3px 0 rgba(0, 0, 0, 0.4)"],
+		"--shadowSm": ["0 1px 2px 0 rgba(0, 0, 0, 0.05)", "0 1px 2px 0 rgba(0, 0, 0, 0.3)"],
+		"--shadowMd": ["0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05)", "0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3)"],
+		"--shadowLg": ["0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04)", "0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.4)"],
+		"--shadowXl": ["0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.04)", "0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 8px 10px -6px rgba(0, 0, 0, 0.5)"],
+		"--buttonBackground": ["#f3f4f6", "#1c1c21"],
+		"--buttonBorderColor": ["rgba(0, 0, 0, 0.08)", "rgba(255, 255, 255, 0.1)"],
+		"--buttonHoverBackground": ["#e5e7eb", "#27272f"],
+		"--overlayOpaqueBackgroundColor": ["#ffffff", "#09090b"],
+		"--overlayBackgroundColor": ["rgba(0, 0, 0, 0.35)", "rgba(0, 0, 0, 0.65)"],
+		"--popupColor": ["#111827", "#f9fafb"],
+		"--popupBackgroundColor": ["rgba(255, 255, 255, 0.95)", "rgba(18, 18, 22, 0.95)"],
+		"--popupBorderColor": ["rgba(0, 0, 0, 0.1)", "rgba(255, 255, 255, 0.12)"],
+		"--highlightBackground": ["#2563eb", "#3b82f6"],
+		"--highlightBorderColor": ["#1d4ed8", "#60a5fa"],
+		"--highlightBackgroundHover": ["#1d4ed8", "#2563eb"],
+		"--mailboxActiveBackground": ["rgba(37, 99, 235, 0.08)", "rgba(59, 130, 246, 0.14)"],
+		"--mailboxHoverBackgroundColor": ["rgba(0, 0, 0, 0.04)", "rgba(255, 255, 255, 0.05)"],
+		"--msgItemActiveBackground": ["rgba(37, 99, 235, 0.09)", "rgba(59, 130, 246, 0.15)"],
+		"--msgItemHoverBackgroundColor": ["rgba(0, 0, 0, 0.03)", "rgba(255, 255, 255, 0.04)"],
+		"--msgItemFocusBorderColor": ["#2563eb", "#3b82f6"],
+		"--buttonTristateOnBackground": ["#16a34a", "#22c55e"],
+		"--buttonTristateOffBackground": ["#dc2626", "#ef4444"],
+		"--warningBackgroundColor": ["#fef3c7", "#78350f"],
+		"--successBackground": ["#dcfce7", "#14532d"],
+		"--emphasisBackground": ["#374151", "#9ca3af"],
+		"--underlineGreen": ["#16a34a", "#22c55e"],
+		"--underlineRed": ["#dc2626", "#ef4444"],
+		"--underlineBlue": ["#2563eb", "#3b82f6"],
+		"--underlineGrey": ["#6b7280", "#9ca3af"],
+		"--quoted1Color": ["#0284c7", "#38bdf8"],
+		"--quoted2Color": ["#7c3aed", "#a78bfa"],
+		"--quoted3Color": ["#059669", "#34d399"],
+		"--scriptSwitchUnderlineColor": ["#d97706", "#f59e0b"],
+		"--linkColor": ["#2563eb", "#60a5fa"],
+		"--linkVisitedColor": ["#7c3aed", "#c084fc"],
+		"--accent": ["#111827", "#f9fafb"],
+		"--accentText": ["#ffffff", "#111827"],
+		"--radius": ["8px", "8px"],
+		"--radiusSm": ["6px", "6px"],
+		"--radiusMd": ["10px", "10px"],
+		"--radiusLg": ["12px", "12px"],
+		"--radiusFull": ["9999px", "9999px"],
+		"--easeOut": ["cubic-bezier(0.32, 0.72, 0, 1)", "cubic-bezier(0.32, 0.72, 0, 1)"]
 	};
 	ensureCSS(":root", baseTokens);
 	var pickScheme = /* @__PURE__ */ __name((i) => {
@@ -1158,6 +1165,10 @@
 		"--mailboxesTopBackgroundColor": "#ffffff",
 		"--msglistBackgroundColor": "#ffffff",
 		"--boxShadow": "0 0 0 1px #000",
+		"--shadowSm": "0 0 0 1px #000",
+		"--shadowMd": "0 0 0 1px #000",
+		"--shadowLg": "0 0 0 2px #000",
+		"--shadowXl": "0 0 0 2px #000",
 		"--buttonBackground": "#ffffff",
 		"--buttonBorderColor": "#000000",
 		"--buttonHoverBackground": "#e6e6e6",
@@ -1191,7 +1202,12 @@
 		"--linkVisitedColor": "#551a8b",
 		"--accent": "#0044cc",
 		"--accentText": "#ffffff",
-		"--radius": ".4em"
+		"--radius": "6px",
+		"--radiusSm": "4px",
+		"--radiusMd": "8px",
+		"--radiusLg": "10px",
+		"--radiusFull": "9999px",
+		"--easeOut": "cubic-bezier(0.32, 0.72, 0, 1)"
 	};
 	var hcDarkTokens = {
 		"--color": "#ffffff",
@@ -1204,6 +1220,10 @@
 		"--mailboxesTopBackgroundColor": "#000000",
 		"--msglistBackgroundColor": "#000000",
 		"--boxShadow": "0 0 0 1px #fff",
+		"--shadowSm": "0 0 0 1px #fff",
+		"--shadowMd": "0 0 0 1px #fff",
+		"--shadowLg": "0 0 0 2px #fff",
+		"--shadowXl": "0 0 0 2px #fff",
 		"--buttonBackground": "#000000",
 		"--buttonBorderColor": "#ffffff",
 		"--buttonHoverBackground": "#1a1a1a",
@@ -1237,101 +1257,445 @@
 		"--linkVisitedColor": "#cc99ff",
 		"--accent": "#66aaff",
 		"--accentText": "#000000",
-		"--radius": ".4em"
+		"--radius": "6px",
+		"--radiusSm": "4px",
+		"--radiusMd": "8px",
+		"--radiusLg": "10px",
+		"--radiusFull": "9999px",
+		"--easeOut": "cubic-bezier(0.32, 0.72, 0, 1)"
 	};
 	ensureCSS("html.scheme-light", pickScheme(0));
 	ensureCSS("html.scheme-dark", pickScheme(1));
 	ensureCSS("html.scheme-hclight", hcLightTokens);
 	ensureCSS("html.scheme-hcdark", hcDarkTokens);
+	ensureCSS("html.theme-modern, .theme-modern body", {
+		fontFamily: '-apple-system, BlinkMacSystemFont, "Geist", "Inter", "Segoe UI", Roboto, "Helvetica Neue", sans-serif',
+		WebkitFontSmoothing: "antialiased",
+		letterSpacing: "-0.01em"
+	});
+	ensureCSS(".theme-modern h1, .theme-modern h2, .theme-modern h3", {
+		letterSpacing: "-0.02em",
+		fontWeight: "600"
+	});
+	ensureCSS(".theme-modern *::-webkit-scrollbar", {
+		width: "6px",
+		height: "6px"
+	});
+	ensureCSS(".theme-modern *::-webkit-scrollbar-track", {
+		background: "transparent"
+	});
+	ensureCSS(".theme-modern *::-webkit-scrollbar-thumb", {
+		background: "color-mix(in srgb, var(--colorMild) 25%, transparent)",
+		borderRadius: "9999px"
+	});
+	ensureCSS(".theme-modern *::-webkit-scrollbar-thumb:hover", {
+		background: "color-mix(in srgb, var(--colorMild) 45%, transparent)"
+	});
+	ensureCSS(".theme-modern button, .theme-modern .button, .theme-modern select, .theme-modern input", {
+		WebkitTapHighlightColor: "transparent",
+		touchAction: "manipulation"
+	});
+	ensureCSS(".theme-modern button, .theme-modern .button", {
+		borderRadius: "var(--radiusSm)",
+		border: "1px solid var(--buttonBorderColor)",
+		backgroundColor: "var(--buttonBackground)",
+		color: "var(--color)",
+		padding: ".35em .85em",
+		fontSize: ".875rem",
+		fontWeight: "500",
+		lineHeight: "1.25",
+		cursor: "pointer",
+		transition: "transform 150ms cubic-bezier(0.32, 0.72, 0, 1), background-color 150ms cubic-bezier(0.32, 0.72, 0, 1), border-color 150ms cubic-bezier(0.32, 0.72, 0, 1), box-shadow 150ms cubic-bezier(0.32, 0.72, 0, 1)",
+		boxShadow: "var(--shadowSm)"
+	});
+	ensureCSS(".theme-modern button:active:not(:disabled), .theme-modern .button:active:not(:disabled)", {
+		transform: "scale(0.97)"
+	}, true);
+	ensureCSS(".theme-modern select", {
+		borderRadius: "var(--radiusSm)",
+		border: "1px solid var(--buttonBorderColor)",
+		backgroundColor: "var(--buttonBackground)",
+		color: "var(--color)",
+		padding: ".35em .75em",
+		fontSize: ".875rem",
+		fontWeight: "500",
+		outline: "none",
+		cursor: "pointer",
+		transition: "border-color 150ms cubic-bezier(0.32, 0.72, 0, 1), box-shadow 150ms cubic-bezier(0.32, 0.72, 0, 1)"
+	});
+	ensureCSS(".theme-modern input, .theme-modern textarea", {
+		borderRadius: "var(--radiusSm)",
+		border: "1px solid var(--borderColor)",
+		backgroundColor: "var(--backgroundColor)",
+		color: "var(--color)",
+		padding: ".4em .75em",
+		fontSize: ".875rem",
+		outline: "none",
+		transition: "border-color 150ms cubic-bezier(0.32, 0.72, 0, 1), box-shadow 150ms cubic-bezier(0.32, 0.72, 0, 1)"
+	});
+	ensureCSS(".theme-modern input:focus, .theme-modern textarea:focus, .theme-modern select:focus", {
+		borderColor: "var(--accent)",
+		boxShadow: "0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent)"
+	}, true);
+	ensureCSS(".theme-modern .webmailRoot > .topMailboxes", {
+		backdropFilter: "blur(12px)",
+		WebkitBackdropFilter: "blur(12px)",
+		backgroundColor: "var(--mailboxesTopBackgroundColor)",
+		borderBottom: "1px solid var(--borderColor)",
+		padding: ".4em .6em",
+		alignItems: "center",
+		zIndex: "3"
+	});
+	ensureCSS(".theme-modern .searchbarElem", {
+		borderRadius: "var(--radiusSm)",
+		padding: ".45em .9em",
+		fontSize: ".875rem",
+		backgroundColor: "var(--backgroundColorMild)",
+		border: "1px solid var(--borderColor)",
+		color: "var(--color)",
+		minHeight: "34px",
+		transition: "background-color 150ms cubic-bezier(0.32, 0.72, 0, 1), border-color 150ms cubic-bezier(0.32, 0.72, 0, 1), box-shadow 150ms cubic-bezier(0.32, 0.72, 0, 1)"
+	});
+	ensureCSS(".theme-modern .composeButton", {
+		background: "var(--accent)",
+		color: "var(--accentText)",
+		borderColor: "transparent",
+		borderRadius: "var(--radiusSm)",
+		padding: ".45em 1.25em",
+		fontSize: ".875rem",
+		fontWeight: "600",
+		letterSpacing: "-0.01em",
+		minHeight: "34px",
+		boxShadow: "inset 0 1px 0 rgba(255, 255, 255, 0.2), var(--shadowSm)",
+		transition: "transform 150ms cubic-bezier(0.32, 0.72, 0, 1), background-color 150ms cubic-bezier(0.32, 0.72, 0, 1), box-shadow 150ms cubic-bezier(0.32, 0.72, 0, 1)"
+	}, true);
+	ensureCSS(".theme-modern .mailboxesBox", {
+		backgroundColor: "var(--backgroundColorMild)",
+		borderRight: "1px solid var(--borderColor)"
+	});
+	ensureCSS(".theme-modern .mailboxItem", {
+		borderRadius: "var(--radiusSm)",
+		margin: "1px 4px",
+		padding: ".45em .75em",
+		fontSize: ".875rem",
+		fontWeight: "500",
+		display: "flex",
+		alignItems: "center",
+		border: "1px solid transparent",
+		transition: "transform 150ms cubic-bezier(0.32, 0.72, 0, 1), background-color 150ms cubic-bezier(0.32, 0.72, 0, 1), color 150ms cubic-bezier(0.32, 0.72, 0, 1), border-color 150ms cubic-bezier(0.32, 0.72, 0, 1)"
+	});
+	ensureCSS(".theme-modern .mailboxItem:active", {
+		transform: "scale(0.98)"
+	});
+	ensureCSS(".theme-modern .mailboxItem.active", {
+		background: "var(--mailboxActiveBackground)",
+		color: "var(--color)",
+		fontWeight: "600",
+		borderColor: "color-mix(in srgb, var(--accent) 15%, transparent)"
+	}, true);
+	ensureCSS(".theme-modern .mailboxIcon", {
+		display: "inline-flex",
+		alignItems: "center",
+		justifyContent: "center",
+		width: "1.4em",
+		marginRight: ".5em",
+		fontSize: "1rem",
+		flex: "none"
+	});
+	ensureCSS(".theme-modern .mailboxUnread:not(:empty)", {
+		background: "var(--accent)",
+		color: "var(--accentText)",
+		borderRadius: "var(--radiusFull)",
+		padding: "0.1em .55em",
+		fontSize: ".75rem",
+		fontWeight: "600",
+		letterSpacing: "0",
+		marginLeft: "auto",
+		boxShadow: "var(--shadowSm)"
+	});
 	ensureCSS(".theme-modern .msgItem", {
 		display: "grid",
-		// Far-left "flags" column holds the thread expand/collapse control (the flag
-		// letters themselves are hidden); it is ~0 wide when there is no control.
 		gridTemplateColumns: "auto auto minmax(0, 1fr) auto",
 		gridTemplateAreas: '"flags avatar from age" "flags avatar subject subject"',
-		columnGap: ".5em",
+		columnGap: ".65em",
+		rowGap: ".15em",
 		alignItems: "center",
-		padding: ".45em .6em",
+		padding: ".6em .85em",
+		margin: "2px 4px",
 		border: "1px solid transparent",
-		borderRadius: "var(--radius)",
-		// Positioning context for the full-height thread connector bar.
+		borderRadius: "var(--radiusMd)",
 		position: "relative",
-		// Configurable list text size (1 = 100%); set via --ml-scale by applyAppearance.
-		fontSize: "calc(1em * var(--ml-scale, 1))"
+		fontSize: "calc(.875rem * var(--ml-scale, 1))",
+		lineHeight: "1.35",
+		transition: "transform 150ms cubic-bezier(0.32, 0.72, 0, 1), background-color 150ms cubic-bezier(0.32, 0.72, 0, 1), border-color 150ms cubic-bezier(0.32, 0.72, 0, 1), box-shadow 150ms cubic-bezier(0.32, 0.72, 0, 1)"
+	});
+	ensureCSS(".theme-modern .msgItem:active", {
+		transform: "scale(0.985)"
 	});
 	ensureCSS(".theme-modern .msgItemCell", { padding: 0, width: "auto" });
 	ensureCSS(".theme-modern .msgItemFlags", { gridArea: "flags", display: "flex", alignItems: "center", padding: 0, width: "auto" });
 	ensureCSS(".theme-modern .msgItemFlag", { display: "none" });
 	ensureCSS(".theme-modern .msgItemFrom", { gridArea: "from", width: "auto", position: "static" });
-	ensureCSS(".theme-modern .msgItemFromText", { fontWeight: "var(--ml-from-weight, bold)", fontStyle: "var(--ml-from-style, normal)" });
-	ensureCSS(".theme-modern .msgItemThreadBar", { left: ".55em", right: "auto", borderLeft: "2px solid var(--colorMild)", borderRight: "none" });
-	ensureCSS(".theme-modern .msgItemThreadBarMiddle", { top: "-.5em", bottom: "-.5em" });
-	ensureCSS(".theme-modern .msgItemThreadBarFirst", { top: "40%", bottom: "-.5em" });
-	ensureCSS(".theme-modern .msgItemThreadBarLast", { top: "-.5em", bottom: "50%" });
+	ensureCSS(".theme-modern .msgItemFromText", {
+		fontWeight: "var(--ml-from-weight, 600)",
+		fontStyle: "var(--ml-from-style, normal)",
+		color: "var(--color)",
+		letterSpacing: "-0.01em"
+	});
+	ensureCSS(".theme-modern .msgItemThreadBar", {
+		left: ".6em",
+		right: "auto",
+		borderLeft: "1.5px solid var(--colorMilder)",
+		borderRight: "none"
+	});
+	ensureCSS(".theme-modern .msgItemThreadBarMiddle", { top: "-.6em", bottom: "-.6em" });
+	ensureCSS(".theme-modern .msgItemThreadBarFirst", { top: "40%", bottom: "-.6em" });
+	ensureCSS(".theme-modern .msgItemThreadBarLast", { top: "-.6em", bottom: "50%" });
 	ensureCSS(".theme-modern .msgItemSubject", { gridArea: "subject", width: "auto" });
-	ensureCSS(".theme-modern .msgItemAge", { gridArea: "age", width: "auto", color: "var(--colorMilder)", fontWeight: "var(--ml-date-weight, normal)", fontStyle: "var(--ml-date-style, normal)" });
+	ensureCSS(".theme-modern .msgItemAge", {
+		gridArea: "age",
+		width: "auto",
+		color: "var(--colorMild)",
+		fontSize: ".8rem",
+		fontWeight: "var(--ml-date-weight, 500)",
+		fontStyle: "var(--ml-date-style, normal)",
+		letterSpacing: "0"
+	});
 	ensureCSS(".theme-modern .msgItemAvatar", {
 		display: "flex",
 		gridArea: "avatar",
 		alignItems: "center",
 		justifyContent: "center",
-		width: "34px",
-		height: "34px",
-		borderRadius: "50%",
-		color: "#fff",
-		fontWeight: "bold",
-		alignSelf: "center"
+		width: "36px",
+		height: "36px",
+		borderRadius: "var(--radiusFull)",
+		color: "#ffffff",
+		fontSize: ".8rem",
+		fontWeight: "600",
+		alignSelf: "center",
+		boxShadow: "inset 0 1px 0 rgba(255, 255, 255, 0.2), var(--shadowSm)"
 	});
-	ensureCSS(".theme-modern .msgItemSubjectText", { display: "-webkit-box", WebkitBoxOrient: "vertical", WebkitLineClamp: "2", overflow: "hidden", whiteSpace: "normal" });
-	ensureCSS(".theme-modern .msgItemSubjectTitle", { display: "inline", fontWeight: "var(--ml-subj-weight, normal)", fontStyle: "var(--ml-subj-style, normal)" });
-	ensureCSS(".theme-modern .msgItemSubjectSnippet", { display: "inline", margin: 0, fontWeight: "var(--ml-prev-weight, normal)", fontStyle: "var(--ml-prev-style, normal)" });
-	ensureCSS(".theme-modern.unread-bar .msgItem.msgItemUnread, .theme-modern.unread-barbold .msgItem.msgItemUnread", { boxShadow: "inset .2em 0 0 var(--accent)" });
-	ensureCSS(".theme-modern.unread-bold .msgItem.msgItemUnread .msgItemFromText, .theme-modern.unread-bold .msgItem.msgItemUnread .msgItemSubjectTitle, .theme-modern.unread-barbold .msgItem.msgItemUnread .msgItemFromText, .theme-modern.unread-barbold .msgItem.msgItemUnread .msgItemSubjectTitle", { fontWeight: "bold" });
-	ensureCSS(".theme-modern.unread-tint .msgItem.msgItemUnread", { background: "color-mix(in srgb, var(--accent) 10%, transparent)" });
-	ensureCSS(".theme-modern.unread-dot .msgItem.msgItemUnread::after", { content: '""', position: "absolute", left: ".2em", top: "50%", transform: "translateY(-50%)", width: ".5em", height: ".5em", borderRadius: "50%", background: "var(--accent)" });
-	ensureCSS(".theme-modern .msgItem.active", { background: "color-mix(in srgb, var(--accent) 18%, transparent)" }, true);
-	ensureCSS(".theme-modern .msgItem:hover", { backgroundColor: "color-mix(in srgb, var(--accent) 10%, transparent)" }, true);
-	ensureCSS(".theme-modern .searchbarElem", { borderRadius: "1em", padding: ".2em .8em" });
-	ensureCSS(".theme-modern .composeButton", { background: "var(--accent)", color: "var(--accentText)", borderColor: "transparent" }, true);
-	ensureCSS(".theme-modern .composeButton:hover:not(:disabled)", { background: "color-mix(in srgb, var(--accent) 85%, var(--color))" }, true);
-	ensureCSS(".theme-modern .mailboxItem", { borderRadius: "var(--radius)" });
-	ensureCSS(".theme-modern .mailboxItem.active", { background: "color-mix(in srgb, var(--accent) 18%, transparent)" }, true);
-	ensureCSS(".theme-modern .mailboxItem:hover", { backgroundColor: "color-mix(in srgb, var(--accent) 10%, transparent)" }, true);
-	ensureCSS(".theme-modern .mailboxIcon", { display: "inline-block", width: "1.3em", marginRight: ".3em", textAlign: "center", flex: "none" });
-	ensureCSS(".theme-modern .mailboxUnread:not(:empty)", { background: "var(--accent)", color: "var(--accentText)", borderRadius: "1em", padding: "0 .5em", fontSize: ".85em", fontWeight: "normal" });
-	ensureCSS(".theme-modern .msgmeta", { display: "flex", flexDirection: "column", padding: ".6em .8em", gap: ".15em" });
-	ensureCSS(".theme-modern .msgModernSubject", { display: "block", order: "1", margin: ".1em 0 .2em", fontSize: "calc(1.5em * var(--mv-subj-scale, 1))", fontWeight: "600", lineHeight: "1.25" });
-	ensureCSS(".theme-modern .msgModernSender", { display: "flex", order: "2", alignItems: "center", gap: ".6em", marginBottom: ".35em" });
+	ensureCSS(".theme-modern .msgItemSubjectText", {
+		display: "-webkit-box",
+		WebkitBoxOrient: "vertical",
+		WebkitLineClamp: "2",
+		overflow: "hidden",
+		whiteSpace: "normal",
+		color: "var(--colorMild)"
+	});
+	ensureCSS(".theme-modern .msgItemSubjectTitle", {
+		display: "inline",
+		color: "var(--color)",
+		fontWeight: "var(--ml-subj-weight, 500)",
+		fontStyle: "var(--ml-subj-style, normal)",
+		letterSpacing: "-0.01em"
+	});
+	ensureCSS(".theme-modern .msgItemSubjectSnippet", {
+		display: "inline",
+		margin: 0,
+		color: "var(--colorMild)",
+		fontWeight: "var(--ml-prev-weight, 400)",
+		fontStyle: "var(--ml-prev-style, normal)"
+	});
+	ensureCSS(".theme-modern.unread-bar .msgItem.msgItemUnread, .theme-modern.unread-barbold .msgItem.msgItemUnread", {
+		boxShadow: "inset 3px 0 0 var(--accent)"
+	});
+	ensureCSS(".theme-modern.unread-bold .msgItem.msgItemUnread .msgItemFromText, .theme-modern.unread-bold .msgItem.msgItemUnread .msgItemSubjectTitle, .theme-modern.unread-barbold .msgItem.msgItemUnread .msgItemFromText, .theme-modern.unread-barbold .msgItem.msgItemUnread .msgItemSubjectTitle", {
+		fontWeight: "700",
+		color: "var(--color)"
+	});
+	ensureCSS(".theme-modern.unread-tint .msgItem.msgItemUnread", {
+		background: "color-mix(in srgb, var(--accent) 8%, transparent)"
+	});
+	ensureCSS(".theme-modern.unread-dot .msgItem.msgItemUnread::after", {
+		content: '""',
+		position: "absolute",
+		left: ".3em",
+		top: "50%",
+		transform: "translateY(-50%)",
+		width: "6px",
+		height: "6px",
+		borderRadius: "50%",
+		background: "var(--accent)",
+		boxShadow: "0 0 6px var(--accent)"
+	});
+	ensureCSS(".theme-modern .msgItem.active", {
+		background: "var(--msgItemActiveBackground)",
+		borderColor: "color-mix(in srgb, var(--accent) 20%, transparent)",
+		boxShadow: "var(--shadowSm)"
+	}, true);
+	ensureCSS(".theme-modern .refineTitle", { display: "none" });
+	ensureCSS(".theme-modern .msgListFilterSorting", {
+		padding: ".4em .75em",
+		gap: ".5em",
+		alignItems: "center",
+		borderBottom: "1px solid var(--borderColor)",
+		backgroundColor: "var(--backgroundColorMild)"
+	});
+	ensureCSS(".theme-modern .msgListFilterSorting > div", { display: "flex", alignItems: "center", gap: ".4em", flexWrap: "nowrap" });
+	ensureCSS(".theme-modern .msgListFilterSorting .btngroup", { display: "inline-flex", alignItems: "center", gap: ".25em" });
+	ensureCSS(".theme-modern .msgListFilterSorting button", {
+		borderRadius: "var(--radiusSm)",
+		padding: ".3em .75em",
+		fontSize: ".8125rem",
+		fontWeight: "500",
+		lineHeight: "1.2",
+		border: "1px solid var(--buttonBorderColor)",
+		boxShadow: "none"
+	}, true);
+	ensureCSS(".theme-modern .msgListFilterSorting select", {
+		borderRadius: "var(--radiusSm)",
+		fontSize: ".8125rem",
+		padding: ".25em .6em",
+		border: "1px solid var(--buttonBorderColor)"
+	});
+	ensureCSS(".theme-modern .msgListFilterSorting button.active, .theme-modern .msgListFilterSorting button.invert", {
+		background: "var(--accent)",
+		color: "var(--accentText)",
+		borderColor: "transparent",
+		boxShadow: "var(--shadowSm)"
+	}, true);
+	ensureCSS(".theme-modern .msgListFilterSorting .refineIcon", {
+		fontSize: "0",
+		width: "28px",
+		height: "28px",
+		padding: "0",
+		borderRadius: "var(--radiusSm)",
+		display: "inline-flex",
+		alignItems: "center",
+		justifyContent: "center",
+		background: "transparent",
+		border: "1px solid transparent",
+		boxShadow: "none",
+		transition: "transform 150ms cubic-bezier(0.32, 0.72, 0, 1), background-color 150ms cubic-bezier(0.32, 0.72, 0, 1)"
+	}, true);
+	ensureCSS(".theme-modern .refineUnread::before", { content: '"\u{1F4E9}"', fontSize: ".9rem", lineHeight: "1" });
+	ensureCSS(".theme-modern .refineRead::before", { content: '"\u{1F4D6}"', fontSize: ".9rem", lineHeight: "1" });
+	ensureCSS(".theme-modern .refineAttachments::before", { content: '"\u{1F4CE}"', fontSize: ".9rem", lineHeight: "1" });
+	ensureCSS(".theme-modern .refineClear::before", { content: '"\u2715"', fontSize: ".85rem", lineHeight: "1", fontWeight: "bold" });
+	ensureCSS(".theme-modern .refineLabel::before", { content: '"\u{1F3F7}"', fontSize: ".9rem", lineHeight: "1" });
+	ensureCSS(".theme-modern .keyword", {
+		padding: ".15em .6em",
+		borderRadius: "var(--radiusFull)",
+		fontSize: ".75rem",
+		fontWeight: "500",
+		margin: "0 .2em",
+		background: "color-mix(in srgb, var(--accent) 12%, transparent)",
+		color: "var(--color)",
+		border: "1px solid color-mix(in srgb, var(--accent) 25%, transparent)",
+		letterSpacing: "0"
+	});
+	ensureCSS(".theme-modern .msgmeta", {
+		display: "flex",
+		flexDirection: "column",
+		padding: "1em 1.25em",
+		gap: ".35em",
+		backgroundColor: "var(--backgroundColorMild)",
+		borderBottom: "1px solid var(--borderColor)"
+	});
+	ensureCSS(".theme-modern .msgModernSubject", {
+		display: "block",
+		order: "1",
+		margin: ".1em 0 .3em",
+		fontSize: "calc(1.35rem * var(--mv-subj-scale, 1))",
+		fontWeight: "600",
+		letterSpacing: "-0.02em",
+		lineHeight: "1.3",
+		color: "var(--color)"
+	});
+	ensureCSS(".theme-modern .msgModernSender", {
+		display: "flex",
+		order: "2",
+		alignItems: "center",
+		gap: ".75em",
+		marginBottom: ".4em"
+	});
 	ensureCSS(".theme-modern .msgButtons", { order: "3" });
 	ensureCSS(".theme-modern .msgDetails", { order: "4" });
-	ensureCSS(".theme-modern .headerBodySeparator", { order: "5" });
-	ensureCSS(".theme-modern .msgModernAvatar", { display: "flex", alignItems: "center", justifyContent: "center", flex: "none", width: "40px", height: "40px", borderRadius: "50%", color: "#fff", fontWeight: "bold" });
-	ensureCSS(".theme-modern .msgModernSenderText", { display: "flex", flexDirection: "column", minWidth: "0" });
-	ensureCSS(".theme-modern .msgModernSenderName", { fontWeight: "var(--mv-sender-weight, 600)", fontStyle: "var(--mv-sender-style, normal)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" });
-	ensureCSS(".theme-modern .msgModernSenderTime", { color: "var(--colorMild)", fontSize: ".9em" });
-	ensureCSS(".theme-modern .msgModernSenderActions", { marginLeft: "auto", display: "flex", alignItems: "center", gap: ".4em", flex: "none" });
-	ensureCSS(".theme-modern .msgModernSenderActions button", { borderRadius: "1em", padding: ".15em .7em", fontSize: ".85em" }, true);
+	ensureCSS(".theme-modern .headerBodySeparator", { order: "5", height: "1px", backgroundColor: "var(--borderColor)" });
+	ensureCSS(".theme-modern .msgModernAvatar", {
+		display: "flex",
+		alignItems: "center",
+		justifyContent: "center",
+		flex: "none",
+		width: "42px",
+		height: "42px",
+		borderRadius: "var(--radiusFull)",
+		color: "#ffffff",
+		fontSize: ".95rem",
+		fontWeight: "600",
+		boxShadow: "inset 0 1px 0 rgba(255, 255, 255, 0.2), var(--shadowSm)"
+	});
+	ensureCSS(".theme-modern .msgModernSenderText", { display: "flex", flexDirection: "column", minWidth: "0", gap: "2px" });
+	ensureCSS(".theme-modern .msgModernSenderName", {
+		fontWeight: "var(--mv-sender-weight, 600)",
+		fontStyle: "var(--mv-sender-style, normal)",
+		fontSize: ".95rem",
+		color: "var(--color)",
+		letterSpacing: "-0.01em",
+		overflow: "hidden",
+		textOverflow: "ellipsis",
+		whiteSpace: "nowrap"
+	});
+	ensureCSS(".theme-modern .msgModernSenderTime", { color: "var(--colorMild)", fontSize: ".8125rem", letterSpacing: "0" });
+	ensureCSS(".theme-modern .msgModernSenderActions", { marginLeft: "auto", display: "flex", alignItems: "center", gap: ".5em", flex: "none" });
+	ensureCSS(".theme-modern .msgModernSenderActions button", {
+		borderRadius: "var(--radiusSm)",
+		padding: ".25em .75em",
+		fontSize: ".8125rem"
+	}, true);
 	ensureCSS(".theme-modern .msgMode", { display: "none" });
 	ensureCSS(".theme-modern .msgmeta .msgHeaders", { display: "none" });
-	ensureCSS(".theme-modern .msgmeta.detailsExpanded .msgHeaders", { display: "table" });
-	ensureCSS(".theme-modern .msgmeta .msgButtons button", { borderRadius: "1em", padding: ".25em .9em" }, true);
-	ensureCSS(".theme-modern .msgmeta .msgReplyButton", { background: "var(--accent)", color: "var(--accentText)", borderColor: "transparent" }, true);
-	ensureCSS(".theme-modern .msgmeta .msgReplyButton:hover:not(:disabled)", { background: "color-mix(in srgb, var(--accent) 85%, var(--color))" }, true);
-	ensureCSS(".theme-modern .msgscroll", { padding: "1em 1.2em" });
-	ensureCSS(".theme-modern .refineTitle", { display: "none" });
-	ensureCSS(".theme-modern .msgListFilterSorting", { padding: ".3em .5em", gap: ".5em", alignItems: "center" });
-	ensureCSS(".theme-modern .msgListFilterSorting > div", { display: "flex", alignItems: "center", gap: ".35em", flexWrap: "nowrap" });
-	ensureCSS(".theme-modern .msgListFilterSorting .btngroup", { display: "inline-flex", alignItems: "center", gap: ".3em" });
-	ensureCSS(".theme-modern .msgListFilterSorting button", { borderRadius: "1em", padding: ".2em .7em", fontSize: ".85em", lineHeight: "1.3", border: "1px solid transparent" }, true);
-	ensureCSS(".theme-modern .msgListFilterSorting select", { borderRadius: "1em", fontSize: ".85em", padding: ".15em .5em" });
-	ensureCSS(".theme-modern .msgListFilterSorting button.active, .theme-modern .msgListFilterSorting button.invert", { background: "var(--accent)", color: "var(--accentText)", borderColor: "transparent" }, true);
-	ensureCSS(".theme-modern .msgListFilterSorting .refineIcon", { fontSize: "0", width: "1.9rem", height: "1.9rem", padding: "0", borderRadius: "50%", display: "inline-flex", alignItems: "center", justifyContent: "center", background: "transparent", border: "1px solid transparent" }, true);
-	ensureCSS(".theme-modern .msgListFilterSorting .refineIcon:hover", { background: "color-mix(in srgb, var(--accent) 14%, transparent)" }, true);
-	ensureCSS(".theme-modern .refineUnread::before", { content: '"\u{1F4E9}"', fontSize: "1rem", lineHeight: "1" });
-	ensureCSS(".theme-modern .refineRead::before", { content: '"\u{1F4D6}"', fontSize: "1rem", lineHeight: "1" });
-	ensureCSS(".theme-modern .refineAttachments::before", { content: '"\u{1F4CE}"', fontSize: "1rem", lineHeight: "1" });
-	ensureCSS(".theme-modern .refineClear::before", { content: '"\u2715"', fontSize: "1rem", lineHeight: "1" });
-	ensureCSS(".theme-modern .refineLabel::before", { content: '"\u{1F3F7}"', fontSize: "1rem", lineHeight: "1" });
+	ensureCSS(".theme-modern .msgmeta.detailsExpanded .msgHeaders", {
+		display: "table",
+		marginTop: ".5em",
+		padding: ".5em",
+		backgroundColor: "var(--backgroundColor)",
+		borderRadius: "var(--radiusSm)",
+		border: "1px solid var(--borderColor)"
+	});
+	ensureCSS(".theme-modern .msgmeta .msgButtons", { padding: ".2em 0" });
+	ensureCSS(".theme-modern .msgmeta .msgButtons button", {
+		borderRadius: "var(--radiusSm)",
+		padding: ".35em .9em",
+		fontSize: ".8125rem",
+		fontWeight: "500",
+		marginRight: ".35em",
+		marginBottom: ".35em"
+	}, true);
+	ensureCSS(".theme-modern .msgmeta .msgReplyButton", {
+		background: "var(--accent)",
+		color: "var(--accentText)",
+		borderColor: "transparent",
+		fontWeight: "600",
+		boxShadow: "inset 0 1px 0 rgba(255, 255, 255, 0.2), var(--shadowSm)"
+	}, true);
+	ensureCSS(".theme-modern .msgscroll", {
+		padding: "1.25em 1.5em",
+		backgroundColor: "var(--backgroundColor)",
+		lineHeight: "1.6",
+		fontSize: ".9375rem"
+	});
+	ensureCSS(".theme-modern .composePopup", {
+		borderRadius: "var(--radiusLg)",
+		border: "1px solid var(--borderColor)",
+		backgroundColor: "var(--popupBackgroundColor)",
+		backdropFilter: "blur(16px)",
+		WebkitBackdropFilter: "blur(16px)",
+		boxShadow: "var(--shadowXl)",
+		padding: "1.2em",
+		transformOrigin: "bottom right"
+	});
+	ensureCSS(".theme-modern .popup, .theme-modern .popover", {
+		borderRadius: "var(--radiusMd)",
+		border: "1px solid var(--popupBorderColor)",
+		backgroundColor: "var(--popupBackgroundColor)",
+		backdropFilter: "blur(12px)",
+		WebkitBackdropFilter: "blur(12px)",
+		boxShadow: "var(--shadowLg)",
+		padding: ".75em",
+		transformOrigin: "top center"
+	});
 	var styles = {
 		color: "var(--color)",
 		colorMild: "var(--colorMild)",
@@ -1653,11 +2017,15 @@
 	var accountSettings;
 	var introboxMailbox = "";
 	var accentColors = {
-		"": "#2b6cff",
-		// blue (default)
-		indigo: "#6c5cff",
-		teal: "#11a3a3",
-		graphite: "#8a8f98"
+		"": "#111827",
+		// dark slate (default)
+		blue: "#2563eb",
+		indigo: "#4f46e5",
+		emerald: "#059669",
+		violet: "#7c3aed",
+		teal: "#0d9488",
+		rose: "#e11d48",
+		graphite: "#4b5563"
 	};
 	var accentTextFor = /* @__PURE__ */ __name((_color) => "#ffffff", "accentTextFor");
 	var applyAppearance = /* @__PURE__ */ __name((a) => {
@@ -1749,9 +2117,16 @@
 		if (!a) {
 			return "?";
 		}
-		const s = (a.Name || a.User || "").trim();
-		const ch = s ? s[0] : "?";
-		return ch.toUpperCase();
+		const name = (a.Name || "").trim();
+		if (name) {
+			const parts = name.split(/\s+/).filter(Boolean);
+			if (parts.length >= 2 && parts[0] && parts[parts.length - 1]) {
+				return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+			}
+			return name[0] ? name[0].toUpperCase() : "?";
+		}
+		const user = (a.User || "").trim();
+		return user ? user[0].toUpperCase() : "?";
 	}, "avatarText");
 	var avatarColor = /* @__PURE__ */ __name((a) => {
 		const key = a ? a.User + "@" + (a.Domain ? a.Domain.ASCII : "") : "";
@@ -1759,20 +2134,21 @@
 		for (let i = 0; i < key.length; i++) {
 			h = h * 31 + key.charCodeAt(i) >>> 0;
 		}
-		return "hsl(" + h % 360 + ", 45%, 38%)";
+		const hue = h % 360;
+		return "hsl(" + hue + ", 55%, 36%)";
 	}, "avatarColor");
-	var mailboxIcon = /* @__PURE__ */ __name((mb) => mb.Sent ? "\u{1F4E4}" : (
-		// outbox tray
-		mb.Draft ? "\u{1F4DD}" : (
-			// memo
-			mb.Archive ? "\u{1F5C4}" : (
-				// file cabinet
+	var mailboxIcon = /* @__PURE__ */ __name((mb) => mb.Sent ? "\u2197" : (
+		// Sent
+		mb.Draft ? "\u270E" : (
+			// Draft
+			mb.Archive ? "\u{1F4E5}" : (
+				// Archive
 				mb.Trash ? "\u{1F5D1}" : (
-					// wastebasket
-					mb.Junk ? "\u26A0\uFE0F" : (
-						// warning (with emoji variation selector)
-						mb.Name === "Inbox" ? "\u{1F4E5}" : (
-							// inbox tray
+					// Trash
+					mb.Junk ? "\u26A0" : (
+						// Junk
+						mb.Name === "Inbox" ? "\u2709" : (
+							// Inbox
 							"\u{1F4C1}"
 						)
 					)
@@ -2581,7 +2957,7 @@
 			accountSettings = accSet;
 			applyTheme(accountSettings);
 			remove();
-		}, "submit"), fieldset = dom.fieldset(dom.label(style({ margin: "1ex 0", display: "block" }), dom.div("Signature"), signature = dom.textarea(new String(accountSettings.Signature), style({ width: "100%" }), attr.rows("" + Math.max(3, 1 + accountSettings.Signature.split("\n").length)))), dom.label(style({ margin: "1ex 0", display: "block" }), dom.div("Reply above/below original"), attr.title("Auto: If text is selected, only the replied text is quoted and editing starts below. Otherwise, the full message is quoted and editing starts at the top."), quoting = dom.select(dom.option(attr.value(""), "Auto"), dom.option(attr.value("bottom"), "Bottom", accountSettings.Quoting === Quoting.Bottom ? attr.selected("") : []), dom.option(attr.value("top"), "Top", accountSettings.Quoting === Quoting.Top ? attr.selected("") : []))), dom.label(style({ margin: "1ex 0", display: "block" }), showAddressSecurity = dom.input(attr.type("checkbox"), accountSettings.ShowAddressSecurity ? attr.checked("") : []), " Show address security indications", attr.title("Show bars underneath address input fields, indicating support for STARTTLS/DNSSEC/DANE/MTA-STS/RequireTLS.")), dom.label(style({ margin: "1ex 0", display: "block" }), showHTML = dom.input(attr.type("checkbox"), accountSettings.ShowHTML ? attr.checked("") : []), " Show email as HTML instead of text by default for first-time senders", attr.title("Whether to show HTML or text is remembered per sender. This sets the default for unknown correspondents.")), dom.label(style({ margin: "1ex 0", display: "block" }), composeHTML = dom.input(attr.type("checkbox"), accountSettings.ComposeHTML ? attr.checked("") : []), " Compose new messages in HTML by default"), dom.label(style({ margin: "1ex 0", display: "block" }), showShortcuts = dom.input(attr.type("checkbox"), accountSettings.NoShowShortcuts ? [] : attr.checked("")), " Show shortcut keys in bottom left after interaction with mouse"), dom.label(style({ margin: "1ex 0", display: "block" }), dom.div("Show additional headers"), showHeaders = dom.textarea(new String((accountSettings.ShowHeaders || []).join("\n")), style({ width: "100%" }), attr.rows("" + Math.max(3, 1 + (accountSettings.ShowHeaders || []).length))), dom.div(style({ fontStyle: "italic" }), "One header name per line, for example Delivered-To, X-Mox-Reason, User-Agent, ...; Refresh mailbox view for changes to take effect.")), dom.label(style({ margin: "1ex 0", display: "block" }), dom.div("Appearance theme"), webmailTheme = dom.select(dom.option("Classic", attr.value(""), accountSettings.WebmailTheme === "" ? attr.selected("") : []), dom.option("Modern", attr.value("modern"), accountSettings.WebmailTheme === "modern" ? attr.selected("") : [])), attr.title("Modern is an alternative, more compact visual theme. Classic is the default look.")), dom.label(style({ margin: "1ex 0", display: "block" }), dom.div("Colour scheme"), webmailScheme = dom.select(dom.option("Auto (follow system)", attr.value(""), accountSettings.WebmailScheme === "" ? attr.selected("") : []), dom.option("Light", attr.value("light"), accountSettings.WebmailScheme === "light" ? attr.selected("") : []), dom.option("Dark", attr.value("dark"), accountSettings.WebmailScheme === "dark" ? attr.selected("") : []), dom.option("High contrast light", attr.value("hclight"), accountSettings.WebmailScheme === "hclight" ? attr.selected("") : []), dom.option("High contrast dark", attr.value("hcdark"), accountSettings.WebmailScheme === "hcdark" ? attr.selected("") : []))), dom.label(style({ margin: "1ex 0", display: "block" }), dom.div("Accent colour"), webmailAccent = dom.select(dom.option("Blue", attr.value(""), accountSettings.WebmailAccent === "" ? attr.selected("") : []), dom.option("Indigo", attr.value("indigo"), accountSettings.WebmailAccent === "indigo" ? attr.selected("") : []), dom.option("Teal", attr.value("teal"), accountSettings.WebmailAccent === "teal" ? attr.selected("") : []), dom.option("Graphite", attr.value("graphite"), accountSettings.WebmailAccent === "graphite" ? attr.selected("") : []))), dom.div(style({ margin: "1ex 0" }), dom.div(style({ fontStyle: "italic", color: styles.colorMild }), "Modern theme typography (no effect on the classic theme)"), dom.div(style({ display: "flex", flexWrap: "wrap", gap: "1ex 2ex", marginTop: ".5ex" }), dom.label(dom.div("Message list size"), webmailListScale = scaleSelect(accountSettings.WebmailListScale, false)), dom.label(dom.div("Reading subject size"), webmailSubjectScale = scaleSelect(accountSettings.WebmailSubjectScale, true)), dom.label(dom.div("List: sender"), webmailListFromStyle = styleSelect(accountSettings.WebmailListFromStyle)), dom.label(dom.div("List: subject"), webmailListSubjectStyle = styleSelect(accountSettings.WebmailListSubjectStyle)), dom.label(dom.div("List: preview"), webmailListPreviewStyle = styleSelect(accountSettings.WebmailListPreviewStyle)), dom.label(dom.div("List: date"), webmailListDateStyle = styleSelect(accountSettings.WebmailListDateStyle)), dom.label(dom.div("Reading: sender"), webmailViewSenderStyle = styleSelect(accountSettings.WebmailViewSenderStyle)), dom.label(dom.div("Unread emphasis"), webmailUnreadStyle = dom.select(dom.option("Accent bar (default)", attr.value(""), accountSettings.WebmailUnreadStyle === "" ? attr.selected("") : []), dom.option("Bold", attr.value("bold"), accountSettings.WebmailUnreadStyle === "bold" ? attr.selected("") : []), dom.option("Accent bar + bold", attr.value("barbold"), accountSettings.WebmailUnreadStyle === "barbold" ? attr.selected("") : []), dom.option("Background tint", attr.value("tint"), accountSettings.WebmailUnreadStyle === "tint" ? attr.selected("") : []), dom.option("Dot", attr.value("dot"), accountSettings.WebmailUnreadStyle === "dot" ? attr.selected("") : []))))), dom.div(style({ marginTop: "2ex" }), 'Register "mailto:" links with the browser/operating system to compose a message in webmail.', dom.br(), dom.clickbutton("Register", attr.title("In most browsers, registering is only allowed on HTTPS URLs. Your browser may ask for confirmation. If nothing appears to happen, the registration may already have been present."), /* @__PURE__ */ __name(function click() {
+		}, "submit"), fieldset = dom.fieldset(dom.label(style({ margin: "1ex 0", display: "block" }), dom.div("Signature"), signature = dom.textarea(new String(accountSettings.Signature), style({ width: "100%" }), attr.rows("" + Math.max(3, 1 + accountSettings.Signature.split("\n").length)))), dom.label(style({ margin: "1ex 0", display: "block" }), dom.div("Reply above/below original"), attr.title("Auto: If text is selected, only the replied text is quoted and editing starts below. Otherwise, the full message is quoted and editing starts at the top."), quoting = dom.select(dom.option(attr.value(""), "Auto"), dom.option(attr.value("bottom"), "Bottom", accountSettings.Quoting === Quoting.Bottom ? attr.selected("") : []), dom.option(attr.value("top"), "Top", accountSettings.Quoting === Quoting.Top ? attr.selected("") : []))), dom.label(style({ margin: "1ex 0", display: "block" }), showAddressSecurity = dom.input(attr.type("checkbox"), accountSettings.ShowAddressSecurity ? attr.checked("") : []), " Show address security indications", attr.title("Show bars underneath address input fields, indicating support for STARTTLS/DNSSEC/DANE/MTA-STS/RequireTLS.")), dom.label(style({ margin: "1ex 0", display: "block" }), showHTML = dom.input(attr.type("checkbox"), accountSettings.ShowHTML ? attr.checked("") : []), " Show email as HTML instead of text by default for first-time senders", attr.title("Whether to show HTML or text is remembered per sender. This sets the default for unknown correspondents.")), dom.label(style({ margin: "1ex 0", display: "block" }), composeHTML = dom.input(attr.type("checkbox"), accountSettings.ComposeHTML ? attr.checked("") : []), " Compose new messages in HTML by default"), dom.label(style({ margin: "1ex 0", display: "block" }), showShortcuts = dom.input(attr.type("checkbox"), accountSettings.NoShowShortcuts ? [] : attr.checked("")), " Show shortcut keys in bottom left after interaction with mouse"), dom.label(style({ margin: "1ex 0", display: "block" }), dom.div("Show additional headers"), showHeaders = dom.textarea(new String((accountSettings.ShowHeaders || []).join("\n")), style({ width: "100%" }), attr.rows("" + Math.max(3, 1 + (accountSettings.ShowHeaders || []).length))), dom.div(style({ fontStyle: "italic" }), "One header name per line, for example Delivered-To, X-Mox-Reason, User-Agent, ...; Refresh mailbox view for changes to take effect.")), dom.label(style({ margin: "1ex 0", display: "block" }), dom.div("Appearance theme"), webmailTheme = dom.select(dom.option("Classic", attr.value(""), accountSettings.WebmailTheme === "" ? attr.selected("") : []), dom.option("Modern", attr.value("modern"), accountSettings.WebmailTheme === "modern" ? attr.selected("") : [])), attr.title("Modern is an alternative, more compact visual theme. Classic is the default look.")), dom.label(style({ margin: "1ex 0", display: "block" }), dom.div("Colour scheme"), webmailScheme = dom.select(dom.option("Auto (follow system)", attr.value(""), accountSettings.WebmailScheme === "" ? attr.selected("") : []), dom.option("Light", attr.value("light"), accountSettings.WebmailScheme === "light" ? attr.selected("") : []), dom.option("Dark", attr.value("dark"), accountSettings.WebmailScheme === "dark" ? attr.selected("") : []), dom.option("High contrast light", attr.value("hclight"), accountSettings.WebmailScheme === "hclight" ? attr.selected("") : []), dom.option("High contrast dark", attr.value("hcdark"), accountSettings.WebmailScheme === "hcdark" ? attr.selected("") : []))), dom.label(style({ margin: "1ex 0", display: "block" }), dom.div("Accent colour"), webmailAccent = dom.select(dom.option("Slate (default)", attr.value(""), accountSettings.WebmailAccent === "" ? attr.selected("") : []), dom.option("Blue", attr.value("blue"), accountSettings.WebmailAccent === "blue" ? attr.selected("") : []), dom.option("Indigo", attr.value("indigo"), accountSettings.WebmailAccent === "indigo" ? attr.selected("") : []), dom.option("Emerald", attr.value("emerald"), accountSettings.WebmailAccent === "emerald" ? attr.selected("") : []), dom.option("Violet", attr.value("violet"), accountSettings.WebmailAccent === "violet" ? attr.selected("") : []), dom.option("Teal", attr.value("teal"), accountSettings.WebmailAccent === "teal" ? attr.selected("") : []), dom.option("Rose", attr.value("rose"), accountSettings.WebmailAccent === "rose" ? attr.selected("") : []), dom.option("Graphite", attr.value("graphite"), accountSettings.WebmailAccent === "graphite" ? attr.selected("") : []))), dom.div(style({ margin: "1ex 0" }), dom.div(style({ fontStyle: "italic", color: styles.colorMild }), "Modern theme typography (no effect on the classic theme)"), dom.div(style({ display: "flex", flexWrap: "wrap", gap: "1ex 2ex", marginTop: ".5ex" }), dom.label(dom.div("Message list size"), webmailListScale = scaleSelect(accountSettings.WebmailListScale, false)), dom.label(dom.div("Reading subject size"), webmailSubjectScale = scaleSelect(accountSettings.WebmailSubjectScale, true)), dom.label(dom.div("List: sender"), webmailListFromStyle = styleSelect(accountSettings.WebmailListFromStyle)), dom.label(dom.div("List: subject"), webmailListSubjectStyle = styleSelect(accountSettings.WebmailListSubjectStyle)), dom.label(dom.div("List: preview"), webmailListPreviewStyle = styleSelect(accountSettings.WebmailListPreviewStyle)), dom.label(dom.div("List: date"), webmailListDateStyle = styleSelect(accountSettings.WebmailListDateStyle)), dom.label(dom.div("Reading: sender"), webmailViewSenderStyle = styleSelect(accountSettings.WebmailViewSenderStyle)), dom.label(dom.div("Unread emphasis"), webmailUnreadStyle = dom.select(dom.option("Accent bar (default)", attr.value(""), accountSettings.WebmailUnreadStyle === "" ? attr.selected("") : []), dom.option("Bold", attr.value("bold"), accountSettings.WebmailUnreadStyle === "bold" ? attr.selected("") : []), dom.option("Accent bar + bold", attr.value("barbold"), accountSettings.WebmailUnreadStyle === "barbold" ? attr.selected("") : []), dom.option("Background tint", attr.value("tint"), accountSettings.WebmailUnreadStyle === "tint" ? attr.selected("") : []), dom.option("Dot", attr.value("dot"), accountSettings.WebmailUnreadStyle === "dot" ? attr.selected("") : []))))), dom.div(style({ marginTop: "2ex" }), 'Register "mailto:" links with the browser/operating system to compose a message in webmail.', dom.br(), dom.clickbutton("Register", attr.title("In most browsers, registering is only allowed on HTTPS URLs. Your browser may ask for confirmation. If nothing appears to happen, the registration may already have been present."), /* @__PURE__ */ __name(function click() {
 			if (!window.navigator.registerProtocolHandler) {
 				window.alert('Registering a protocol handler ("mailto:") is not supported by your browser.');
 				return;

@@ -82,53 +82,60 @@ export const css = (className: string, styles: { [prop: string]: string | number
 // light/dark behaviour (:root + prefers-color-scheme) AND the forced-scheme
 // rules (html.scheme-light / html.scheme-dark) added below.
 const baseTokens: { [v: string]: string[] } = {
-	'--color': ['black', '#ddd'],
-	'--colorMild': ['#555', '#bbb'],
-	'--colorMilder': ['#666', '#aaa'],
-	'--backgroundColor': ['white', '#222'],
-	'--backgroundColorMild': ['#f8f8f8', '#080808'],
-	'--backgroundColorMilder': ['#999', '#777'],
-	'--borderColor': ['#ccc', '#333'],
-	'--mailboxesTopBackgroundColor': ['#fdfdf1', '#1a1200'],
-	'--msglistBackgroundColor': ['#f5ffff', '#04130d'],
-	'--boxShadow': ['0 0 20px rgba(0, 0, 0, 0.1)', '0px 0px 20px #000'],
-	'--buttonBackground': ['#eee', '#222'],
-	'--buttonBorderColor': ['#888', '#666'],
-	'--buttonHoverBackground': ['#ddd', '#333'],
-	'--overlayOpaqueBackgroundColor': ['#eee', '#011'],
-	'--overlayBackgroundColor': ['rgba(0, 0, 0, 0.2)', 'rgba(0, 0, 0, 0.5)'],
-	'--popupColor': ['black', 'white'],
-	'--popupBackgroundColor': ['white', '#313233'],
-	'--popupBorderColor': ['#ccc', '#555'],
-	'--highlightBackground': ['gold', '#a70167'],
-	'--highlightBorderColor': ['#8c7600', '#fd1fa7'],
-	'--highlightBackgroundHover': ['#ffbd21', '#710447'],
-	'--mailboxActiveBackground': ['linear-gradient(135deg, #ffc7ab 0%, #ffdeab 100%)', 'linear-gradient(135deg, #b63d00 0%, #8c5a0d 100%)'],
-	'--mailboxHoverBackgroundColor': ['#eee', '#421f15'],
-	'--msgItemActiveBackground': ['linear-gradient(135deg, #8bc8ff 0%, #8ee5ff 100%)', 'linear-gradient(135deg, #045cac 0%, #027ba0 100%)'],
-	'--msgItemHoverBackgroundColor': ['#eee', '#073348'],
-	'--msgItemFocusBorderColor': ['#2685ff', '#2685ff'],
-	'--buttonTristateOnBackground': ['#c4ffa9', '#277e00'],
-	'--buttonTristateOffBackground': ['#ffb192', '#bf410f'],
-	'--warningBackgroundColor': ['#ffca91', '#a85700'],
-	'--successBackground': ['#d2f791', '#1fa204'],
-	'--emphasisBackground': ['#666', '#aaa'],
-	'--underlineGreen': ['#50c40f', '#50c40f'],
-	'--underlineRed': ['#e15d1c', '#e15d1c'],
-	'--underlineBlue': ['#09f', '#09f'],
-	'--underlineGrey': ['#888', '#888'],
-	'--quoted1Color': ['#03828f', '#71f2ff'],
-	'--quoted2Color': ['#c7445c', '#ec4c4c'],
-	'--quoted3Color': ['#417c10', '#73e614'],
-	'--scriptSwitchUnderlineColor': ['#dca053', '#e88f1e'],
-	'--linkColor': ['#096bc2', '#63b6ff'],
-	'--linkVisitedColor': ['#0704c1', '#c763ff'],
+	'--color': ['#111827', '#f9fafb'],
+	'--colorMild': ['#6b7280', '#9ca3af'],
+	'--colorMilder': ['#9ca3af', '#6b7280'],
+	'--backgroundColor': ['#ffffff', '#09090b'],
+	'--backgroundColorMild': ['#f9fafb', '#121215'],
+	'--backgroundColorMilder': ['#f3f4f6', '#1c1c21'],
+	'--borderColor': ['rgba(0, 0, 0, 0.08)', 'rgba(255, 255, 255, 0.1)'],
+	'--mailboxesTopBackgroundColor': ['rgba(255, 255, 255, 0.82)', 'rgba(9, 9, 11, 0.82)'],
+	'--msglistBackgroundColor': ['#ffffff', '#09090b'],
+	'--boxShadow': ['0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05)', '0 1px 3px 0 rgba(0, 0, 0, 0.4)'],
+	'--shadowSm': ['0 1px 2px 0 rgba(0, 0, 0, 0.05)', '0 1px 2px 0 rgba(0, 0, 0, 0.3)'],
+	'--shadowMd': ['0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05)', '0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3)'],
+	'--shadowLg': ['0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04)', '0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.4)'],
+	'--shadowXl': ['0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.04)', '0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 8px 10px -6px rgba(0, 0, 0, 0.5)'],
+	'--buttonBackground': ['#f3f4f6', '#1c1c21'],
+	'--buttonBorderColor': ['rgba(0, 0, 0, 0.08)', 'rgba(255, 255, 255, 0.1)'],
+	'--buttonHoverBackground': ['#e5e7eb', '#27272f'],
+	'--overlayOpaqueBackgroundColor': ['#ffffff', '#09090b'],
+	'--overlayBackgroundColor': ['rgba(0, 0, 0, 0.35)', 'rgba(0, 0, 0, 0.65)'],
+	'--popupColor': ['#111827', '#f9fafb'],
+	'--popupBackgroundColor': ['rgba(255, 255, 255, 0.95)', 'rgba(18, 18, 22, 0.95)'],
+	'--popupBorderColor': ['rgba(0, 0, 0, 0.1)', 'rgba(255, 255, 255, 0.12)'],
+	'--highlightBackground': ['#2563eb', '#3b82f6'],
+	'--highlightBorderColor': ['#1d4ed8', '#60a5fa'],
+	'--highlightBackgroundHover': ['#1d4ed8', '#2563eb'],
+	'--mailboxActiveBackground': ['rgba(37, 99, 235, 0.08)', 'rgba(59, 130, 246, 0.14)'],
+	'--mailboxHoverBackgroundColor': ['rgba(0, 0, 0, 0.04)', 'rgba(255, 255, 255, 0.05)'],
+	'--msgItemActiveBackground': ['rgba(37, 99, 235, 0.09)', 'rgba(59, 130, 246, 0.15)'],
+	'--msgItemHoverBackgroundColor': ['rgba(0, 0, 0, 0.03)', 'rgba(255, 255, 255, 0.04)'],
+	'--msgItemFocusBorderColor': ['#2563eb', '#3b82f6'],
+	'--buttonTristateOnBackground': ['#16a34a', '#22c55e'],
+	'--buttonTristateOffBackground': ['#dc2626', '#ef4444'],
+	'--warningBackgroundColor': ['#fef3c7', '#78350f'],
+	'--successBackground': ['#dcfce7', '#14532d'],
+	'--emphasisBackground': ['#374151', '#9ca3af'],
+	'--underlineGreen': ['#16a34a', '#22c55e'],
+	'--underlineRed': ['#dc2626', '#ef4444'],
+	'--underlineBlue': ['#2563eb', '#3b82f6'],
+	'--underlineGrey': ['#6b7280', '#9ca3af'],
+	'--quoted1Color': ['#0284c7', '#38bdf8'],
+	'--quoted2Color': ['#7c3aed', '#a78bfa'],
+	'--quoted3Color': ['#059669', '#34d399'],
+	'--scriptSwitchUnderlineColor': ['#d97706', '#f59e0b'],
+	'--linkColor': ['#2563eb', '#60a5fa'],
+	'--linkVisitedColor': ['#7c3aed', '#c084fc'],
 
-	// New in phase 2. Accent is unused by the classic look (so adds no visual
-	// change); the modern theme (stage 2) routes accented elements through it.
-	'--accent': ['#2b6cff', '#2b6cff'],
-	'--accentText': ['#ffffff', '#ffffff'],
-	'--radius': ['.4em', '.4em'],
+	'--accent': ['#111827', '#f9fafb'],
+	'--accentText': ['#ffffff', '#111827'],
+	'--radius': ['8px', '8px'],
+	'--radiusSm': ['6px', '6px'],
+	'--radiusMd': ['10px', '10px'],
+	'--radiusLg': ['12px', '12px'],
+	'--radiusFull': ['9999px', '9999px'],
+	'--easeOut': ['cubic-bezier(0.32, 0.72, 0, 1)', 'cubic-bezier(0.32, 0.72, 0, 1)'],
 }
 
 ensureCSS(':root', baseTokens)
@@ -148,7 +155,7 @@ const hcLightTokens: { [v: string]: string } = {
 	'--color': '#000000', '--colorMild': '#000000', '--colorMilder': '#1a1a1a',
 	'--backgroundColor': '#ffffff', '--backgroundColorMild': '#ffffff', '--backgroundColorMilder': '#000000',
 	'--borderColor': '#000000', '--mailboxesTopBackgroundColor': '#ffffff', '--msglistBackgroundColor': '#ffffff',
-	'--boxShadow': '0 0 0 1px #000',
+	'--boxShadow': '0 0 0 1px #000', '--shadowSm': '0 0 0 1px #000', '--shadowMd': '0 0 0 1px #000', '--shadowLg': '0 0 0 2px #000', '--shadowXl': '0 0 0 2px #000',
 	'--buttonBackground': '#ffffff', '--buttonBorderColor': '#000000', '--buttonHoverBackground': '#e6e6e6',
 	'--overlayOpaqueBackgroundColor': '#ffffff', '--overlayBackgroundColor': 'rgba(0,0,0,0.5)',
 	'--popupColor': '#000000', '--popupBackgroundColor': '#ffffff', '--popupBorderColor': '#000000',
@@ -161,13 +168,15 @@ const hcLightTokens: { [v: string]: string } = {
 	'--quoted1Color': '#000000', '--quoted2Color': '#000000', '--quoted3Color': '#000000',
 	'--scriptSwitchUnderlineColor': '#990000',
 	'--linkColor': '#0000ee', '--linkVisitedColor': '#551a8b',
-	'--accent': '#0044cc', '--accentText': '#ffffff', '--radius': '.4em',
+	'--accent': '#0044cc', '--accentText': '#ffffff', '--radius': '6px',
+	'--radiusSm': '4px', '--radiusMd': '8px', '--radiusLg': '10px', '--radiusFull': '9999px',
+	'--easeOut': 'cubic-bezier(0.32, 0.72, 0, 1)',
 }
 const hcDarkTokens: { [v: string]: string } = {
 	'--color': '#ffffff', '--colorMild': '#ffffff', '--colorMilder': '#e6e6e6',
 	'--backgroundColor': '#000000', '--backgroundColorMild': '#000000', '--backgroundColorMilder': '#ffffff',
 	'--borderColor': '#ffffff', '--mailboxesTopBackgroundColor': '#000000', '--msglistBackgroundColor': '#000000',
-	'--boxShadow': '0 0 0 1px #fff',
+	'--boxShadow': '0 0 0 1px #fff', '--shadowSm': '0 0 0 1px #fff', '--shadowMd': '0 0 0 1px #fff', '--shadowLg': '0 0 0 2px #fff', '--shadowXl': '0 0 0 2px #fff',
 	'--buttonBackground': '#000000', '--buttonBorderColor': '#ffffff', '--buttonHoverBackground': '#1a1a1a',
 	'--overlayOpaqueBackgroundColor': '#000000', '--overlayBackgroundColor': 'rgba(0,0,0,0.7)',
 	'--popupColor': '#ffffff', '--popupBackgroundColor': '#000000', '--popupBorderColor': '#ffffff',
@@ -180,7 +189,9 @@ const hcDarkTokens: { [v: string]: string } = {
 	'--quoted1Color': '#ffffff', '--quoted2Color': '#ffffff', '--quoted3Color': '#ffffff',
 	'--scriptSwitchUnderlineColor': '#ffaa00',
 	'--linkColor': '#66aaff', '--linkVisitedColor': '#cc99ff',
-	'--accent': '#66aaff', '--accentText': '#000000', '--radius': '.4em',
+	'--accent': '#66aaff', '--accentText': '#000000', '--radius': '6px',
+	'--radiusSm': '4px', '--radiusMd': '8px', '--radiusLg': '10px', '--radiusFull': '9999px',
+	'--easeOut': 'cubic-bezier(0.32, 0.72, 0, 1)',
 }
 
 // Forced schemes: a class on <html> overrides the auto (:root + media query)
@@ -190,145 +201,466 @@ ensureCSS('html.scheme-dark', pickScheme(1))
 ensureCSS('html.scheme-hclight', hcLightTokens)
 ensureCSS('html.scheme-hcdark', hcDarkTokens)
 
-// Modern message list: 2-line layout with avatar, subject line and preview line.
+// Global typography & antialiasing resets for .theme-modern
+ensureCSS('html.theme-modern, .theme-modern body', {
+	fontFamily: '-apple-system, BlinkMacSystemFont, "Geist", "Inter", "Segoe UI", Roboto, "Helvetica Neue", sans-serif',
+	WebkitFontSmoothing: 'antialiased',
+	letterSpacing: '-0.01em',
+})
+ensureCSS('.theme-modern h1, .theme-modern h2, .theme-modern h3', {
+	letterSpacing: '-0.02em',
+	fontWeight: '600',
+})
+// Custom sleek scrollbars for modern theme
+ensureCSS('.theme-modern *::-webkit-scrollbar', {
+	width: '6px',
+	height: '6px',
+})
+ensureCSS('.theme-modern *::-webkit-scrollbar-track', {
+	background: 'transparent',
+})
+ensureCSS('.theme-modern *::-webkit-scrollbar-thumb', {
+	background: 'color-mix(in srgb, var(--colorMild) 25%, transparent)',
+	borderRadius: '9999px',
+})
+ensureCSS('.theme-modern *::-webkit-scrollbar-thumb:hover', {
+	background: 'color-mix(in srgb, var(--colorMild) 45%, transparent)',
+})
+
+// Touch target minimums and tap highlighting
+ensureCSS('.theme-modern button, .theme-modern .button, .theme-modern select, .theme-modern input', {
+	WebkitTapHighlightColor: 'transparent',
+	touchAction: 'manipulation',
+})
+
+// Tactile button styling for .theme-modern
+ensureCSS('.theme-modern button, .theme-modern .button', {
+	borderRadius: 'var(--radiusSm)',
+	border: '1px solid var(--buttonBorderColor)',
+	backgroundColor: 'var(--buttonBackground)',
+	color: 'var(--color)',
+	padding: '.35em .85em',
+	fontSize: '.875rem',
+	fontWeight: '500',
+	lineHeight: '1.25',
+	cursor: 'pointer',
+	transition: 'transform 150ms cubic-bezier(0.32, 0.72, 0, 1), background-color 150ms cubic-bezier(0.32, 0.72, 0, 1), border-color 150ms cubic-bezier(0.32, 0.72, 0, 1), box-shadow 150ms cubic-bezier(0.32, 0.72, 0, 1)',
+	boxShadow: 'var(--shadowSm)',
+})
+ensureCSS('.theme-modern button:active:not(:disabled), .theme-modern .button:active:not(:disabled)', {
+	transform: 'scale(0.97)',
+}, true)
+ensureCSS('.theme-modern select', {
+	borderRadius: 'var(--radiusSm)',
+	border: '1px solid var(--buttonBorderColor)',
+	backgroundColor: 'var(--buttonBackground)',
+	color: 'var(--color)',
+	padding: '.35em .75em',
+	fontSize: '.875rem',
+	fontWeight: '500',
+	outline: 'none',
+	cursor: 'pointer',
+	transition: 'border-color 150ms cubic-bezier(0.32, 0.72, 0, 1), box-shadow 150ms cubic-bezier(0.32, 0.72, 0, 1)',
+})
+ensureCSS('.theme-modern input, .theme-modern textarea', {
+	borderRadius: 'var(--radiusSm)',
+	border: '1px solid var(--borderColor)',
+	backgroundColor: 'var(--backgroundColor)',
+	color: 'var(--color)',
+	padding: '.4em .75em',
+	fontSize: '.875rem',
+	outline: 'none',
+	transition: 'border-color 150ms cubic-bezier(0.32, 0.72, 0, 1), box-shadow 150ms cubic-bezier(0.32, 0.72, 0, 1)',
+})
+ensureCSS('.theme-modern input:focus, .theme-modern textarea:focus, .theme-modern select:focus', {
+	borderColor: 'var(--accent)',
+	boxShadow: '0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent)',
+}, true)
+
+// Modern top bar with glassmorphism
+ensureCSS('.theme-modern .webmailRoot > .topMailboxes', {
+	backdropFilter: 'blur(12px)',
+	WebkitBackdropFilter: 'blur(12px)',
+	backgroundColor: 'var(--mailboxesTopBackgroundColor)',
+	borderBottom: '1px solid var(--borderColor)',
+	padding: '.4em .6em',
+	alignItems: 'center',
+	zIndex: '3',
+})
+ensureCSS('.theme-modern .searchbarElem', {
+	borderRadius: 'var(--radiusSm)',
+	padding: '.45em .9em',
+	fontSize: '.875rem',
+	backgroundColor: 'var(--backgroundColorMild)',
+	border: '1px solid var(--borderColor)',
+	color: 'var(--color)',
+	minHeight: '34px',
+	transition: 'background-color 150ms cubic-bezier(0.32, 0.72, 0, 1), border-color 150ms cubic-bezier(0.32, 0.72, 0, 1), box-shadow 150ms cubic-bezier(0.32, 0.72, 0, 1)',
+})
+ensureCSS('.theme-modern .composeButton', {
+	background: 'var(--accent)',
+	color: 'var(--accentText)',
+	borderColor: 'transparent',
+	borderRadius: 'var(--radiusSm)',
+	padding: '.45em 1.25em',
+	fontSize: '.875rem',
+	fontWeight: '600',
+	letterSpacing: '-0.01em',
+	minHeight: '34px',
+	boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.2), var(--shadowSm)',
+	transition: 'transform 150ms cubic-bezier(0.32, 0.72, 0, 1), background-color 150ms cubic-bezier(0.32, 0.72, 0, 1), box-shadow 150ms cubic-bezier(0.32, 0.72, 0, 1)',
+}, true)
+
+// Modern folder sidebar
+ensureCSS('.theme-modern .mailboxesBox', {
+	backgroundColor: 'var(--backgroundColorMild)',
+	borderRight: '1px solid var(--borderColor)',
+})
+ensureCSS('.theme-modern .mailboxItem', {
+	borderRadius: 'var(--radiusSm)',
+	margin: '1px 4px',
+	padding: '.45em .75em',
+	fontSize: '.875rem',
+	fontWeight: '500',
+	display: 'flex',
+	alignItems: 'center',
+	border: '1px solid transparent',
+	transition: 'transform 150ms cubic-bezier(0.32, 0.72, 0, 1), background-color 150ms cubic-bezier(0.32, 0.72, 0, 1), color 150ms cubic-bezier(0.32, 0.72, 0, 1), border-color 150ms cubic-bezier(0.32, 0.72, 0, 1)',
+})
+ensureCSS('.theme-modern .mailboxItem:active', {
+	transform: 'scale(0.98)',
+})
+ensureCSS('.theme-modern .mailboxItem.active', {
+	background: 'var(--mailboxActiveBackground)',
+	color: 'var(--color)',
+	fontWeight: '600',
+	borderColor: 'color-mix(in srgb, var(--accent) 15%, transparent)',
+}, true)
+ensureCSS('.theme-modern .mailboxIcon', {
+	display: 'inline-flex',
+	alignItems: 'center',
+	justifyContent: 'center',
+	width: '1.4em',
+	marginRight: '.5em',
+	fontSize: '1rem',
+	flex: 'none',
+})
+ensureCSS('.theme-modern .mailboxUnread:not(:empty)', {
+	background: 'var(--accent)',
+	color: 'var(--accentText)',
+	borderRadius: 'var(--radiusFull)',
+	padding: '0.1em .55em',
+	fontSize: '.75rem',
+	fontWeight: '600',
+	letterSpacing: '0',
+	marginLeft: 'auto',
+	boxShadow: 'var(--shadowSm)',
+})
+
+// Modern message list: precision 2-line layout
 ensureCSS('.theme-modern .msgItem', {
 	display: 'grid',
-	// Far-left "flags" column holds the thread expand/collapse control (the flag
-	// letters themselves are hidden); it is ~0 wide when there is no control.
 	gridTemplateColumns: 'auto auto minmax(0, 1fr) auto',
 	gridTemplateAreas: '"flags avatar from age" "flags avatar subject subject"',
-	columnGap: '.5em',
+	columnGap: '.65em',
+	rowGap: '.15em',
 	alignItems: 'center',
-	padding: '.45em .6em',
+	padding: '.6em .85em',
+	margin: '2px 4px',
 	border: '1px solid transparent',
-	borderRadius: 'var(--radius)',
-	// Positioning context for the full-height thread connector bar.
+	borderRadius: 'var(--radiusMd)',
 	position: 'relative',
-	// Configurable list text size (1 = 100%); set via --ml-scale by applyAppearance.
-	fontSize: 'calc(1em * var(--ml-scale, 1))',
+	fontSize: 'calc(.875rem * var(--ml-scale, 1))',
+	lineHeight: '1.35',
+	transition: 'transform 150ms cubic-bezier(0.32, 0.72, 0, 1), background-color 150ms cubic-bezier(0.32, 0.72, 0, 1), border-color 150ms cubic-bezier(0.32, 0.72, 0, 1), box-shadow 150ms cubic-bezier(0.32, 0.72, 0, 1)',
+})
+ensureCSS('.theme-modern .msgItem:active', {
+	transform: 'scale(0.985)',
 })
 ensureCSS('.theme-modern .msgItemCell', {padding: 0, width: 'auto'})
-// Override the runtime column widths set by updateMsglistWidths.
-// Keep the flags cell (it holds the thread expand/collapse control); hide only the
-// flag letters.
 ensureCSS('.theme-modern .msgItemFlags', {gridArea: 'flags', display: 'flex', alignItems: 'center', padding: 0, width: 'auto'})
 ensureCSS('.theme-modern .msgItemFlag', {display: 'none'})
-// Thread connector: a full-height vertical line on the left, anchored to the whole
-// item (not the from cell). The first/last/middle variant classes still set
-// top/bottom for the half-bars at thread ends.
 ensureCSS('.theme-modern .msgItemFrom', {gridArea: 'from', width: 'auto', position: 'static'})
-// Configurable per-element weight/style (defaults: sender bold, the rest normal).
-ensureCSS('.theme-modern .msgItemFromText', {fontWeight: 'var(--ml-from-weight, bold)', fontStyle: 'var(--ml-from-style, normal)'})
-ensureCSS('.theme-modern .msgItemThreadBar', {left: '.55em', right: 'auto', borderLeft: '2px solid var(--colorMild)', borderRight: 'none'})
-// The bar is anchored to the full item (which has .45em vertical padding), so the
-// default ±1px end offsets fall short of the row edges and leave seams between
-// rows. Overshoot by half an em so consecutive segments overlap into one solid
-// line, and shape the thread ends: the root gets a short tail reaching up toward
-// the collapse control, the last message a short stub marking the end.
-ensureCSS('.theme-modern .msgItemThreadBarMiddle', {top: '-.5em', bottom: '-.5em'})
-ensureCSS('.theme-modern .msgItemThreadBarFirst', {top: '40%', bottom: '-.5em'})
-ensureCSS('.theme-modern .msgItemThreadBarLast', {top: '-.5em', bottom: '50%'})
+ensureCSS('.theme-modern .msgItemFromText', {
+	fontWeight: 'var(--ml-from-weight, 600)',
+	fontStyle: 'var(--ml-from-style, normal)',
+	color: 'var(--color)',
+	letterSpacing: '-0.01em',
+})
+ensureCSS('.theme-modern .msgItemThreadBar', {
+	left: '.6em',
+	right: 'auto',
+	borderLeft: '1.5px solid var(--colorMilder)',
+	borderRight: 'none',
+})
+ensureCSS('.theme-modern .msgItemThreadBarMiddle', {top: '-.6em', bottom: '-.6em'})
+ensureCSS('.theme-modern .msgItemThreadBarFirst', {top: '40%', bottom: '-.6em'})
+ensureCSS('.theme-modern .msgItemThreadBarLast', {top: '-.6em', bottom: '50%'})
 ensureCSS('.theme-modern .msgItemSubject', {gridArea: 'subject', width: 'auto'})
-ensureCSS('.theme-modern .msgItemAge', {gridArea: 'age', width: 'auto', color: 'var(--colorMilder)', fontWeight: 'var(--ml-date-weight, normal)', fontStyle: 'var(--ml-date-style, normal)'})
+ensureCSS('.theme-modern .msgItemAge', {
+	gridArea: 'age',
+	width: 'auto',
+	color: 'var(--colorMild)',
+	fontSize: '.8rem',
+	fontWeight: 'var(--ml-date-weight, 500)',
+	fontStyle: 'var(--ml-date-style, normal)',
+	letterSpacing: '0',
+})
 ensureCSS('.theme-modern .msgItemAvatar', {
 	display: 'flex',
 	gridArea: 'avatar',
 	alignItems: 'center',
 	justifyContent: 'center',
-	width: '34px',
-	height: '34px',
-	borderRadius: '50%',
-	color: '#fff',
-	fontWeight: 'bold',
+	width: '36px',
+	height: '36px',
+	borderRadius: 'var(--radiusFull)',
+	color: '#ffffff',
+	fontSize: '.8rem',
+	fontWeight: '600',
 	alignSelf: 'center',
+	boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.2), var(--shadowSm)',
 })
-// Subject and preview flow inline within a 2-line clamped box: the subject takes
-// priority (a long subject wraps to the second line), and the muted preview fills
-// whatever room is left.
-ensureCSS('.theme-modern .msgItemSubjectText', {display: '-webkit-box', WebkitBoxOrient: 'vertical', WebkitLineClamp: '2', overflow: 'hidden', whiteSpace: 'normal'})
-ensureCSS('.theme-modern .msgItemSubjectTitle', {display: 'inline', fontWeight: 'var(--ml-subj-weight, normal)', fontStyle: 'var(--ml-subj-style, normal)'})
-ensureCSS('.theme-modern .msgItemSubjectSnippet', {display: 'inline', margin: 0, fontWeight: 'var(--ml-prev-weight, normal)', fontStyle: 'var(--ml-prev-style, normal)'})
-// Unread emphasis, selected in Settings and reflected as an html.unread-* class:
-// accent bar on the left (default and "barbold"), bold sender/subject ("bold" and
-// "barbold"), an accent-tinted row ("tint"), or a left dot ("dot"). All modern-only.
-ensureCSS('.theme-modern.unread-bar .msgItem.msgItemUnread, .theme-modern.unread-barbold .msgItem.msgItemUnread', {boxShadow: 'inset .2em 0 0 var(--accent)'})
-ensureCSS('.theme-modern.unread-bold .msgItem.msgItemUnread .msgItemFromText, .theme-modern.unread-bold .msgItem.msgItemUnread .msgItemSubjectTitle, .theme-modern.unread-barbold .msgItem.msgItemUnread .msgItemFromText, .theme-modern.unread-barbold .msgItem.msgItemUnread .msgItemSubjectTitle', {fontWeight: 'bold'})
-ensureCSS('.theme-modern.unread-tint .msgItem.msgItemUnread', {background: 'color-mix(in srgb, var(--accent) 10%, transparent)'})
-ensureCSS('.theme-modern.unread-dot .msgItem.msgItemUnread::after', {content: '""', position: 'absolute', left: '.2em', top: '50%', transform: 'translateY(-50%)', width: '.5em', height: '.5em', borderRadius: '50%', background: 'var(--accent)'})
-// Selection and hover use the accent tint and rounded corners (override classic).
-ensureCSS('.theme-modern .msgItem.active', {background: 'color-mix(in srgb, var(--accent) 18%, transparent)'}, true)
-ensureCSS('.theme-modern .msgItem:hover', {backgroundColor: 'color-mix(in srgb, var(--accent) 10%, transparent)'}, true)
+ensureCSS('.theme-modern .msgItemSubjectText', {
+	display: '-webkit-box',
+	WebkitBoxOrient: 'vertical',
+	WebkitLineClamp: '2',
+	overflow: 'hidden',
+	whiteSpace: 'normal',
+	color: 'var(--colorMild)',
+})
+ensureCSS('.theme-modern .msgItemSubjectTitle', {
+	display: 'inline',
+	color: 'var(--color)',
+	fontWeight: 'var(--ml-subj-weight, 500)',
+	fontStyle: 'var(--ml-subj-style, normal)',
+	letterSpacing: '-0.01em',
+})
+ensureCSS('.theme-modern .msgItemSubjectSnippet', {
+	display: 'inline',
+	margin: 0,
+	color: 'var(--colorMild)',
+	fontWeight: 'var(--ml-prev-weight, 400)',
+	fontStyle: 'var(--ml-prev-style, normal)',
+})
 
-// Modern top bar: pill search, accent Compose button.
-ensureCSS('.theme-modern .searchbarElem', {borderRadius: '1em', padding: '.2em .8em'})
-ensureCSS('.theme-modern .composeButton', {background: 'var(--accent)', color: 'var(--accentText)', borderColor: 'transparent'}, true)
-ensureCSS('.theme-modern .composeButton:hover:not(:disabled)', {background: 'color-mix(in srgb, var(--accent) 85%, var(--color))'}, true)
+// Unread emphasis states in modern list
+ensureCSS('.theme-modern.unread-bar .msgItem.msgItemUnread, .theme-modern.unread-barbold .msgItem.msgItemUnread', {
+	boxShadow: 'inset 3px 0 0 var(--accent)',
+})
+ensureCSS('.theme-modern.unread-bold .msgItem.msgItemUnread .msgItemFromText, .theme-modern.unread-bold .msgItem.msgItemUnread .msgItemSubjectTitle, .theme-modern.unread-barbold .msgItem.msgItemUnread .msgItemFromText, .theme-modern.unread-barbold .msgItem.msgItemUnread .msgItemSubjectTitle', {
+	fontWeight: '700',
+	color: 'var(--color)',
+})
+ensureCSS('.theme-modern.unread-tint .msgItem.msgItemUnread', {
+	background: 'color-mix(in srgb, var(--accent) 8%, transparent)',
+})
+ensureCSS('.theme-modern.unread-dot .msgItem.msgItemUnread::after', {
+	content: '""',
+	position: 'absolute',
+	left: '.3em',
+	top: '50%',
+	transform: 'translateY(-50%)',
+	width: '6px',
+	height: '6px',
+	borderRadius: '50%',
+	background: 'var(--accent)',
+	boxShadow: '0 0 6px var(--accent)',
+})
 
-// Modern folder list: icons, rounded accent-tinted active row, hover, count badge.
-ensureCSS('.theme-modern .mailboxItem', {borderRadius: 'var(--radius)'})
-ensureCSS('.theme-modern .mailboxItem.active', {background: 'color-mix(in srgb, var(--accent) 18%, transparent)'}, true)
-ensureCSS('.theme-modern .mailboxItem:hover', {backgroundColor: 'color-mix(in srgb, var(--accent) 10%, transparent)'}, true)
-ensureCSS('.theme-modern .mailboxIcon', {display: 'inline-block', width: '1.3em', marginRight: '.3em', textAlign: 'center', flex: 'none'})
-ensureCSS('.theme-modern .mailboxUnread:not(:empty)', {background: 'var(--accent)', color: 'var(--accentText)', borderRadius: '1em', padding: '0 .5em', fontSize: '.85em', fontWeight: 'normal'})
+// Selection and hover states
+ensureCSS('.theme-modern .msgItem.active', {
+	background: 'var(--msgItemActiveBackground)',
+	borderColor: 'color-mix(in srgb, var(--accent) 20%, transparent)',
+	boxShadow: 'var(--shadowSm)',
+}, true)
 
-// Modern reading pane: reorder the header into a flex column — large subject, then
-// avatar+sender (with a Details disclosure), then the action pills, then the detail
-// block (the classic header table is collapsed by default). Classic is untouched
-// because the modern elements are display:none there.
-ensureCSS('.theme-modern .msgmeta', {display: 'flex', flexDirection: 'column', padding: '.6em .8em', gap: '.15em'})
-ensureCSS('.theme-modern .msgModernSubject', {display: 'block', order: '1', margin: '.1em 0 .2em', fontSize: 'calc(1.5em * var(--mv-subj-scale, 1))', fontWeight: '600', lineHeight: '1.25'})
-ensureCSS('.theme-modern .msgModernSender', {display: 'flex', order: '2', alignItems: 'center', gap: '.6em', marginBottom: '.35em'})
+// Modern message list filter toolbar
+ensureCSS('.theme-modern .refineTitle', {display: 'none'})
+ensureCSS('.theme-modern .msgListFilterSorting', {
+	padding: '.4em .75em',
+	gap: '.5em',
+	alignItems: 'center',
+	borderBottom: '1px solid var(--borderColor)',
+	backgroundColor: 'var(--backgroundColorMild)',
+})
+ensureCSS('.theme-modern .msgListFilterSorting > div', {display: 'flex', alignItems: 'center', gap: '.4em', flexWrap: 'nowrap'})
+ensureCSS('.theme-modern .msgListFilterSorting .btngroup', {display: 'inline-flex', alignItems: 'center', gap: '.25em'})
+ensureCSS('.theme-modern .msgListFilterSorting button', {
+	borderRadius: 'var(--radiusSm)',
+	padding: '.3em .75em',
+	fontSize: '.8125rem',
+	fontWeight: '500',
+	lineHeight: '1.2',
+	border: '1px solid var(--buttonBorderColor)',
+	boxShadow: 'none',
+}, true)
+ensureCSS('.theme-modern .msgListFilterSorting select', {
+	borderRadius: 'var(--radiusSm)',
+	fontSize: '.8125rem',
+	padding: '.25em .6em',
+	border: '1px solid var(--buttonBorderColor)',
+})
+ensureCSS('.theme-modern .msgListFilterSorting button.active, .theme-modern .msgListFilterSorting button.invert', {
+	background: 'var(--accent)',
+	color: 'var(--accentText)',
+	borderColor: 'transparent',
+	boxShadow: 'var(--shadowSm)',
+}, true)
+ensureCSS('.theme-modern .msgListFilterSorting .refineIcon', {
+	fontSize: '0',
+	width: '28px',
+	height: '28px',
+	padding: '0',
+	borderRadius: 'var(--radiusSm)',
+	display: 'inline-flex',
+	alignItems: 'center',
+	justifyContent: 'center',
+	background: 'transparent',
+	border: '1px solid transparent',
+	boxShadow: 'none',
+	transition: 'transform 150ms cubic-bezier(0.32, 0.72, 0, 1), background-color 150ms cubic-bezier(0.32, 0.72, 0, 1)',
+}, true)
+ensureCSS('.theme-modern .refineUnread::before', {content: '"\u{1F4E9}"', fontSize: '.9rem', lineHeight: '1'})
+ensureCSS('.theme-modern .refineRead::before', {content: '"\u{1F4D6}"', fontSize: '.9rem', lineHeight: '1'})
+ensureCSS('.theme-modern .refineAttachments::before', {content: '"\u{1F4CE}"', fontSize: '.9rem', lineHeight: '1'})
+ensureCSS('.theme-modern .refineClear::before', {content: '"✕"', fontSize: '.85rem', lineHeight: '1', fontWeight: 'bold'})
+ensureCSS('.theme-modern .refineLabel::before', {content: '"\u{1F3F7}"', fontSize: '.9rem', lineHeight: '1'})
+
+// Keywords / labels chips
+ensureCSS('.theme-modern .keyword', {
+	padding: '.15em .6em',
+	borderRadius: 'var(--radiusFull)',
+	fontSize: '.75rem',
+	fontWeight: '500',
+	margin: '0 .2em',
+	background: 'color-mix(in srgb, var(--accent) 12%, transparent)',
+	color: 'var(--color)',
+	border: '1px solid color-mix(in srgb, var(--accent) 25%, transparent)',
+	letterSpacing: '0',
+})
+
+// Modern reading pane: reordered flex column
+ensureCSS('.theme-modern .msgmeta', {
+	display: 'flex',
+	flexDirection: 'column',
+	padding: '1em 1.25em',
+	gap: '.35em',
+	backgroundColor: 'var(--backgroundColorMild)',
+	borderBottom: '1px solid var(--borderColor)',
+})
+ensureCSS('.theme-modern .msgModernSubject', {
+	display: 'block',
+	order: '1',
+	margin: '.1em 0 .3em',
+	fontSize: 'calc(1.35rem * var(--mv-subj-scale, 1))',
+	fontWeight: '600',
+	letterSpacing: '-0.02em',
+	lineHeight: '1.3',
+	color: 'var(--color)',
+})
+ensureCSS('.theme-modern .msgModernSender', {
+	display: 'flex',
+	order: '2',
+	alignItems: 'center',
+	gap: '.75em',
+	marginBottom: '.4em',
+})
 ensureCSS('.theme-modern .msgButtons', {order: '3'})
 ensureCSS('.theme-modern .msgDetails', {order: '4'})
-ensureCSS('.theme-modern .headerBodySeparator', {order: '5'})
+ensureCSS('.theme-modern .headerBodySeparator', {order: '5', height: '1px', backgroundColor: 'var(--borderColor)'})
 
-// Avatar + sender identity line.
-ensureCSS('.theme-modern .msgModernAvatar', {display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 'none', width: '40px', height: '40px', borderRadius: '50%', color: '#fff', fontWeight: 'bold'})
-ensureCSS('.theme-modern .msgModernSenderText', {display: 'flex', flexDirection: 'column', minWidth: '0'})
-ensureCSS('.theme-modern .msgModernSenderName', {fontWeight: 'var(--mv-sender-weight, 600)', fontStyle: 'var(--mv-sender-style, normal)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'})
-ensureCSS('.theme-modern .msgModernSenderTime', {color: 'var(--colorMild)', fontSize: '.9em'})
-// Header actions live at the right end of the sender line: the mode dropdown
-// (Text/HTML) and the Details disclosure, both small rounded pills like the other
-// modern buttons. The classic inline Text/HTML row is hidden here.
-ensureCSS('.theme-modern .msgModernSenderActions', {marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '.4em', flex: 'none'})
-ensureCSS('.theme-modern .msgModernSenderActions button', {borderRadius: '1em', padding: '.15em .7em', fontSize: '.85em'}, true)
+// Reading pane avatar & sender identity
+ensureCSS('.theme-modern .msgModernAvatar', {
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'center',
+	flex: 'none',
+	width: '42px',
+	height: '42px',
+	borderRadius: 'var(--radiusFull)',
+	color: '#ffffff',
+	fontSize: '.95rem',
+	fontWeight: '600',
+	boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.2), var(--shadowSm)',
+})
+ensureCSS('.theme-modern .msgModernSenderText', {display: 'flex', flexDirection: 'column', minWidth: '0', gap: '2px'})
+ensureCSS('.theme-modern .msgModernSenderName', {
+	fontWeight: 'var(--mv-sender-weight, 600)',
+	fontStyle: 'var(--mv-sender-style, normal)',
+	fontSize: '.95rem',
+	color: 'var(--color)',
+	letterSpacing: '-0.01em',
+	overflow: 'hidden',
+	textOverflow: 'ellipsis',
+	whiteSpace: 'nowrap',
+})
+ensureCSS('.theme-modern .msgModernSenderTime', {color: 'var(--colorMild)', fontSize: '.8125rem', letterSpacing: '0'})
+ensureCSS('.theme-modern .msgModernSenderActions', {marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '.5em', flex: 'none'})
+ensureCSS('.theme-modern .msgModernSenderActions button', {
+	borderRadius: 'var(--radiusSm)',
+	padding: '.25em .75em',
+	fontSize: '.8125rem',
+}, true)
 ensureCSS('.theme-modern .msgMode', {display: 'none'})
-
-// Details (recipients + date) collapsed by default; the Details toggle reveals the
-// classic header table.
 ensureCSS('.theme-modern .msgmeta .msgHeaders', {display: 'none'})
-ensureCSS('.theme-modern .msgmeta.detailsExpanded .msgHeaders', {display: 'table'})
+ensureCSS('.theme-modern .msgmeta.detailsExpanded .msgHeaders', {
+	display: 'table',
+	marginTop: '.5em',
+	padding: '.5em',
+	backgroundColor: 'var(--backgroundColor)',
+	borderRadius: 'var(--radiusSm)',
+	border: '1px solid var(--borderColor)',
+})
 
-// Action buttons as pills, with an accent Reply. (important to beat the generic
-// button rules, which tie on specificity by source order.)
-ensureCSS('.theme-modern .msgmeta .msgButtons button', {borderRadius: '1em', padding: '.25em .9em'}, true)
-ensureCSS('.theme-modern .msgmeta .msgReplyButton', {background: 'var(--accent)', color: 'var(--accentText)', borderColor: 'transparent'}, true)
-ensureCSS('.theme-modern .msgmeta .msgReplyButton:hover:not(:disabled)', {background: 'color-mix(in srgb, var(--accent) 85%, var(--color))'}, true)
+// Reading pane action buttons
+ensureCSS('.theme-modern .msgmeta .msgButtons', {padding: '.2em 0'})
+ensureCSS('.theme-modern .msgmeta .msgButtons button', {
+	borderRadius: 'var(--radiusSm)',
+	padding: '.35em .9em',
+	fontSize: '.8125rem',
+	fontWeight: '500',
+	marginRight: '.35em',
+	marginBottom: '.35em',
+}, true)
+ensureCSS('.theme-modern .msgmeta .msgReplyButton', {
+	background: 'var(--accent)',
+	color: 'var(--accentText)',
+	borderColor: 'transparent',
+	fontWeight: '600',
+	boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.2), var(--shadowSm)',
+}, true)
 
-// Comfortable body padding.
-ensureCSS('.theme-modern .msgscroll', {padding: '1em 1.2em'})
+// Message body container
+ensureCSS('.theme-modern .msgscroll', {
+	padding: '1.25em 1.5em',
+	backgroundColor: 'var(--backgroundColor)',
+	lineHeight: '1.6',
+	fontSize: '.9375rem',
+})
 
-// Modern message-list filter/sort toolbar: drop the "Refine:" label, keep both
-// groups on a single nowrap row, render the quick filters as compact rounded
-// icon pills so it fits even at narrow widths.
-ensureCSS('.theme-modern .refineTitle', {display: 'none'})
-ensureCSS('.theme-modern .msgListFilterSorting', {padding: '.3em .5em', gap: '.5em', alignItems: 'center'})
-ensureCSS('.theme-modern .msgListFilterSorting > div', {display: 'flex', alignItems: 'center', gap: '.35em', flexWrap: 'nowrap'})
-ensureCSS('.theme-modern .msgListFilterSorting .btngroup', {display: 'inline-flex', alignItems: 'center', gap: '.3em'})
-// Textual toolbar controls (Label, ↑↓) are compact rounded pills.
-ensureCSS('.theme-modern .msgListFilterSorting button', {borderRadius: '1em', padding: '.2em .7em', fontSize: '.85em', lineHeight: '1.3', border: '1px solid transparent'}, true)
-ensureCSS('.theme-modern .msgListFilterSorting select', {borderRadius: '1em', fontSize: '.85em', padding: '.15em .5em'})
-// Active filter / inverted sort takes the accent.
-ensureCSS('.theme-modern .msgListFilterSorting button.active, .theme-modern .msgListFilterSorting button.invert', {background: 'var(--accent)', color: 'var(--accentText)', borderColor: 'transparent'}, true)
-// Quick filters render as equal, borderless circular icon buttons (text collapsed via
-// font-size:0; the glyph comes from a centred ::before), tinted on hover.
-ensureCSS('.theme-modern .msgListFilterSorting .refineIcon', {fontSize: '0', width: '1.9rem', height: '1.9rem', padding: '0', borderRadius: '50%', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', background: 'transparent', border: '1px solid transparent'}, true)
-ensureCSS('.theme-modern .msgListFilterSorting .refineIcon:hover', {background: 'color-mix(in srgb, var(--accent) 14%, transparent)'}, true)
-ensureCSS('.theme-modern .refineUnread::before', {content: '"\u{1F4E9}"', fontSize: '1rem', lineHeight: '1'})
-ensureCSS('.theme-modern .refineRead::before', {content: '"\u{1F4D6}"', fontSize: '1rem', lineHeight: '1'})
-ensureCSS('.theme-modern .refineAttachments::before', {content: '"\u{1F4CE}"', fontSize: '1rem', lineHeight: '1'})
-ensureCSS('.theme-modern .refineClear::before', {content: '"✕"', fontSize: '1rem', lineHeight: '1'})
-ensureCSS('.theme-modern .refineLabel::before', {content: '"\u{1F3F7}"', fontSize: '1rem', lineHeight: '1'})
+// Floating Compose Modal overhaul
+ensureCSS('.theme-modern .composePopup', {
+	borderRadius: 'var(--radiusLg)',
+	border: '1px solid var(--borderColor)',
+	backgroundColor: 'var(--popupBackgroundColor)',
+	backdropFilter: 'blur(16px)',
+	WebkitBackdropFilter: 'blur(16px)',
+	boxShadow: 'var(--shadowXl)',
+	padding: '1.2em',
+	transformOrigin: 'bottom right',
+})
+
+// Popups and dropdown modals origin-aware animation
+ensureCSS('.theme-modern .popup, .theme-modern .popover', {
+	borderRadius: 'var(--radiusMd)',
+	border: '1px solid var(--popupBorderColor)',
+	backgroundColor: 'var(--popupBackgroundColor)',
+	backdropFilter: 'blur(12px)',
+	WebkitBackdropFilter: 'blur(12px)',
+	boxShadow: 'var(--shadowLg)',
+	padding: '.75em',
+	transformOrigin: 'top center',
+})
 
 // Typed way to reference a css variables. Kept from before used variables.
 export const styles = {
