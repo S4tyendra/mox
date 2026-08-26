@@ -25,7 +25,6 @@ import (
 	"net/http"
 	"net/url"
 	"os"
-	"path/filepath"
 	"reflect"
 	"runtime"
 	"runtime/debug"
@@ -68,26 +67,13 @@ import (
 	"github.com/mjl-/mox/tlsrpt"
 	"github.com/mjl-/mox/tlsrptdb"
 	"github.com/mjl-/mox/webauth"
+	"github.com/mjl-/mox/webmail/ui"
 )
 
 var pkglog = mlog.New("webadmin", nil)
 
 //go:embed api.json
 var adminapiJSON []byte
-
-//go:embed admin.html
-var adminHTML []byte
-
-//go:embed admin.js
-var adminJS []byte
-
-var webadminFile = &mox.WebappFile{
-	HTML:       adminHTML,
-	JS:         adminJS,
-	HTMLPath:   filepath.FromSlash("webadmin/admin.html"),
-	JSPath:     filepath.FromSlash("webadmin/admin.js"),
-	CustomStem: "webadmin",
-}
 
 var adminDoc = mustParseAPI("admin", adminapiJSON)
 
@@ -158,16 +144,11 @@ func handle(apiHandler http.Handler, isForwarded bool, w http.ResponseWriter, r 
 	ctx := context.WithValue(r.Context(), mlog.CidKey, mox.Cid())
 	log := pkglog.WithContext(ctx).With(slog.String("adminauth", ""))
 
-	// HTML/JS can be retrieved without authentication.
-	if r.URL.Path == "/" {
-		switch r.Method {
-		case "GET", "HEAD":
-			webadminFile.Serve(ctx, log, w, r)
-		default:
-			http.Error(w, "405 - method not allowed - use get", http.StatusMethodNotAllowed)
-		}
+	if ui.Try(w, r) {
 		return
-	} else if r.URL.Path == "/licenses.txt" {
+	}
+
+	if r.URL.Path == "/licenses.txt" {
 		switch r.Method {
 		case "GET", "HEAD":
 			w.Header().Set("Content-Type", "text/plain; charset=utf-8")

@@ -1046,6 +1046,13 @@
 					"Typewords": [
 						"int64"
 					]
+				},
+				{
+					"Name": "Offset",
+					"Docs": "Optional offset. Number of matching messages to skip. Useful for jumping directly to a specific page number when AnchorMessageID is not known.",
+					"Typewords": [
+						"int32"
+					]
 				}
 			]
 		},

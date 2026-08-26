@@ -134,6 +134,10 @@ type Page struct {
 	// can be returned. For long-running searches, it may take a while before this
 	// message if found.
 	DestMessageID int64
+
+	// Optional offset. Number of matching messages to skip. Useful for jumping
+	// directly to a specific page number when AnchorMessageID is not known.
+	Offset int
 }
 
 // todo: MessageAddress and MessageEnvelope into message.Address and message.Envelope.
@@ -1563,6 +1567,7 @@ func queryMessages(ctx context.Context, log mlog.Log, acc *store.Account, tx *bs
 	found := page.DestMessageID <= 0
 	end := true
 	have := 0
+	skipped := 0
 	err := q.ForEach(func(m store.Message) error {
 		// Check for an error in one of the filters, propagate it.
 		if state.err != nil {
@@ -1607,6 +1612,9 @@ func queryMessages(ctx context.Context, log mlog.Log, acc *store.Account, tx *bs
 			return fmt.Errorf("making messageitem for message %d: %v", m.ID, err)
 		}
 		mil := []MessageItem{mi}
+		
+		delta := 0
+
 		if query.Threading != ThreadOff {
 			more, xpm, err := gatherThread(log, tx, acc, v, m, page.DestMessageID, page.AnchorMessageID == 0 && have == 0, moreHeaders, state.newPreviews)
 			if err != nil {
@@ -1648,12 +1656,20 @@ func queryMessages(ctx context.Context, log mlog.Log, acc *store.Account, tx *bs
 					}
 				}
 				if threadRoot || (query.Threading == ThreadOn && !collapsed[rootID] || query.Threading == ThreadUnread && unread[rootID]) {
-					have++
+					delta++
 				}
 			}
 		} else {
-			have++
+			delta++
 		}
+
+		if page.Offset > 0 && skipped < page.Offset {
+			skipped += delta
+			return nil
+		}
+		
+		have += delta
+
 		if pm != nil && len(pm.envelope.From) == 1 {
 			pm.ViewMode, err = fromAddrViewMode(tx, pm.envelope.From[0])
 			if err != nil {

@@ -42,6 +42,7 @@ import (
 	"github.com/mjl-/mox/moxio"
 	"github.com/mjl-/mox/store"
 	"github.com/mjl-/mox/webauth"
+	"github.com/mjl-/mox/webmail/ui"
 	"github.com/mjl-/mox/webops"
 )
 
@@ -62,12 +63,6 @@ type requestInfo struct {
 	Response     http.ResponseWriter
 	Request      *http.Request // For Proto and TLS connection state during message submit.
 }
-
-//go:embed webmail.html
-var webmailHTML []byte
-
-//go:embed webmail.js
-var webmailJS []byte
 
 //go:embed msg.html
 var webmailmsgHTML []byte
@@ -155,14 +150,6 @@ func xdbread(ctx context.Context, acc *store.Account, fn func(tx *bstore.Tx)) {
 	xcheckf(ctx, err, "transaction")
 }
 
-var webmailFile = &mox.WebappFile{
-	HTML:       webmailHTML,
-	JS:         webmailJS,
-	HTMLPath:   filepath.FromSlash("webmail/webmail.html"),
-	JSPath:     filepath.FromSlash("webmail/webmail.js"),
-	CustomStem: "webmail",
-}
-
 func customization() (css, js []byte, err error) {
 	if css, err = os.ReadFile(mox.ConfigDirPath("webmail.css")); err != nil && !errors.Is(err, fs.ErrNotExist) {
 		return nil, nil, err
@@ -248,6 +235,10 @@ func handle(apiHandler http.Handler, isForwarded bool, accountPath string, w htt
 		return
 	}
 
+	if ui.Try(w, r) {
+		return
+	}
+
 	defer func() {
 		x := recover()
 		if x == nil {
@@ -270,18 +261,6 @@ func handle(apiHandler http.Handler, isForwarded bool, accountPath string, w htt
 	}()
 
 	switch r.URL.Path {
-	case "/":
-		switch r.Method {
-		case "GET", "HEAD":
-			h := w.Header()
-			h.Set("X-Frame-Options", "deny")
-			h.Set("Referrer-Policy", "same-origin")
-			webmailFile.Serve(ctx, log, w, r)
-		default:
-			http.Error(w, "405 - method not allowed - use get", http.StatusMethodNotAllowed)
-		}
-		return
-
 	case "/licenses.txt":
 		switch r.Method {
 		case "GET", "HEAD":

@@ -1,6 +1,6 @@
 default: build
 
-build: build0 frontend build1
+build: spa build0 frontend build1
 
 build0:
 	# build early to catch syntax errors
@@ -16,10 +16,10 @@ build1:
 	# build again, api json files above are embedded and new frontend code generated
 	CGO_ENABLED=0 go build
 
-install: build0 frontend
+install: spa build0 frontend
 	CGO_ENABLED=0 go install
 
-race: build0
+race: spa build0
 	CGO_ENABLED=1 go build -race
 
 test:
@@ -140,22 +140,17 @@ install-js0:
 	-mkdir -p node_modules/.bin
 	bun install --ignore-scripts --save-dev --save-exact typescript@7.0.2 esbuild@v0.28.1
 
-webmail/webmail.js: webmail/webmail.ts webmail/api.ts webmail/lib.ts lib.ts
-	./tsc.sh $@ webmail/webmail.ts webmail/api.ts webmail/lib.ts lib.ts
-
 webmail/msg.js: webmail/msg.ts webmail/api.ts webmail/lib.ts lib.ts
 	./tsc.sh $@ webmail/msg.ts webmail/api.ts webmail/lib.ts lib.ts
 
 webmail/text.js: webmail/text.ts webmail/api.ts webmail/lib.ts lib.ts
 	./tsc.sh $@ webmail/text.ts webmail/api.ts webmail/lib.ts lib.ts
 
-webadmin/admin.js: webadmin/admin.ts webadmin/api.ts lib.ts
-	./tsc.sh $@ webadmin/admin.ts webadmin/api.ts lib.ts
+spa:
+	cd webmail/ui && bun install --frozen-lockfile
+	cd webmail/ui && bun run build
 
-webaccount/account.js: webaccount/account.ts webaccount/api.ts lib.ts
-	./tsc.sh $@ webaccount/account.ts webaccount/api.ts lib.ts
-
-frontend: node_modules/.bin/tsc webadmin/admin.js webaccount/account.js webmail/webmail.js webmail/msg.js webmail/text.js
+frontend: spa node_modules/.bin/tsc webmail/msg.js webmail/text.js
 
 install-apidiff:
 	CGO_ENABLED=0 go install golang.org/x/exp/cmd/apidiff@v0.0.0-20231206192017-f3f8817b8deb
@@ -166,7 +161,7 @@ genapidiff:
 fetch-publicsuffixlist:
 	curl https://publicsuffix.org/list/public_suffix_list.dat >publicsuffix/public_suffix_list.txt
 
-docker:
+docker: spa
 	docker build -t mox:dev .
 
 docker-release:

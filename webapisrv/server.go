@@ -45,6 +45,7 @@ import (
 	"github.com/mjl-/mox/store"
 	"github.com/mjl-/mox/webapi"
 	"github.com/mjl-/mox/webauth"
+	"github.com/mjl-/mox/webmail/ui"
 	"github.com/mjl-/mox/webops"
 )
 
@@ -276,13 +277,7 @@ var _ webapi.Methods = server{}
 func (s server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	log := pkglog.WithContext(r.Context()) // Take cid from webserver.
 
-	// Send requests to /webapi/ to /webapi/v0/.
-	if r.URL.Path == "/" {
-		if r.Method != "GET" {
-			http.Error(w, "405 - method not allow", http.StatusMethodNotAllowed)
-			return
-		}
-		http.Redirect(w, r, s.path+"v0/", http.StatusSeeOther)
+	if ui.Try(w, r) {
 		return
 	}
 	// Serve short introduction and list to methods at /webapi/v0/.
