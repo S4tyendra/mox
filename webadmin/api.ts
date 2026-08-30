@@ -1431,6 +1431,7 @@ export class Client {
 		const c = new Client()
 		c.authState.token = token
 		c.options = this.options
+		c.baseURL = c.options.baseURL || defaultBaseURL
 		return c
 	}
 
@@ -1438,6 +1439,7 @@ export class Client {
 		const c = new Client()
 		c.authState = this.authState
 		c.options = { ...this.options, ...options }
+		c.baseURL = c.options.baseURL || defaultBaseURL
 		return c
 	}
 
