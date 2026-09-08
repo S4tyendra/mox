@@ -15,6 +15,7 @@ import (
 	"github.com/mjl-/mox/queue"
 	"github.com/mjl-/mox/smtpserver"
 	"github.com/mjl-/mox/store"
+	"github.com/mjl-/mox/telegram"
 	"github.com/mjl-/mox/tlsrptdb"
 	"github.com/mjl-/mox/tlsrptsend"
 )
@@ -47,7 +48,9 @@ func shutdown(log mlog.Log) {
 			log.Print("shutting down with pending sockets")
 		}
 	}
-	err := os.Remove(mox.DataDirPath("ctl"))
+	err := telegram.Close()
+	log.Check(err, "closing telegram bot")
+	err = os.Remove(mox.DataDirPath("ctl"))
 	log.Check(err, "removing ctl unix domain socket during shutdown")
 }
 
@@ -108,5 +111,9 @@ func start(mtastsdbRefresher, sendDMARCReports, sendTLSReports, skipForkExec boo
 		store.Switchboard()
 		<-make(chan struct{})
 	}()
+
+	if err := telegram.Start(); err != nil {
+		return fmt.Errorf("telegram bot start: %s", err)
+	}
 	return nil
 }

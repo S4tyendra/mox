@@ -10,6 +10,8 @@ See Quickstart below to get started.
 - SMTP (with extensions) for receiving, submitting and delivering email.
 - IMAP4 (with extensions) for giving email clients access to email.
 - Webmail for reading/sending email from the browser.
+- Telegram bot for inbox notifications, replies, and mailbox actions (archive,
+  junk, trash, read), using the same new-mail feed as webmail.
 - SPF/DKIM/DMARC for authenticating messages/delivery, also DMARC aggregate
   reports.
 - Reputation tracking, learning (per user) host-, domain- and

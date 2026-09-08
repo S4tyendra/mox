@@ -245,6 +245,13 @@ export interface LoginAttempt {
 	Result: AuthResult
 }
 
+// ChatInfo is a linked Telegram chat, for the account web API.
+export interface ChatInfo {
+	ChatID: number
+	Username: string
+	Created: Date
+}
+
 export type CSRFToken = string
 
 // Localpart is a decoded local part of an email address, before the "@".
@@ -292,7 +299,7 @@ export enum AuthResult {
 	AuthAborted = "aborted",
 }
 
-export const structTypes: {[typename: string]: boolean} = {"Account":true,"Address":true,"AddressAlias":true,"Alias":true,"AliasAddress":true,"AutomaticJunkFlags":true,"Destination":true,"Domain":true,"ImportProgress":true,"Incoming":true,"IncomingMeta":true,"IncomingWebhook":true,"JunkFilter":true,"LoginAttempt":true,"NameAddress":true,"Outgoing":true,"OutgoingWebhook":true,"Route":true,"Ruleset":true,"Structure":true,"SubjectPass":true,"Suppression":true,"TLSPublicKey":true}
+export const structTypes: {[typename: string]: boolean} = {"Account":true,"Address":true,"AddressAlias":true,"Alias":true,"AliasAddress":true,"AutomaticJunkFlags":true,"ChatInfo":true,"Destination":true,"Domain":true,"ImportProgress":true,"Incoming":true,"IncomingMeta":true,"IncomingWebhook":true,"JunkFilter":true,"LoginAttempt":true,"NameAddress":true,"Outgoing":true,"OutgoingWebhook":true,"Route":true,"Ruleset":true,"Structure":true,"SubjectPass":true,"Suppression":true,"TLSPublicKey":true}
 export const stringsTypes: {[typename: string]: boolean} = {"AuthResult":true,"CSRFToken":true,"Localpart":true,"OutgoingEvent":true}
 export const intsTypes: {[typename: string]: boolean} = {}
 export const types: TypenameMap = {
@@ -319,6 +326,7 @@ export const types: TypenameMap = {
 	"IncomingMeta": {"Name":"IncomingMeta","Docs":"","Fields":[{"Name":"MsgID","Docs":"","Typewords":["int64"]},{"Name":"MailFrom","Docs":"","Typewords":["string"]},{"Name":"MailFromValidated","Docs":"","Typewords":["bool"]},{"Name":"MsgFromValidated","Docs":"","Typewords":["bool"]},{"Name":"RcptTo","Docs":"","Typewords":["string"]},{"Name":"DKIMVerifiedDomains","Docs":"","Typewords":["[]","string"]},{"Name":"RemoteIP","Docs":"","Typewords":["string"]},{"Name":"Received","Docs":"","Typewords":["timestamp"]},{"Name":"MailboxName","Docs":"","Typewords":["string"]},{"Name":"Automated","Docs":"","Typewords":["bool"]}]},
 	"TLSPublicKey": {"Name":"TLSPublicKey","Docs":"","Fields":[{"Name":"Fingerprint","Docs":"","Typewords":["string"]},{"Name":"Created","Docs":"","Typewords":["timestamp"]},{"Name":"Type","Docs":"","Typewords":["string"]},{"Name":"Name","Docs":"","Typewords":["string"]},{"Name":"NoIMAPPreauth","Docs":"","Typewords":["bool"]},{"Name":"CertDER","Docs":"","Typewords":["nullable","string"]},{"Name":"Account","Docs":"","Typewords":["string"]},{"Name":"LoginAddress","Docs":"","Typewords":["string"]}]},
 	"LoginAttempt": {"Name":"LoginAttempt","Docs":"","Fields":[{"Name":"Key","Docs":"","Typewords":["nullable","string"]},{"Name":"Last","Docs":"","Typewords":["timestamp"]},{"Name":"First","Docs":"","Typewords":["timestamp"]},{"Name":"Count","Docs":"","Typewords":["int64"]},{"Name":"AccountName","Docs":"","Typewords":["string"]},{"Name":"LoginAddress","Docs":"","Typewords":["string"]},{"Name":"RemoteIP","Docs":"","Typewords":["string"]},{"Name":"LocalIP","Docs":"","Typewords":["string"]},{"Name":"TLS","Docs":"","Typewords":["string"]},{"Name":"TLSPubKeyFingerprint","Docs":"","Typewords":["string"]},{"Name":"Protocol","Docs":"","Typewords":["string"]},{"Name":"UserAgent","Docs":"","Typewords":["string"]},{"Name":"AuthMech","Docs":"","Typewords":["string"]},{"Name":"Result","Docs":"","Typewords":["AuthResult"]}]},
+	"ChatInfo": {"Name":"ChatInfo","Docs":"","Fields":[{"Name":"ChatID","Docs":"","Typewords":["int64"]},{"Name":"Username","Docs":"","Typewords":["string"]},{"Name":"Created","Docs":"","Typewords":["timestamp"]}]},
 	"CSRFToken": {"Name":"CSRFToken","Docs":"","Values":null},
 	"Localpart": {"Name":"Localpart","Docs":"","Values":null},
 	"OutgoingEvent": {"Name":"OutgoingEvent","Docs":"","Values":[{"Name":"EventDelivered","Value":"delivered","Docs":""},{"Name":"EventSuppressed","Value":"suppressed","Docs":""},{"Name":"EventDelayed","Value":"delayed","Docs":""},{"Name":"EventFailed","Value":"failed","Docs":""},{"Name":"EventRelayed","Value":"relayed","Docs":""},{"Name":"EventExpanded","Value":"expanded","Docs":""},{"Name":"EventCanceled","Value":"canceled","Docs":""},{"Name":"EventUnrecognized","Value":"unrecognized","Docs":""}]},
@@ -349,6 +357,7 @@ export const parser = {
 	IncomingMeta: (v: any) => parse("IncomingMeta", v) as IncomingMeta,
 	TLSPublicKey: (v: any) => parse("TLSPublicKey", v) as TLSPublicKey,
 	LoginAttempt: (v: any) => parse("LoginAttempt", v) as LoginAttempt,
+	ChatInfo: (v: any) => parse("ChatInfo", v) as ChatInfo,
 	CSRFToken: (v: any) => parse("CSRFToken", v) as CSRFToken,
 	Localpart: (v: any) => parse("Localpart", v) as Localpart,
 	OutgoingEvent: (v: any) => parse("OutgoingEvent", v) as OutgoingEvent,
@@ -673,6 +682,35 @@ export class Client {
 		const returnTypes: string[][] = [["[]","LoginAttempt"]]
 		const params: any[] = [limit]
 		return await _sherpaCall(this.baseURL, this.authState, { ...this.options }, paramTypes, returnTypes, fn, params) as LoginAttempt[] | null
+	}
+
+	// TelegramStatus returns whether the Telegram bot is configured, its username,
+	// and chats linked to this account.
+	async TelegramStatus(): Promise<[boolean, string, ChatInfo[] | null]> {
+		const fn: string = "TelegramStatus"
+		const paramTypes: string[][] = []
+		const returnTypes: string[][] = [["bool"],["string"],["[]","ChatInfo"]]
+		const params: any[] = []
+		return await _sherpaCall(this.baseURL, this.authState, { ...this.options }, paramTypes, returnTypes, fn, params) as [boolean, string, ChatInfo[] | null]
+	}
+
+	// TelegramPair creates a short-lived pairing code. Send "/pair CODE" to the
+	// bot to link a Telegram chat without typing a password.
+	async TelegramPair(): Promise<[string, Date]> {
+		const fn: string = "TelegramPair"
+		const paramTypes: string[][] = []
+		const returnTypes: string[][] = [["string"],["timestamp"]]
+		const params: any[] = []
+		return await _sherpaCall(this.baseURL, this.authState, { ...this.options }, paramTypes, returnTypes, fn, params) as [string, Date]
+	}
+
+	// TelegramUnlink unlinks a Telegram chat from this account.
+	async TelegramUnlink(chatID: number): Promise<void> {
+		const fn: string = "TelegramUnlink"
+		const paramTypes: string[][] = [["int64"]]
+		const returnTypes: string[][] = []
+		const params: any[] = [chatID]
+		return await _sherpaCall(this.baseURL, this.authState, { ...this.options }, paramTypes, returnTypes, fn, params) as void
 	}
 
 	async IMAPSave(capabilitiesDisabled: string[] | null): Promise<void> {

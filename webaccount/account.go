@@ -36,6 +36,7 @@ import (
 	"github.com/mjl-/mox/queue"
 	"github.com/mjl-/mox/smtp"
 	"github.com/mjl-/mox/store"
+	"github.com/mjl-/mox/telegram"
 	"github.com/mjl-/mox/webapi"
 	"github.com/mjl-/mox/webauth"
 	"github.com/mjl-/mox/webhook"
@@ -826,6 +827,44 @@ func (Account) LoginAttempts(ctx context.Context, limit int) []store.LoginAttemp
 	l, err := store.LoginAttemptList(ctx, reqInfo.AccountName, limit)
 	xcheckf(ctx, err, "listing login attempts")
 	return l
+}
+
+// TelegramStatus returns whether the Telegram bot is configured, its username,
+// and chats linked to this account.
+func (Account) TelegramStatus(ctx context.Context) (enabled bool, username string, chats []telegram.ChatInfo) {
+	enabled = telegram.Configured()
+	username = telegram.BotUsername()
+	reqInfo := ctx.Value(requestInfoCtxKey).(requestInfo)
+	var err error
+	chats, err = telegram.AccountChats(ctx, reqInfo.AccountName)
+	xcheckf(ctx, err, "listing telegram chats")
+	if chats == nil {
+		chats = []telegram.ChatInfo{}
+	}
+	return
+}
+
+// TelegramPair creates a short-lived pairing code. Send "/pair CODE" to the
+// bot to link a Telegram chat without typing a password.
+func (Account) TelegramPair(ctx context.Context) (code string, expires time.Time) {
+	if !telegram.Configured() {
+		xcheckuserf(ctx, errors.New("telegram bot is not configured"), "creating pairing code")
+	}
+	reqInfo := ctx.Value(requestInfoCtxKey).(requestInfo)
+	var err error
+	code, expires, err = telegram.CreatePairCode(ctx, reqInfo.AccountName, reqInfo.LoginAddress)
+	xcheckf(ctx, err, "creating pairing code")
+	return
+}
+
+// TelegramUnlink unlinks a Telegram chat from this account.
+func (Account) TelegramUnlink(ctx context.Context, chatID int64) {
+	reqInfo := ctx.Value(requestInfoCtxKey).(requestInfo)
+	err := telegram.UnlinkChat(ctx, reqInfo.AccountName, chatID)
+	if errors.Is(err, telegram.ErrNotFound) || errors.Is(err, telegram.ErrNotConfigured) {
+		xcheckuserf(ctx, err, "unlinking telegram chat")
+	}
+	xcheckf(ctx, err, "unlinking telegram chat")
 }
 
 func (Account) IMAPSave(ctx context.Context, capabilitiesDisabled []string) {

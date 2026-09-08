@@ -38,6 +38,7 @@ import (
 	"github.com/mjl-/mox/mox-"
 	"github.com/mjl-/mox/ratelimit"
 	"github.com/mjl-/mox/smtpserver"
+	"github.com/mjl-/mox/telegram"
 	"github.com/mjl-/mox/webaccount"
 	"github.com/mjl-/mox/webadmin"
 	"github.com/mjl-/mox/webapisrv"
@@ -903,6 +904,31 @@ func portServes(name string, l config.Listener) map[int]*serve {
 		port := config.Port(l.WebserverHTTPS.Port, 443)
 		srv := ensureServe(true, false, l.WebserverHTTPS.RateLimitDisabled, port, "webserver-https", false)
 		srv.Webserver = true
+	}
+
+	if mox.Conf.Static.TelegramBot != nil {
+		addTelegram := func(https, forwarded bool, port int) {
+			srv := ensureServe(https, forwarded, false, port, "telegram", false)
+			srv.SystemHandle("telegram", nil, "/telegram/", mox.SafeHeaders(http.HandlerFunc(telegram.HandleHTTP)))
+		}
+		if l.WebmailHTTP.Enabled {
+			addTelegram(false, l.WebmailHTTP.Forwarded, config.Port(l.WebmailHTTP.Port, 80))
+		}
+		if l.WebmailHTTPS.Enabled {
+			addTelegram(true, l.WebmailHTTPS.Forwarded, config.Port(l.WebmailHTTPS.Port, 443))
+		}
+		if l.WebserverHTTP.Enabled {
+			addTelegram(false, false, config.Port(l.WebserverHTTP.Port, 80))
+		}
+		if l.WebserverHTTPS.Enabled {
+			addTelegram(true, false, config.Port(l.WebserverHTTPS.Port, 443))
+		}
+		if l.AccountHTTP.Enabled && !l.WebmailHTTP.Enabled && !l.WebserverHTTP.Enabled {
+			addTelegram(false, l.AccountHTTP.Forwarded, config.Port(l.AccountHTTP.Port, 80))
+		}
+		if l.AccountHTTPS.Enabled && !l.WebmailHTTPS.Enabled && !l.WebserverHTTPS.Enabled {
+			addTelegram(true, l.AccountHTTPS.Forwarded, config.Port(l.AccountHTTPS.Port, 443))
+		}
 	}
 
 	if l.TLS != nil && l.TLS.ACME != "" {

@@ -1170,6 +1170,32 @@ func PrepareStaticConfig(ctx context.Context, log mlog.Log, configFile string, c
 			}
 		}
 	}
+
+	if tb := c.TelegramBot; tb != nil {
+		if tb.Token == "" {
+			addErrorf("telegram bot: token is required")
+		} else if !strings.Contains(tb.Token, ":") {
+			addErrorf("telegram bot: token does not look like a bot API token")
+		}
+		if tb.BaseURL != "" {
+			u, err := url.Parse(tb.BaseURL)
+			if err != nil {
+				addErrorf("telegram bot: parsing base url: %v", err)
+			} else if u.Scheme != "http" && u.Scheme != "https" || u.Host == "" {
+				addErrorf("telegram bot: base url must be an absolute http(s) url")
+			} else {
+				tb.BaseURL = strings.TrimRight(tb.BaseURL, "/")
+			}
+		}
+		if tb.Webhook != "" {
+			u, err := url.Parse(tb.Webhook)
+			if err != nil {
+				addErrorf("telegram bot: parsing webhook url: %v", err)
+			} else if u.Scheme != "https" || u.Host == "" {
+				addErrorf("telegram bot: webhook url must be an absolute https url")
+			}
+		}
+	}
 	return
 }
 

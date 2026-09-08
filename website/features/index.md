@@ -321,6 +321,26 @@ and can enable REQUIRETLS by default.
 See [webmail screenshots](../screenshots/#hdr-webmail).
 
 
+## Telegram bot
+
+Mox can run a Telegram bot so you can read new mail, reply, and take common
+mailbox actions from Telegram. New messages are pushed through the same
+per-account change feed that webmail SSE uses (also covering IMAP APPEND, not
+only SMTP delivery).
+
+Users link a private chat by sending `/login` with their email address and
+password, or by generating a pairing code on the account page and sending
+`/pair CODE` to the bot.
+
+Incoming Inbox (and Introbox) messages are posted with From, Subject, a
+preview, and buttons for Archive, Junk, Trash, and Read. Reply to a
+notification to send an email reply. Attachments larger than 20MB are sent as a
+download link when `BaseURL` is configured.
+
+Enable it in `mox.conf` with a bot token from Telegram's @BotFather. See `mox
+config example telegrambot`.
+
+
 ## Webapi and webhooks
 
 The webapi and webhooks make it easy to send/receive transactional email with

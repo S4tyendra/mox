@@ -785,6 +785,26 @@ See https://pkg.go.dev/github.com/mjl-/sconf for details.
 	# (optional)
 	QuotaMessageSize: 0
 
+	# Telegram bot for reading incoming email, replying, and common mailbox actions
+	# from Telegram. New messages are pushed using the same account change feed as
+	# webmail SSE. Users log in by chatting with the bot (email address and password,
+	# or a pairing code from the account page). Requires a bot token from Telegram
+	# @BotFather. (optional)
+	TelegramBot:
+
+		# Bot API token from Telegram @BotFather.
+		Token:
+
+		# Public base URL of this mail server, used for attachment download links when a
+		# file is larger than 20MB. Example: https://mail.example.com. If empty, large
+		# attachments are listed without a download link. (optional)
+		BaseURL:
+
+		# If set, Telegram POSTs updates to this HTTPS URL instead of mox using long
+		# polling. Typical path is /telegram/webhook on an HTTPS listener. If empty (the
+		# default), long polling is used. (optional)
+		Webhook:
+
 # domains.conf
 
 	# NOTE: This config file is in 'sconf' format. Indent with tabs. Comments must be
@@ -1663,6 +1683,27 @@ config example <name>". Below are all examples included in mox.
 	Routes:
 		-
 			Transport: Example
+
+# Example telegrambot
+
+	# Snippet of mox.conf to enable the Telegram bot.
+
+	# Telegram bot for reading incoming email, replying, and common mailbox actions
+	# from Telegram. New messages are pushed using the same account change feed as
+	# webmail SSE. Users log in by chatting with the bot (email address and
+	# password, or a pairing code from the account page). Requires a bot token from
+	# Telegram @BotFather. (optional)
+	TelegramBot:
+		# Bot API token from Telegram @BotFather.
+		Token: 123456789:AAExampleTokenFromBotFather
+		# Public base URL of this mail server, used for attachment download links when a
+		# file is larger than 20MB. Example: https://mail.example.com. If empty, large
+		# attachments are listed without a download link. (optional)
+		BaseURL: https://mail.example.com
+		# If set, Telegram POSTs updates to this HTTPS URL instead of mox using long
+		# polling. Typical path is /telegram/webhook on an HTTPS listener. If empty (the
+		# default), long polling is used. (optional)
+		# Webhook: https://mail.example.com/telegram/webhook
 */
 package config
 

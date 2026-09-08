@@ -602,6 +602,64 @@
 			]
 		},
 		{
+			"Name": "TelegramStatus",
+			"Docs": "TelegramStatus returns whether the Telegram bot is configured, its username,\nand chats linked to this account.",
+			"Params": [],
+			"Returns": [
+				{
+					"Name": "enabled",
+					"Typewords": [
+						"bool"
+					]
+				},
+				{
+					"Name": "username",
+					"Typewords": [
+						"string"
+					]
+				},
+				{
+					"Name": "chats",
+					"Typewords": [
+						"[]",
+						"ChatInfo"
+					]
+				}
+			]
+		},
+		{
+			"Name": "TelegramPair",
+			"Docs": "TelegramPair creates a short-lived pairing code. Send \"/pair CODE\" to the\nbot to link a Telegram chat without typing a password.",
+			"Params": [],
+			"Returns": [
+				{
+					"Name": "code",
+					"Typewords": [
+						"string"
+					]
+				},
+				{
+					"Name": "expires",
+					"Typewords": [
+						"timestamp"
+					]
+				}
+			]
+		},
+		{
+			"Name": "TelegramUnlink",
+			"Docs": "TelegramUnlink unlinks a Telegram chat from this account.",
+			"Params": [
+				{
+					"Name": "chatID",
+					"Typewords": [
+						"int64"
+					]
+				}
+			],
+			"Returns": []
+		},
+		{
 			"Name": "IMAPSave",
 			"Docs": "",
 			"Params": [
@@ -1896,6 +1954,33 @@
 					"Docs": "",
 					"Typewords": [
 						"AuthResult"
+					]
+				}
+			]
+		},
+		{
+			"Name": "ChatInfo",
+			"Docs": "ChatInfo is a linked Telegram chat, for the account web API.",
+			"Fields": [
+				{
+					"Name": "ChatID",
+					"Docs": "",
+					"Typewords": [
+						"int64"
+					]
+				},
+				{
+					"Name": "Username",
+					"Docs": "",
+					"Typewords": [
+						"string"
+					]
+				},
+				{
+					"Name": "Created",
+					"Docs": "",
+					"Typewords": [
+						"timestamp"
 					]
 				}
 			]

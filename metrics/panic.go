@@ -43,6 +43,7 @@ const (
 	Webmailrequest   Panic = "webmailrequest"
 	Webmailquery     Panic = "webmailquery"
 	Webmailhandle    Panic = "webmailhandle"
+	Telegram         Panic = "telegram"
 )
 
 func init() {
@@ -68,6 +69,7 @@ func init() {
 		Webmailrequest,
 		Webmailquery,
 		Webmailhandle,
+		Telegram,
 	}
 	for _, name := range names {
 		metricPanic.WithLabelValues(string(name)).Add(0)

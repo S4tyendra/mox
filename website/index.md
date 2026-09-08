@@ -5,7 +5,7 @@ Complete email solution
 : For sending and receiving email. With support for IMAP4, SMTP, SPF, DKIM,
 DMARC, MTA-STS, DANE and DNSSEC, reputation-based
 and content-based junk filtering, Internationalization (EIA/IDNA), automatic TLS
-with ACME and Let's Encrypt, account autoconfiguration, webmail.
+with ACME and Let's Encrypt, account autoconfiguration, webmail, Telegram bot.
 
 Quick & easy
 : Use the quickstart command to set up mox for your domain(s) within 10
