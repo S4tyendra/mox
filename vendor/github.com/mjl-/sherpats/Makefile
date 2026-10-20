@@ -21,4 +21,4 @@ clean:
 # for testing generated typescript
 setup:
 	-mkdir -p node_modules/.bin
-	bun install typescript@3.0.1 typescript-formatter@7.2.2
+	npm install typescript@3.0.1 typescript-formatter@7.2.2
