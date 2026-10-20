@@ -246,6 +246,7 @@ export interface ParsedMessage {
 export interface FromAddressSettings {
 	FromAddress: string  // Unicode.
 	ViewMode: ViewMode
+	Signature: string  // If set, used instead of Settings.Signature when composing from this address.
 }
 
 // ComposeMessage is a message to be composed, for saving draft messages.
@@ -545,6 +546,18 @@ export interface ChangeMailboxKeywords {
 	Keywords?: string[] | null
 }
 
+export interface PasskeyBegin {
+	ChallengeID: string
+	Options?: { [key: string]: any }
+}
+
+export interface Passkey {
+	CredentialID: string
+	Name: string
+	Created: string
+	LastUsed: string
+}
+
 // IMAP UID.
 export type UID = number
 
@@ -621,7 +634,7 @@ export enum Quoting {
 	Top = "top",
 }
 
-export const structTypes: {[typename: string]: boolean} = {"Address":true,"Attachment":true,"ChangeMailboxAdd":true,"ChangeMailboxCounts":true,"ChangeMailboxKeywords":true,"ChangeMailboxRemove":true,"ChangeMailboxRename":true,"ChangeMailboxSpecialUse":true,"ChangeMsgAdd":true,"ChangeMsgFlags":true,"ChangeMsgRemove":true,"ChangeMsgThread":true,"ComposeMessage":true,"Domain":true,"DomainAddressConfig":true,"Envelope":true,"EventStart":true,"EventViewChanges":true,"EventViewErr":true,"EventViewMsgs":true,"EventViewReset":true,"File":true,"Filter":true,"Flags":true,"ForwardAttachments":true,"FromAddressSettings":true,"Mailbox":true,"Message":true,"MessageAddress":true,"MessageEnvelope":true,"MessageItem":true,"NotFilter":true,"Page":true,"ParsedMessage":true,"Part":true,"Query":true,"RecipientSecurity":true,"Request":true,"Ruleset":true,"Settings":true,"SpecialUse":true,"SubmitMessage":true}
+export const structTypes: {[typename: string]: boolean} = {"Address":true,"Attachment":true,"ChangeMailboxAdd":true,"ChangeMailboxCounts":true,"ChangeMailboxKeywords":true,"ChangeMailboxRemove":true,"ChangeMailboxRename":true,"ChangeMailboxSpecialUse":true,"ChangeMsgAdd":true,"ChangeMsgFlags":true,"ChangeMsgRemove":true,"ChangeMsgThread":true,"ComposeMessage":true,"Domain":true,"DomainAddressConfig":true,"Envelope":true,"EventStart":true,"EventViewChanges":true,"EventViewErr":true,"EventViewMsgs":true,"EventViewReset":true,"File":true,"Filter":true,"Flags":true,"ForwardAttachments":true,"FromAddressSettings":true,"Mailbox":true,"Message":true,"MessageAddress":true,"MessageEnvelope":true,"MessageItem":true,"NotFilter":true,"Page":true,"ParsedMessage":true,"Part":true,"Passkey":true,"PasskeyBegin":true,"Query":true,"RecipientSecurity":true,"Request":true,"Ruleset":true,"Settings":true,"SpecialUse":true,"SubmitMessage":true}
 export const stringsTypes: {[typename: string]: boolean} = {"AttachmentType":true,"CSRFToken":true,"Localpart":true,"Quoting":true,"SecurityResult":true,"ThreadMode":true,"ViewMode":true}
 export const intsTypes: {[typename: string]: boolean} = {"ModSeq":true,"UID":true,"Validation":true}
 export const types: TypenameMap = {
@@ -640,7 +653,7 @@ export const types: TypenameMap = {
 	"Envelope": {"Name":"Envelope","Docs":"","Fields":[{"Name":"Date","Docs":"","Typewords":["timestamp"]},{"Name":"Subject","Docs":"","Typewords":["string"]},{"Name":"From","Docs":"","Typewords":["[]","Address"]},{"Name":"Sender","Docs":"","Typewords":["[]","Address"]},{"Name":"ReplyTo","Docs":"","Typewords":["[]","Address"]},{"Name":"To","Docs":"","Typewords":["[]","Address"]},{"Name":"CC","Docs":"","Typewords":["[]","Address"]},{"Name":"BCC","Docs":"","Typewords":["[]","Address"]},{"Name":"InReplyTo","Docs":"","Typewords":["string"]},{"Name":"MessageID","Docs":"","Typewords":["string"]}]},
 	"Address": {"Name":"Address","Docs":"","Fields":[{"Name":"Name","Docs":"","Typewords":["string"]},{"Name":"User","Docs":"","Typewords":["string"]},{"Name":"Host","Docs":"","Typewords":["string"]}]},
 	"ParsedMessage": {"Name":"ParsedMessage","Docs":"","Fields":[{"Name":"ID","Docs":"","Typewords":["int64"]},{"Name":"Part","Docs":"","Typewords":["Part"]},{"Name":"Headers","Docs":"","Typewords":["{}","[]","string"]},{"Name":"ViewMode","Docs":"","Typewords":["ViewMode"]},{"Name":"Texts","Docs":"","Typewords":["[]","string"]},{"Name":"HasHTML","Docs":"","Typewords":["bool"]},{"Name":"ListReplyAddress","Docs":"","Typewords":["nullable","MessageAddress"]},{"Name":"TextPaths","Docs":"","Typewords":["[]","[]","int32"]},{"Name":"HTMLPath","Docs":"","Typewords":["[]","int32"]}]},
-	"FromAddressSettings": {"Name":"FromAddressSettings","Docs":"","Fields":[{"Name":"FromAddress","Docs":"","Typewords":["string"]},{"Name":"ViewMode","Docs":"","Typewords":["ViewMode"]}]},
+	"FromAddressSettings": {"Name":"FromAddressSettings","Docs":"","Fields":[{"Name":"FromAddress","Docs":"","Typewords":["string"]},{"Name":"ViewMode","Docs":"","Typewords":["ViewMode"]},{"Name":"Signature","Docs":"","Typewords":["string"]}]},
 	"ComposeMessage": {"Name":"ComposeMessage","Docs":"","Fields":[{"Name":"From","Docs":"","Typewords":["string"]},{"Name":"To","Docs":"","Typewords":["[]","string"]},{"Name":"Cc","Docs":"","Typewords":["[]","string"]},{"Name":"Bcc","Docs":"","Typewords":["[]","string"]},{"Name":"ReplyTo","Docs":"","Typewords":["string"]},{"Name":"Subject","Docs":"","Typewords":["string"]},{"Name":"TextBody","Docs":"","Typewords":["string"]},{"Name":"HTMLBody","Docs":"","Typewords":["string"]},{"Name":"ResponseMessageID","Docs":"","Typewords":["int64"]},{"Name":"DraftMessageID","Docs":"","Typewords":["int64"]}]},
 	"SubmitMessage": {"Name":"SubmitMessage","Docs":"","Fields":[{"Name":"From","Docs":"","Typewords":["string"]},{"Name":"To","Docs":"","Typewords":["[]","string"]},{"Name":"Cc","Docs":"","Typewords":["[]","string"]},{"Name":"Bcc","Docs":"","Typewords":["[]","string"]},{"Name":"ReplyTo","Docs":"","Typewords":["string"]},{"Name":"Subject","Docs":"","Typewords":["string"]},{"Name":"TextBody","Docs":"","Typewords":["string"]},{"Name":"HTMLBody","Docs":"","Typewords":["string"]},{"Name":"Attachments","Docs":"","Typewords":["[]","File"]},{"Name":"ForwardAttachments","Docs":"","Typewords":["ForwardAttachments"]},{"Name":"IsForward","Docs":"","Typewords":["bool"]},{"Name":"ResponseMessageID","Docs":"","Typewords":["int64"]},{"Name":"UserAgent","Docs":"","Typewords":["string"]},{"Name":"RequireTLS","Docs":"","Typewords":["nullable","bool"]},{"Name":"FutureRelease","Docs":"","Typewords":["nullable","timestamp"]},{"Name":"ArchiveThread","Docs":"","Typewords":["bool"]},{"Name":"ArchiveReferenceMailboxID","Docs":"","Typewords":["int64"]},{"Name":"DraftMessageID","Docs":"","Typewords":["int64"]}]},
 	"File": {"Name":"File","Docs":"","Fields":[{"Name":"Filename","Docs":"","Typewords":["string"]},{"Name":"DataURI","Docs":"","Typewords":["string"]}]},
@@ -667,6 +680,8 @@ export const types: TypenameMap = {
 	"ChangeMailboxSpecialUse": {"Name":"ChangeMailboxSpecialUse","Docs":"","Fields":[{"Name":"MailboxID","Docs":"","Typewords":["int64"]},{"Name":"MailboxName","Docs":"","Typewords":["string"]},{"Name":"SpecialUse","Docs":"","Typewords":["SpecialUse"]},{"Name":"ModSeq","Docs":"","Typewords":["ModSeq"]}]},
 	"SpecialUse": {"Name":"SpecialUse","Docs":"","Fields":[{"Name":"Archive","Docs":"","Typewords":["bool"]},{"Name":"Draft","Docs":"","Typewords":["bool"]},{"Name":"Junk","Docs":"","Typewords":["bool"]},{"Name":"Sent","Docs":"","Typewords":["bool"]},{"Name":"Trash","Docs":"","Typewords":["bool"]}]},
 	"ChangeMailboxKeywords": {"Name":"ChangeMailboxKeywords","Docs":"","Fields":[{"Name":"MailboxID","Docs":"","Typewords":["int64"]},{"Name":"MailboxName","Docs":"","Typewords":["string"]},{"Name":"Keywords","Docs":"","Typewords":["[]","string"]}]},
+	"PasskeyBegin": {"Name":"PasskeyBegin","Docs":"","Fields":[{"Name":"ChallengeID","Docs":"","Typewords":["string"]},{"Name":"Options","Docs":"","Typewords":["{}","any"]}]},
+	"Passkey": {"Name":"Passkey","Docs":"","Fields":[{"Name":"CredentialID","Docs":"","Typewords":["string"]},{"Name":"Name","Docs":"","Typewords":["string"]},{"Name":"Created","Docs":"","Typewords":["string"]},{"Name":"LastUsed","Docs":"","Typewords":["string"]}]},
 	"UID": {"Name":"UID","Docs":"","Values":null},
 	"ModSeq": {"Name":"ModSeq","Docs":"","Values":null},
 	"Validation": {"Name":"Validation","Docs":"","Values":[{"Name":"ValidationUnknown","Value":0,"Docs":""},{"Name":"ValidationStrict","Value":1,"Docs":""},{"Name":"ValidationDMARC","Value":2,"Docs":""},{"Name":"ValidationRelaxed","Value":3,"Docs":""},{"Name":"ValidationPass","Value":4,"Docs":""},{"Name":"ValidationNeutral","Value":5,"Docs":""},{"Name":"ValidationTemperror","Value":6,"Docs":""},{"Name":"ValidationPermerror","Value":7,"Docs":""},{"Name":"ValidationFail","Value":8,"Docs":""},{"Name":"ValidationSoftfail","Value":9,"Docs":""},{"Name":"ValidationNone","Value":10,"Docs":""}]},
@@ -722,6 +737,8 @@ export const parser = {
 	ChangeMailboxSpecialUse: (v: any) => parse("ChangeMailboxSpecialUse", v) as ChangeMailboxSpecialUse,
 	SpecialUse: (v: any) => parse("SpecialUse", v) as SpecialUse,
 	ChangeMailboxKeywords: (v: any) => parse("ChangeMailboxKeywords", v) as ChangeMailboxKeywords,
+	PasskeyBegin: (v: any) => parse("PasskeyBegin", v) as PasskeyBegin,
+	Passkey: (v: any) => parse("Passkey", v) as Passkey,
 	UID: (v: any) => parse("UID", v) as UID,
 	ModSeq: (v: any) => parse("ModSeq", v) as ModSeq,
 	Validation: (v: any) => parse("Validation", v) as Validation,
@@ -1105,6 +1122,54 @@ export class Client {
 		const returnTypes: string[][] = [["EventStart"],["EventViewErr"],["EventViewReset"],["EventViewMsgs"],["EventViewChanges"],["ChangeMsgAdd"],["ChangeMsgRemove"],["ChangeMsgFlags"],["ChangeMsgThread"],["ChangeMailboxRemove"],["ChangeMailboxAdd"],["ChangeMailboxRename"],["ChangeMailboxCounts"],["ChangeMailboxSpecialUse"],["ChangeMailboxKeywords"],["Flags"]]
 		const params: any[] = []
 		return await _sherpaCall(this.baseURL, this.authState, { ...this.options }, paramTypes, returnTypes, fn, params) as [EventStart, EventViewErr, EventViewReset, EventViewMsgs, EventViewChanges, ChangeMsgAdd, ChangeMsgRemove, ChangeMsgFlags, ChangeMsgThread, ChangeMailboxRemove, ChangeMailboxAdd, ChangeMailboxRename, ChangeMailboxCounts, ChangeMailboxSpecialUse, ChangeMailboxKeywords, Flags]
+	}
+
+	async PasskeyLoginBegin(): Promise<PasskeyBegin> {
+		const fn: string = "PasskeyLoginBegin"
+		const paramTypes: string[][] = []
+		const returnTypes: string[][] = [["PasskeyBegin"]]
+		const params: any[] = []
+		return await _sherpaCall(this.baseURL, this.authState, { ...this.options }, paramTypes, returnTypes, fn, params) as PasskeyBegin
+	}
+
+	async PasskeyLoginFinish(challengeID: string, credentialJSON: string): Promise<CSRFToken> {
+		const fn: string = "PasskeyLoginFinish"
+		const paramTypes: string[][] = [["string"],["string"]]
+		const returnTypes: string[][] = [["CSRFToken"]]
+		const params: any[] = [challengeID, credentialJSON]
+		return await _sherpaCall(this.baseURL, this.authState, { ...this.options }, paramTypes, returnTypes, fn, params) as CSRFToken
+	}
+
+	async PasskeyRegisterBegin(name: string): Promise<PasskeyBegin> {
+		const fn: string = "PasskeyRegisterBegin"
+		const paramTypes: string[][] = [["string"]]
+		const returnTypes: string[][] = [["PasskeyBegin"]]
+		const params: any[] = [name]
+		return await _sherpaCall(this.baseURL, this.authState, { ...this.options }, paramTypes, returnTypes, fn, params) as PasskeyBegin
+	}
+
+	async PasskeyRegisterFinish(name: string, challengeID: string, credentialJSON: string): Promise<Passkey> {
+		const fn: string = "PasskeyRegisterFinish"
+		const paramTypes: string[][] = [["string"],["string"],["string"]]
+		const returnTypes: string[][] = [["Passkey"]]
+		const params: any[] = [name, challengeID, credentialJSON]
+		return await _sherpaCall(this.baseURL, this.authState, { ...this.options }, paramTypes, returnTypes, fn, params) as Passkey
+	}
+
+	async PasskeyList(): Promise<Passkey[] | null> {
+		const fn: string = "PasskeyList"
+		const paramTypes: string[][] = []
+		const returnTypes: string[][] = [["[]","Passkey"]]
+		const params: any[] = []
+		return await _sherpaCall(this.baseURL, this.authState, { ...this.options }, paramTypes, returnTypes, fn, params) as Passkey[] | null
+	}
+
+	async PasskeyRemove(credentialID: string): Promise<void> {
+		const fn: string = "PasskeyRemove"
+		const paramTypes: string[][] = [["string"]]
+		const returnTypes: string[][] = []
+		const params: any[] = [credentialID]
+		return await _sherpaCall(this.baseURL, this.authState, { ...this.options }, paramTypes, returnTypes, fn, params) as void
 	}
 }
 

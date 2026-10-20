@@ -252,6 +252,18 @@ export interface ChatInfo {
 	Created: Date
 }
 
+export interface PasskeyBegin {
+	ChallengeID: string
+	Options?: { [key: string]: any }
+}
+
+export interface Passkey {
+	CredentialID: string
+	Name: string
+	Created: string
+	LastUsed: string
+}
+
 export type CSRFToken = string
 
 // Localpart is a decoded local part of an email address, before the "@".
@@ -299,7 +311,7 @@ export enum AuthResult {
 	AuthAborted = "aborted",
 }
 
-export const structTypes: {[typename: string]: boolean} = {"Account":true,"Address":true,"AddressAlias":true,"Alias":true,"AliasAddress":true,"AutomaticJunkFlags":true,"ChatInfo":true,"Destination":true,"Domain":true,"ImportProgress":true,"Incoming":true,"IncomingMeta":true,"IncomingWebhook":true,"JunkFilter":true,"LoginAttempt":true,"NameAddress":true,"Outgoing":true,"OutgoingWebhook":true,"Route":true,"Ruleset":true,"Structure":true,"SubjectPass":true,"Suppression":true,"TLSPublicKey":true}
+export const structTypes: {[typename: string]: boolean} = {"Account":true,"Address":true,"AddressAlias":true,"Alias":true,"AliasAddress":true,"AutomaticJunkFlags":true,"ChatInfo":true,"Destination":true,"Domain":true,"ImportProgress":true,"Incoming":true,"IncomingMeta":true,"IncomingWebhook":true,"JunkFilter":true,"LoginAttempt":true,"NameAddress":true,"Outgoing":true,"OutgoingWebhook":true,"Passkey":true,"PasskeyBegin":true,"Route":true,"Ruleset":true,"Structure":true,"SubjectPass":true,"Suppression":true,"TLSPublicKey":true}
 export const stringsTypes: {[typename: string]: boolean} = {"AuthResult":true,"CSRFToken":true,"Localpart":true,"OutgoingEvent":true}
 export const intsTypes: {[typename: string]: boolean} = {}
 export const types: TypenameMap = {
@@ -327,6 +339,8 @@ export const types: TypenameMap = {
 	"TLSPublicKey": {"Name":"TLSPublicKey","Docs":"","Fields":[{"Name":"Fingerprint","Docs":"","Typewords":["string"]},{"Name":"Created","Docs":"","Typewords":["timestamp"]},{"Name":"Type","Docs":"","Typewords":["string"]},{"Name":"Name","Docs":"","Typewords":["string"]},{"Name":"NoIMAPPreauth","Docs":"","Typewords":["bool"]},{"Name":"CertDER","Docs":"","Typewords":["nullable","string"]},{"Name":"Account","Docs":"","Typewords":["string"]},{"Name":"LoginAddress","Docs":"","Typewords":["string"]}]},
 	"LoginAttempt": {"Name":"LoginAttempt","Docs":"","Fields":[{"Name":"Key","Docs":"","Typewords":["nullable","string"]},{"Name":"Last","Docs":"","Typewords":["timestamp"]},{"Name":"First","Docs":"","Typewords":["timestamp"]},{"Name":"Count","Docs":"","Typewords":["int64"]},{"Name":"AccountName","Docs":"","Typewords":["string"]},{"Name":"LoginAddress","Docs":"","Typewords":["string"]},{"Name":"RemoteIP","Docs":"","Typewords":["string"]},{"Name":"LocalIP","Docs":"","Typewords":["string"]},{"Name":"TLS","Docs":"","Typewords":["string"]},{"Name":"TLSPubKeyFingerprint","Docs":"","Typewords":["string"]},{"Name":"Protocol","Docs":"","Typewords":["string"]},{"Name":"UserAgent","Docs":"","Typewords":["string"]},{"Name":"AuthMech","Docs":"","Typewords":["string"]},{"Name":"Result","Docs":"","Typewords":["AuthResult"]}]},
 	"ChatInfo": {"Name":"ChatInfo","Docs":"","Fields":[{"Name":"ChatID","Docs":"","Typewords":["int64"]},{"Name":"Username","Docs":"","Typewords":["string"]},{"Name":"Created","Docs":"","Typewords":["timestamp"]}]},
+	"PasskeyBegin": {"Name":"PasskeyBegin","Docs":"","Fields":[{"Name":"ChallengeID","Docs":"","Typewords":["string"]},{"Name":"Options","Docs":"","Typewords":["{}","any"]}]},
+	"Passkey": {"Name":"Passkey","Docs":"","Fields":[{"Name":"CredentialID","Docs":"","Typewords":["string"]},{"Name":"Name","Docs":"","Typewords":["string"]},{"Name":"Created","Docs":"","Typewords":["string"]},{"Name":"LastUsed","Docs":"","Typewords":["string"]}]},
 	"CSRFToken": {"Name":"CSRFToken","Docs":"","Values":null},
 	"Localpart": {"Name":"Localpart","Docs":"","Values":null},
 	"OutgoingEvent": {"Name":"OutgoingEvent","Docs":"","Values":[{"Name":"EventDelivered","Value":"delivered","Docs":""},{"Name":"EventSuppressed","Value":"suppressed","Docs":""},{"Name":"EventDelayed","Value":"delayed","Docs":""},{"Name":"EventFailed","Value":"failed","Docs":""},{"Name":"EventRelayed","Value":"relayed","Docs":""},{"Name":"EventExpanded","Value":"expanded","Docs":""},{"Name":"EventCanceled","Value":"canceled","Docs":""},{"Name":"EventUnrecognized","Value":"unrecognized","Docs":""}]},
@@ -358,6 +372,8 @@ export const parser = {
 	TLSPublicKey: (v: any) => parse("TLSPublicKey", v) as TLSPublicKey,
 	LoginAttempt: (v: any) => parse("LoginAttempt", v) as LoginAttempt,
 	ChatInfo: (v: any) => parse("ChatInfo", v) as ChatInfo,
+	PasskeyBegin: (v: any) => parse("PasskeyBegin", v) as PasskeyBegin,
+	Passkey: (v: any) => parse("Passkey", v) as Passkey,
 	CSRFToken: (v: any) => parse("CSRFToken", v) as CSRFToken,
 	Localpart: (v: any) => parse("Localpart", v) as Localpart,
 	OutgoingEvent: (v: any) => parse("OutgoingEvent", v) as OutgoingEvent,
@@ -718,6 +734,54 @@ export class Client {
 		const paramTypes: string[][] = [["[]","string"]]
 		const returnTypes: string[][] = []
 		const params: any[] = [capabilitiesDisabled]
+		return await _sherpaCall(this.baseURL, this.authState, { ...this.options }, paramTypes, returnTypes, fn, params) as void
+	}
+
+	async PasskeyLoginBegin(): Promise<PasskeyBegin> {
+		const fn: string = "PasskeyLoginBegin"
+		const paramTypes: string[][] = []
+		const returnTypes: string[][] = [["PasskeyBegin"]]
+		const params: any[] = []
+		return await _sherpaCall(this.baseURL, this.authState, { ...this.options }, paramTypes, returnTypes, fn, params) as PasskeyBegin
+	}
+
+	async PasskeyLoginFinish(challengeID: string, credentialJSON: string): Promise<CSRFToken> {
+		const fn: string = "PasskeyLoginFinish"
+		const paramTypes: string[][] = [["string"],["string"]]
+		const returnTypes: string[][] = [["CSRFToken"]]
+		const params: any[] = [challengeID, credentialJSON]
+		return await _sherpaCall(this.baseURL, this.authState, { ...this.options }, paramTypes, returnTypes, fn, params) as CSRFToken
+	}
+
+	async PasskeyRegisterBegin(name: string): Promise<PasskeyBegin> {
+		const fn: string = "PasskeyRegisterBegin"
+		const paramTypes: string[][] = [["string"]]
+		const returnTypes: string[][] = [["PasskeyBegin"]]
+		const params: any[] = [name]
+		return await _sherpaCall(this.baseURL, this.authState, { ...this.options }, paramTypes, returnTypes, fn, params) as PasskeyBegin
+	}
+
+	async PasskeyRegisterFinish(name: string, challengeID: string, credentialJSON: string): Promise<Passkey> {
+		const fn: string = "PasskeyRegisterFinish"
+		const paramTypes: string[][] = [["string"],["string"],["string"]]
+		const returnTypes: string[][] = [["Passkey"]]
+		const params: any[] = [name, challengeID, credentialJSON]
+		return await _sherpaCall(this.baseURL, this.authState, { ...this.options }, paramTypes, returnTypes, fn, params) as Passkey
+	}
+
+	async PasskeyList(): Promise<Passkey[] | null> {
+		const fn: string = "PasskeyList"
+		const paramTypes: string[][] = []
+		const returnTypes: string[][] = [["[]","Passkey"]]
+		const params: any[] = []
+		return await _sherpaCall(this.baseURL, this.authState, { ...this.options }, paramTypes, returnTypes, fn, params) as Passkey[] | null
+	}
+
+	async PasskeyRemove(credentialID: string): Promise<void> {
+		const fn: string = "PasskeyRemove"
+		const paramTypes: string[][] = [["string"]]
+		const returnTypes: string[][] = []
+		const params: any[] = [credentialID]
 		return await _sherpaCall(this.baseURL, this.authState, { ...this.options }, paramTypes, returnTypes, fn, params) as void
 	}
 }

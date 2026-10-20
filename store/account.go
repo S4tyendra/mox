@@ -79,6 +79,7 @@ var (
 	ErrAccountUnknown     = errors.New("no such account")
 	ErrOverQuota          = errors.New("account over quota")
 	ErrLoginDisabled      = errors.New("login disabled for account")
+	ErrAliasDisabled      = errors.New("hide-my-email alias disabled")
 )
 
 var DefaultInitialMailboxes = config.InitialMailboxes{
@@ -907,6 +908,7 @@ const (
 type FromAddressSettings struct {
 	FromAddress string // Unicode.
 	ViewMode    ViewMode
+	Signature   string // If set, used instead of Settings.Signature when composing from this address.
 }
 
 // RulesetNoListID records a user "no" response to the question of
@@ -972,6 +974,10 @@ var DBTypes = []any{
 	Settings{},
 	OrganizerSettings{},
 	FromAddressSettings{},
+	AddressBook{},
+	Snooze{},
+	HideAlias{},
+	PushSubscription{},
 	RulesetNoListID{},
 	RulesetNoMsgFrom{},
 	RulesetNoMailbox{},
@@ -2335,6 +2341,16 @@ func (a *Account) MessageAdd(log mlog.Log, tx *bstore.Tx, mb *Mailbox, m *Messag
 		}
 	}
 
+	if m.RcptToLocalpart != "" && m.RcptToDomain != "" {
+		disabled, err := HideAliasDisabled(tx, m.RcptToLocalpart.String()+"@"+m.RcptToDomain)
+		if err != nil {
+			return fmt.Errorf("checking hide-my-email alias: %w", err)
+		}
+		if disabled {
+			return fmt.Errorf("%w", ErrAliasDisabled)
+		}
+	}
+
 	m.MailboxID = mb.ID
 	if m.MailboxOrigID == 0 {
 		m.MailboxOrigID = mb.ID
@@ -2440,8 +2456,24 @@ func (a *Account) MessageAdd(log mlog.Log, tx *bstore.Tx, mb *Mailbox, m *Messag
 				if len(p.Envelope.From) > 0 {
 					from = p.Envelope.From[0].User + "@" + p.Envelope.From[0].Host
 				}
-				result := organizer.Classify(from, p.Envelope.Subject, "", h, osettings.Rules)
+				text := ""
+				if m.Preview != nil {
+					text = *m.Preview
+				}
+				result := organizer.Classify(from, p.Envelope.Subject, text, h, osettings.Rules)
 				m.Keywords, _ = MergeKeywords(m.Keywords, result.Tags)
+				if result.Mailbox != "" && SafeMailboxName(result.Mailbox) && result.Mailbox != mb.Name {
+					if dest, err := a.MailboxFind(tx, result.Mailbox); err == nil && dest != nil {
+						m.MailboxID = dest.ID
+						m.UID = dest.UIDNext
+						if err := dest.UIDNextAdd(1); err != nil {
+							return fmt.Errorf("assigning uid in organizer mailbox: %v", err)
+						}
+						*mb = *dest
+						conf, _ := a.Conf()
+						m.JunkFlagsForMailbox(*mb, conf)
+					}
+				}
 				mb.Keywords, _ = MergeKeywords(mb.Keywords, result.Tags)
 			}
 		}
@@ -2515,6 +2547,18 @@ func (a *Account) MessageAdd(log mlog.Log, tx *bstore.Tx, mb *Mailbox, m *Messag
 			}
 			if err := tx.Insert(&mr); err != nil {
 				return fmt.Errorf("inserting sent message recipients: %w", err)
+			}
+			name := strings.TrimSpace(addr.Name)
+			if err := AddressBookUpsert(tx, lp.String()+"@"+d.Name(), name); err != nil {
+				log.Infox("updating address book", err)
+			}
+		}
+	}
+	if p := getPart(); p != nil && p.Envelope != nil && len(p.Envelope.From) > 0 {
+		from := p.Envelope.From[0]
+		if from.User != "" && from.Host != "" {
+			if err := AddressBookUpsert(tx, from.User+"@"+from.Host, from.Name); err != nil {
+				log.Infox("updating address book from sender", err)
 			}
 		}
 	}
@@ -3060,6 +3104,9 @@ func (a *Account) DeliverMailbox(log mlog.Log, mailbox, mailboxDestined string, 
 	}
 	commit = true
 	BroadcastChanges(a, changes)
+	if AfterDeliver != nil {
+		go AfterDeliver(a.Name, *m)
+	}
 	return nil
 }
 

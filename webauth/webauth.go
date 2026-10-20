@@ -37,6 +37,7 @@ package webauth
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"log/slog"
 	"net"
@@ -225,8 +226,11 @@ func isHTTPS(isForwarded bool, r *http.Request) bool {
 // match before checking the actual login attempt. This would prevent a third party
 // site from triggering login attempts by the browser.
 func LoginPrep(ctx context.Context, log mlog.Log, kind, cookiePath string, isForwarded bool, w http.ResponseWriter, r *http.Request, token string) {
-	// todo future: we could sign the login token, and verify it on use, so subdomains cannot set it to known values.
+	LoginPrepAge(ctx, log, kind, cookiePath, isForwarded, w, r, token, 30)
+}
 
+// LoginPrepAge is LoginPrep with a cookie lifetime in seconds.
+func LoginPrepAge(ctx context.Context, log mlog.Log, kind, cookiePath string, isForwarded bool, w http.ResponseWriter, r *http.Request, token string, maxAge int) {
 	http.SetCookie(w, &http.Cookie{
 		Name:     kind + "login",
 		Value:    token,
@@ -234,7 +238,7 @@ func LoginPrep(ctx context.Context, log mlog.Log, kind, cookiePath string, isFor
 		Secure:   isHTTPS(isForwarded, r),
 		HttpOnly: true,
 		SameSite: http.SameSiteStrictMode,
-		MaxAge:   30, // Only for one login attempt.
+		MaxAge:   maxAge,
 	})
 }
 
@@ -315,6 +319,68 @@ func Login(ctx context.Context, log mlog.Log, sessionAuth SessionAuth, kind, coo
 		HttpOnly: true,
 		SameSite: http.SameSiteStrictMode,
 		MaxAge:   -1, // Delete cookie
+	})
+	return csrfToken, nil
+}
+
+// LoginVerified creates a session for an already authenticated account (e.g. passkey)
+// and sets the session cookie. loginToken cookie must match, same as Login.
+func LoginVerified(ctx context.Context, log mlog.Log, sessionAuth SessionAuth, kind, cookiePath string, isForwarded bool, w http.ResponseWriter, r *http.Request, loginToken, accountName, loginAddress, authMech string) (store.CSRFToken, error) {
+	loginCookie, _ := r.Cookie(kind + "login")
+	if loginCookie == nil || loginCookie.Value != loginToken {
+		msg := "missing login token cookie"
+		if isForwarded && loginCookie == nil {
+			msg += " (hint: reverse proxy must keep path, for login cookie)"
+		}
+		return "", &sherpa.Error{Code: "user:error", Message: msg}
+	}
+	ip := ClientIP(log, isForwarded, r)
+	if ip == nil {
+		return "", fmt.Errorf("cannot find ip for rate limit check (missing x-forwarded-for header?)")
+	}
+	start := time.Now()
+	if !mox.LimiterFailedAuth.Add(ip, start, 1) {
+		metrics.AuthenticationRatelimitedInc(kind)
+		return "", &sherpa.Error{Code: "user:error", Message: "too many authentication attempts"}
+	}
+	la := loginAttempt(ip.String(), r, kind, authMech)
+	la.LoginAddress = loginAddress
+	la.AccountName = accountName
+	defer func() {
+		store.LoginAttemptAdd(context.Background(), log, la)
+	}()
+	acc, err := store.OpenAccount(log, accountName, true)
+	if err != nil && errors.Is(err, store.ErrLoginDisabled) {
+		la.Result = store.AuthLoginDisabled
+		return "", &sherpa.Error{Code: "user:loginFailed", Message: err.Error()}
+	} else if err != nil {
+		la.Result = store.AuthError
+		return "", fmt.Errorf("opening account: %v", err)
+	}
+	err = acc.Close()
+	log.Check(err, "closing account after passkey login")
+	la.Result = store.AuthSuccess
+	mox.LimiterFailedAuth.Reset(ip, start)
+	sessionToken, csrfToken, err := sessionAuth.add(ctx, log, accountName, loginAddress)
+	if err != nil {
+		la.Result = store.AuthError
+		return "", fmt.Errorf("adding session: %v", err)
+	}
+	http.SetCookie(w, &http.Cookie{
+		Name:     kind + "session",
+		Value:    string(sessionToken) + " " + url.QueryEscape(accountName),
+		Path:     cookiePath,
+		Secure:   isHTTPS(isForwarded, r),
+		HttpOnly: true,
+		SameSite: http.SameSiteStrictMode,
+	})
+	http.SetCookie(w, &http.Cookie{
+		Name:     kind + "login",
+		Path:     cookiePath,
+		Secure:   isHTTPS(isForwarded, r),
+		HttpOnly: true,
+		SameSite: http.SameSiteStrictMode,
+		MaxAge:   -1,
 	})
 	return csrfToken, nil
 }

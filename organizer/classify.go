@@ -10,13 +10,16 @@ import (
 type Rule struct {
 	From      string
 	Subject   string
+	ListID    string
 	Tag       string
+	Mailbox   string // If set, file matching mail into this mailbox on delivery.
 	Important bool
 }
 
 type Result struct {
 	Tags      []string
 	Important bool
+	Mailbox   string
 	Reasons   []string
 }
 
@@ -59,8 +62,9 @@ func Classify(from, subject, text string, headers textproto.MIMEHeader, rules []
 	if !r.Important && has("sale", "discount", "limited offer", "special offer", "deal of", "save up to") {
 		add("promotions", "Promotional subject", false)
 	}
+	listID := strings.ToLower(headers.Get("List-Id"))
 	for _, rule := range rules {
-		if rule.From == "" && rule.Subject == "" {
+		if rule.From == "" && rule.Subject == "" && rule.ListID == "" {
 			continue
 		}
 		if rule.From != "" && !strings.Contains(f, strings.ToLower(rule.From)) {
@@ -69,7 +73,18 @@ func Classify(from, subject, text string, headers textproto.MIMEHeader, rules []
 		if rule.Subject != "" && !strings.Contains(s, strings.ToLower(rule.Subject)) {
 			continue
 		}
-		add(rule.Tag, "Your rule", rule.Important)
+		if rule.ListID != "" && !strings.Contains(listID, strings.ToLower(rule.ListID)) {
+			continue
+		}
+		if rule.Tag != "" {
+			add(rule.Tag, "Your rule", rule.Important)
+		} else if rule.Important {
+			r.Important = true
+			r.Reasons = append(r.Reasons, "Your rule")
+		}
+		if rule.Mailbox != "" {
+			r.Mailbox = rule.Mailbox
+		}
 	}
 	if r.Important {
 		r.Tags = append(r.Tags, "important")

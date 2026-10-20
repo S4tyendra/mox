@@ -1,7 +1,8 @@
 # Mail organizer
 
 Open **Mail → Settings → Inbox organizer** to enable auto-tags, create tags,
-edit sender/subject rules, or organize the existing Inbox. Categories run locally:
+edit sender/subject/list-id rules (including file-to-folder), generate
+hide-my-email aliases, or organize the existing Inbox. Categories run locally:
 important, security, finance, orders, updates, newsletters, promotions. Tags are
 IMAP keywords, so other mail clients see them too.
 
@@ -127,16 +128,38 @@ mark messages seen. Sending retains Mox's sender, size and rate-limit checks.
 The consent page uses the webmail app's login, buttons and animated checkboxes.
 It lists all four permissions, preselects the client's requested permissions,
 and allows users to select additional permissions or deselect requested ones.
-Users can revoke grants in settings. Disabling
-MCP revokes account grants. Access tokens expire in one hour. Refresh tokens
-rotate and expire after 30 days, and also depend on the consenting login session
-remaining valid. OAuth registrations/grants/tokens are in memory: restart requires
-reconnection. Only token hashes are retained. Browser Origins must match the
+Users can revoke grants in settings. Disabling MCP revokes account grants.
+OAuth registrations/grants/tokens are stored in oauth.db and do not expire
+until revoked. Only token hashes are retained. Browser Origins must match the
 mail server; server/desktop MCP clients use bearer authentication.
 
 Protocol references: [MCP authorization](https://modelcontextprotocol.io/specification/2025-11-25/basic/authorization),
 [MCP transports](https://modelcontextprotocol.io/specification/2025-11-25/basic/transports),
 [Chat Completions](https://developers.openai.com/api/reference/resources/chat).
+
+## Passkeys
+
+Webmail and account settings can be used with a passkey (WebAuthn) instead of a
+password. Add one in **Account → Security → Passkeys** (also in **Mail →
+Settings → Read**). Sign in with **Sign in with passkey** on the login screen.
+
+The credential (id, COSE public key, sign counter) is stored in the account
+database. Only the public key is kept; the private key never leaves the
+authenticator. Registration uses `residentKey: required` and
+`userVerification: required`, so a passkey can be found without typing an
+address. The relying party id is the host of the mail server, and the origin
+must match exactly.
+
+Passkey login reuses the normal login-token cookie, so a third-party site
+cannot trigger a login. Password login keeps working as a fallback. IMAP and
+SMTP are unchanged: they still use password, SCRAM or TLS client certificates.
+
+## Storage organizer
+
+**Mail → Settings → Storage** lists messages with large attachments (1 MB and
+up) and can permanently delete them in bulk. IMAP cannot rewrite one part in
+place, so the whole message is removed. Use it to reclaim space from old
+attachments.
 
 ## Local testing
 

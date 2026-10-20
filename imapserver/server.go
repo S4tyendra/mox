@@ -146,6 +146,7 @@ var authFailDelay = time.Second  // After authentication failure.
 // to support the PLUS variant (skipping the server downgrade detection check).
 var serverCapabilitiesList = []string{
 	"IMAP4rev2",                       // ../rfc/9051
+	"SORT",                            // ../rfc/5256
 	"IMAP4rev1",                       // ../rfc/3501
 	"ENABLE",                          // ../rfc/5161
 	"LITERAL+",                        // ../rfc/7888
@@ -293,12 +294,12 @@ var (
 	commandsStateAny              = stateCommands("capability", "noop", "logout", "id")
 	commandsStateNotAuthenticated = stateCommands("starttls", "authenticate", "login")
 	commandsStateAuthenticated    = stateCommands("enable", "select", "examine", "create", "delete", "rename", "subscribe", "unsubscribe", "list", "namespace", "status", "append", "idle", "lsub", "getquotaroot", "getquota", "getmetadata", "setmetadata", "compress", "esearch", "notify")
-	commandsStateSelected         = stateCommands("check", "close", "unselect", "expunge", "search", "fetch", "store", "copy", "move", "uid expunge", "uid search", "uid fetch", "uid store", "uid copy", "uid move", "replace", "uid replace", "esearch")
+	commandsStateSelected         = stateCommands("check", "close", "unselect", "expunge", "search", "fetch", "store", "copy", "move", "uid expunge", "uid search", "uid fetch", "uid store", "uid copy", "uid move", "replace", "uid replace", "esearch", "sort", "uid sort")
 )
 
 // Commands that use sequence numbers. Cannot be used when UIDONLY is enabled.
 // Commands like UID SEARCH have additional checks for some parameters.
-var commandsSequence = stateCommands("search", "fetch", "store", "copy", "move", "replace")
+var commandsSequence = stateCommands("search", "sort", "fetch", "store", "copy", "move", "replace")
 
 var commands = map[string]func(c *conn, tag, cmd string, p *parser){
 	// Any state.
@@ -343,6 +344,8 @@ var commands = map[string]func(c *conn, tag, cmd string, p *parser){
 	"uid expunge": (*conn).cmdUIDExpunge,
 	"search":      (*conn).cmdSearch,
 	"uid search":  (*conn).cmdUIDSearch,
+	"sort":        (*conn).cmdSort,
+	"uid sort":    (*conn).cmdUIDSort,
 	"fetch":       (*conn).cmdFetch,
 	"uid fetch":   (*conn).cmdUIDFetch,
 	"store":       (*conn).cmdStore,
@@ -678,7 +681,7 @@ func (c *conn) xwriteresultf(format string, args ...any) {
 // write buffered tagged command response, but first write pending changes.
 func (c *conn) xbwriteresultf(format string, args ...any) {
 	switch c.cmd {
-	case "fetch", "store", "search":
+	case "fetch", "store", "search", "sort":
 		// ../rfc/9051:5862 ../rfc/7162:2033
 	case "select", "examine":
 		// We don't send changes before having confirmed opening the mailbox, to prevent

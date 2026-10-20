@@ -79,24 +79,9 @@ func oauthHash(s string) string {
 }
 func oauthPrune() {
 	now := time.Now()
-	for k, v := range oauthState.Clients {
-		if now.After(v.Expires) {
-			delete(oauthState.Clients, k)
-		}
-	}
 	for k, v := range oauthState.Codes {
-		if now.After(v.Expires) || v.Grant.Revoked {
+		if now.After(v.Expires) || v.Grant != nil && v.Grant.Revoked {
 			delete(oauthState.Codes, k)
-		}
-	}
-	for k, v := range oauthState.Tokens {
-		if now.After(v.Expires) || v.Grant.Revoked {
-			delete(oauthState.Tokens, k)
-		}
-	}
-	for k, v := range oauthState.Grants {
-		if now.After(v.Expires) || v.Revoked {
-			delete(oauthState.Grants, k)
 		}
 	}
 }
@@ -217,11 +202,11 @@ func (s *mcpServer) register(w http.ResponseWriter, r *http.Request) {
 		oauthError(w, 429, "registration_limit")
 		return
 	}
-	client := oauthClient{oauthRandom(), req.ClientName, req.RedirectURIs, time.Now().Add(30 * 24 * time.Hour)}
+	client := oauthClient{oauthRandom(), req.ClientName, req.RedirectURIs, time.Now().Add(100 * 365 * 24 * time.Hour)}
 	if client.Name == "" {
 		client.Name = "Mail client"
 	}
-	oauthState.Clients[client.ID] = client
+	oauthPutClientLocked(client)
 	w.WriteHeader(201)
 	organizerJSON(w, map[string]any{"client_id": client.ID, "client_name": client.Name, "redirect_uris": client.Redirects, "grant_types": []string{"authorization_code", "refresh_token"}, "response_types": []string{"code"}, "token_endpoint_auth_method": "none"})
 }
@@ -309,7 +294,7 @@ func (s *mcpServer) authorize(w http.ResponseWriter, r *http.Request) {
 		}
 		slices.Sort(req.Scopes)
 		req.Scopes = slices.Compact(req.Scopes)
-		grant := &oauthGrant{ID: oauthRandom(), ClientID: clientID, ClientName: client.Name, Account: account, Address: address, Session: session, Scopes: req.Scopes, Resource: s.issuer(r) + "/mcp", Expires: time.Now().Add(30 * 24 * time.Hour)}
+		grant := &oauthGrant{ID: oauthRandom(), ClientID: clientID, ClientName: client.Name, Account: account, Address: address, Session: session, Scopes: req.Scopes, Resource: s.issuer(r) + "/mcp", Expires: time.Now().Add(100 * 365 * 24 * time.Hour)}
 		code := oauthRandom()
 		oauthState.Lock()
 		oauthPrune()
@@ -318,7 +303,7 @@ func (s *mcpServer) authorize(w http.ResponseWriter, r *http.Request) {
 			oauthError(w, 429, "grant_limit")
 			return
 		}
-		oauthState.Grants[grant.ID] = grant
+		oauthPutGrantLocked(grant)
 		oauthState.Codes[oauthHash(code)] = oauthCode{grant, redirect, challenge, time.Now().Add(5 * time.Minute)}
 		oauthState.Unlock()
 		v.Set("code", code)
@@ -360,7 +345,7 @@ func (s *mcpServer) token(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		grant = token.Grant
-		delete(oauthState.Tokens, key)
+		oauthDeleteTokenLocked(key)
 	default:
 		oauthError(w, 400, "unsupported_grant_type")
 		return
@@ -369,15 +354,11 @@ func (s *mcpServer) token(w http.ResponseWriter, r *http.Request) {
 		oauthError(w, 400, "invalid_target")
 		return
 	}
-	if _, err := store.SessionUse(r.Context(), pkglog, grant.Account, grant.Session, ""); err != nil {
-		grant.Revoked = true
-		oauthError(w, 400, "invalid_grant")
-		return
-	}
+	never := time.Now().Add(100 * 365 * 24 * time.Hour)
 	access, refresh := oauthRandom(), oauthRandom()
-	oauthState.Tokens[oauthHash(access)] = oauthToken{grant, time.Now().Add(time.Hour), false}
-	oauthState.Tokens[oauthHash(refresh)] = oauthToken{grant, grant.Expires, true}
-	organizerJSON(w, map[string]any{"access_token": access, "token_type": "Bearer", "expires_in": 3600, "refresh_token": refresh, "scope": strings.Join(grant.Scopes, " ")})
+	oauthPutTokenLocked(oauthHash(access), oauthToken{grant, never, false})
+	oauthPutTokenLocked(oauthHash(refresh), oauthToken{grant, never, true})
+	organizerJSON(w, map[string]any{"access_token": access, "token_type": "Bearer", "expires_in": 315360000, "refresh_token": refresh, "scope": strings.Join(grant.Scopes, " ")})
 }
 
 func (s *mcpServer) revoke(w http.ResponseWriter, r *http.Request) {
@@ -394,6 +375,7 @@ func (s *mcpServer) revoke(w http.ResponseWriter, r *http.Request) {
 	defer oauthState.Unlock()
 	if token, ok := oauthState.Tokens[oauthHash(r.PostForm.Get("token"))]; ok && token.Grant.ClientID == r.PostForm.Get("client_id") && token.Grant.Resource == s.issuer(r)+"/mcp" {
 		token.Grant.Revoked = true
+		oauthPutGrantLocked(token.Grant)
 	}
 	w.WriteHeader(200)
 }
@@ -417,6 +399,7 @@ func mcpRevoke(ctx context.Context, id string) {
 	defer oauthState.Unlock()
 	if g := oauthState.Grants[id]; g != nil && g.Account == ri.Account.Name {
 		g.Revoked = true
+		oauthPutGrantLocked(g)
 	}
 }
 

@@ -110,8 +110,10 @@ func (s *service) handleMessage(ctx context.Context, msg *tgMessage) {
 		s.cmdPair(ctx, msg, arg)
 	case "/logout":
 		s.cmdLogout(ctx, msg)
-	case "/inbox":
+	case "/inbox", "/unread":
 		s.cmdInbox(ctx, msg)
+	case "/digest":
+		s.cmdDigest(ctx, msg)
 	default:
 		if s.continueConvo(ctx, msg, text) {
 			return
@@ -137,11 +139,13 @@ func helpText() string {
 /pair CODE — link with a pairing code from the account page
 /logout — unlink this chat
 /inbox — recent unread messages
+/unread — same as /inbox
+/digest — unread subjects as a single summary
 /help — this message
 
 Reply to a notification to send an email reply. Attachments under 20MB are included.
 
-Buttons on a message: Archive, Junk, Trash, Read.
+Buttons on a message: Archive, Junk, Trash, Read, and tags.
 `)
 }
 

@@ -26,10 +26,17 @@ func (s *service) handleCallback(ctx context.Context, cq *callbackQuery) {
 		return
 	}
 
-	kind, idstr, ok := strings.Cut(cq.Data, ":")
-	if !ok {
+	parts := strings.Split(cq.Data, ":")
+	if len(parts) < 2 {
 		_ = s.client.answerCallback(ctx, cq.ID, "Unknown action")
 		return
+	}
+	kind := parts[0]
+	tag := ""
+	idstr := parts[1]
+	if kind == "k" && len(parts) >= 3 {
+		tag = parts[1]
+		idstr = parts[2]
 	}
 	msgID, err := strconv.ParseInt(idstr, 10, 64)
 	if err != nil || msgID <= 0 {
@@ -37,7 +44,7 @@ func (s *service) handleCallback(ctx context.Context, cq *callbackQuery) {
 		return
 	}
 
-	label, err := s.applyAction(ctx, sess, kind, msgID)
+	label, err := s.applyAction(ctx, sess, kind, tag, msgID)
 	if err != nil {
 		s.log.Infox("telegram mailbox action", err, slog.String("action", kind), slog.Int64("msgid", msgID))
 		metricAction.WithLabelValues(kind, "error").Inc()
@@ -51,7 +58,7 @@ func (s *service) handleCallback(ctx context.Context, cq *callbackQuery) {
 	})
 }
 
-func (s *service) applyAction(ctx context.Context, sess Session, kind string, msgID int64) (string, error) {
+func (s *service) applyAction(ctx context.Context, sess Session, kind, tag string, msgID int64) (string, error) {
 	acc, err := store.OpenAccount(s.log, sess.AccountName, false)
 	if err != nil {
 		return "", err
@@ -76,6 +83,13 @@ func (s *service) applyAction(ctx context.Context, sess Session, kind string, ms
 		case "s":
 			label = "Read"
 			xops.MessageFlagsAdd(ctx, s.log, acc, []int64{msgID}, []string{`\seen`})
+		case "k":
+			organizerCheckTag := strings.ToLower(strings.TrimSpace(tag))
+			if organizerCheckTag == "" || strings.HasPrefix(organizerCheckTag, "$") || strings.HasPrefix(organizerCheckTag, `\`) {
+				xcheckuserf(ctx, errors.New("invalid tag"), "telegram tag")
+			}
+			label = "Tagged " + organizerCheckTag
+			xops.MessageFlagsAdd(ctx, s.log, acc, []int64{msgID}, []string{organizerCheckTag})
 		default:
 			xcheckuserf(ctx, errors.New("unknown action"), "telegram action")
 		}

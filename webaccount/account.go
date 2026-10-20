@@ -219,7 +219,7 @@ func handle(apiHandler http.Handler, isForwarded bool, w http.ResponseWriter, r 
 	var loginAddress, accName string
 	var sessionToken store.SessionToken
 	// All other URLs, except the login endpoint require some authentication.
-	if r.URL.Path != "/api/LoginPrep" && r.URL.Path != "/api/Login" {
+	if r.URL.Path != "/api/LoginPrep" && r.URL.Path != "/api/Login" && r.URL.Path != "/api/PasskeyLoginBegin" && r.URL.Path != "/api/PasskeyLoginFinish" {
 		var ok bool
 		isExport := r.URL.Path == "/export"
 		requireCSRF := isAPI || r.URL.Path == "/import" || isExport

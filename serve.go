@@ -18,6 +18,7 @@ import (
 	"github.com/mjl-/mox/telegram"
 	"github.com/mjl-/mox/tlsrptdb"
 	"github.com/mjl-/mox/tlsrptsend"
+	"github.com/mjl-/mox/webmail"
 )
 
 func shutdown(log mlog.Log) {
@@ -114,6 +115,31 @@ func start(mtastsdbRefresher, sendDMARCReports, sendTLSReports, skipForkExec boo
 
 	if err := telegram.Start(); err != nil {
 		return fmt.Errorf("telegram bot start: %s", err)
+	}
+	webmail.StartBackground()
+	store.AfterDeliver = func(accountName string, m store.Message) {
+		if m.Junk || m.Draft || m.Deleted {
+			return
+		}
+		from := string(m.MsgFromLocalpart)
+		if m.MsgFromDomain != "" {
+			from += "@" + m.MsgFromDomain
+		}
+		if from == "@" || from == "" {
+			from = "New mail"
+		}
+		subj := m.SubjectBase
+		if subj == "" {
+			subj = "(no subject)"
+		}
+		log := mlog.New("serve", nil)
+		acc, err := store.OpenAccount(log, accountName, false)
+		if err != nil {
+			return
+		}
+		webmail.NotifyPush(acc, from, subj)
+		err = acc.Close()
+		log.Check(err, "closing account after web push")
 	}
 	return nil
 }

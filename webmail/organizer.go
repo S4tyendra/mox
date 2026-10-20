@@ -73,8 +73,15 @@ func organizerSave(ctx context.Context, p organizerPreferences) {
 	}
 	for i, rule := range p.Rules {
 		p.Rules[i].Tag = strings.ToLower(strings.TrimSpace(rule.Tag))
-		organizerCheck(ctx, !slices.Contains(p.Tags, p.Rules[i].Tag) || rule.From == "" && rule.Subject == "", "rule needs a tag and a sender or subject")
-		organizerCheck(ctx, len(rule.From) > 320 || len(rule.Subject) > 500, "rule is too long")
+		p.Rules[i].ListID = strings.TrimSpace(rule.ListID)
+		p.Rules[i].Mailbox = strings.TrimSpace(rule.Mailbox)
+		organizerCheck(ctx, p.Rules[i].Tag != "" && !slices.Contains(p.Tags, p.Rules[i].Tag), "rule tag must be in the tag list")
+		organizerCheck(ctx, rule.From == "" && rule.Subject == "" && p.Rules[i].ListID == "", "rule needs a sender, subject or list-id")
+		organizerCheck(ctx, p.Rules[i].Tag == "" && p.Rules[i].Mailbox == "" && !rule.Important, "rule needs a tag or mailbox")
+		organizerCheck(ctx, len(rule.From) > 320 || len(rule.Subject) > 500 || len(p.Rules[i].ListID) > 320, "rule is too long")
+		if p.Rules[i].Mailbox != "" {
+			organizerCheck(ctx, !store.SafeMailboxName(p.Rules[i].Mailbox), "invalid mailbox name")
+		}
 	}
 	if p.AIEndpoint != "" {
 		u, err := url.Parse(p.AIEndpoint)
@@ -105,6 +112,7 @@ func organizerSave(ctx context.Context, p organizerPreferences) {
 		for _, grant := range oauthState.Grants {
 			if grant.Account == ri.Account.Name {
 				grant.Revoked = true
+				oauthPutGrantLocked(grant)
 			}
 		}
 		oauthState.Unlock()
@@ -369,11 +377,33 @@ func organizerAct(ctx context.Context, w Webmail, a organizerAction, webAI bool)
 			w.FlagsClear(ctx, a.IDs, []string{"$notjunk", "keep"})
 			w.FlagsAdd(ctx, a.IDs, []string{"$junk"})
 		}
+	case "nuke":
+		organizerCheck(ctx, webAI, "web AI cannot delete mail")
+		w.MessageDelete(ctx, a.IDs)
 	case "organize":
 		for _, id := range a.IDs {
 			r := organizerRead(ctx, id)
 			if len(r.Classification.Tags) > 0 {
 				w.FlagsAdd(ctx, []int64{id}, r.Classification.Tags)
+			}
+			if r.Classification.Mailbox != "" {
+				var dest store.Mailbox
+				xdbread(ctx, ri.Account, func(tx *bstore.Tx) {
+					mb, err := ri.Account.MailboxFind(tx, r.Classification.Mailbox)
+					xcheckf(ctx, err, "find organizer mailbox")
+					if mb != nil {
+						dest = *mb
+					}
+				})
+				if dest.ID != 0 {
+					m := store.Message{}
+					xdbread(ctx, ri.Account, func(tx *bstore.Tx) {
+						m = xmessageID(ctx, tx, id)
+					})
+					if m.MailboxID != dest.ID {
+						w.MessageMove(ctx, []int64{id}, dest.ID, false)
+					}
+				}
 			}
 		}
 	default:
@@ -462,6 +492,59 @@ func organizerServe(wmail Webmail, w http.ResponseWriter, r *http.Request) {
 		xcheckf(ctx, organizerDecode(w, r, &req), "decode revoke")
 		mcpRevoke(ctx, req.ID)
 		organizerJSON(w, map[string]bool{"ok": true})
+	case "/organizer/contacts":
+		organizerJSON(w, organizerContacts(ctx, r.URL.Query().Get("q")))
+	case "/organizer/snooze":
+		var req struct {
+			IDs   []int64
+			Until time.Time
+		}
+		xcheckf(ctx, organizerDecode(w, r, &req), "decode snooze")
+		organizerSnooze(ctx, wmail, req.IDs, req.Until)
+		organizerJSON(w, map[string]bool{"ok": true})
+	case "/organizer/aliases":
+		if r.Method == "POST" {
+			var req struct {
+				Address string
+				Note    string
+				Enabled *bool
+				Create  bool
+			}
+			xcheckf(ctx, organizerDecode(w, r, &req), "decode alias")
+			organizerJSON(w, organizerAliasSave(ctx, req.Address, req.Note, req.Enabled, req.Create))
+			return
+		}
+		organizerJSON(w, organizerAliasList(ctx))
+	case "/organizer/push":
+		var req struct {
+			Endpoint string
+			P256dh   string
+			Auth     string
+			Remove   bool
+		}
+		xcheckf(ctx, organizerDecode(w, r, &req), "decode push")
+		organizerPushSave(ctx, req.Endpoint, req.P256dh, req.Auth, req.Remove)
+		organizerJSON(w, map[string]any{"ok": true, "PublicKey": vapidPublicKey()})
+	case "/organizer/push-key":
+		organizerJSON(w, map[string]string{"PublicKey": vapidPublicKey()})
+	case "/organizer/storage":
+		var req struct {
+			MinSize int64
+			Limit   int
+		}
+		if r.Method == "POST" {
+			xcheckf(ctx, organizerDecode(w, r, &req), "decode storage request")
+		} else {
+			organizerCheck(ctx, r.Method != "GET", "use GET or POST")
+		}
+		organizerJSON(w, organizerStorage(ctx, req.MinSize, req.Limit))
+	case "/organizer/identities":
+		if r.Method == "POST" {
+			var req store.FromAddressSettings
+			xcheckf(ctx, organizerDecode(w, r, &req), "decode identity")
+			wmail.FromAddressSettingsSave(ctx, req)
+		}
+		organizerJSON(w, organizerIdentities(ctx))
 	default:
 		http.NotFound(w, r)
 	}

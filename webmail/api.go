@@ -243,7 +243,11 @@ func (Webmail) FromAddressSettingsSave(ctx context.Context, fas store.FromAddres
 	}
 
 	xdbwrite(ctx, acc, func(tx *bstore.Tx) {
-		if tx.Get(&store.FromAddressSettings{FromAddress: fas.FromAddress}) == nil {
+		old := store.FromAddressSettings{FromAddress: fas.FromAddress}
+		if tx.Get(&old) == nil {
+			if fas.ViewMode == "" {
+				fas.ViewMode = old.ViewMode
+			}
 			err := tx.Update(&fas)
 			xcheckf(ctx, err, "updating settings for from address")
 		} else {

@@ -573,6 +573,15 @@ func (p *Proto) xuntagged() Untagged {
 		p.xcrlf()
 		return r
 
+	case "SORT":
+		var nums []uint32
+		for p.space() {
+			nums = append(nums, p.xnzuint32())
+		}
+		r := UntaggedSort(nums)
+		p.xcrlf()
+		return r
+
 	case "SEARCH":
 		// ../rfc/9051:6809
 		var nums []uint32

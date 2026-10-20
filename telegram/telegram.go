@@ -182,6 +182,8 @@ func Start() error {
 		{Command: "login", Description: "Link this chat to a mailbox"},
 		{Command: "logout", Description: "Unlink this chat"},
 		{Command: "inbox", Description: "Recent unread messages"},
+		{Command: "unread", Description: "Recent unread messages"},
+		{Command: "digest", Description: "Unread subject list"},
 		{Command: "help", Description: "Commands and tips"},
 	})
 
@@ -198,6 +200,7 @@ func Start() error {
 	}
 
 	go s.cleanupLoop(ctx)
+	go s.digestLoop(ctx)
 	return nil
 }
 

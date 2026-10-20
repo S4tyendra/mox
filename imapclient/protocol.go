@@ -387,6 +387,8 @@ type UntaggedUIDFetch struct {
 }
 type UntaggedSearch []uint32
 
+type UntaggedSort []uint32
+
 type UntaggedSearchModSeq struct {
 	// ../rfc/7162:1101
 

@@ -21,8 +21,12 @@ func TestClassify(t *testing.T) {
 			t.Fatalf("%s: %#v", tc.subject, r)
 		}
 	}
-	r := Classify("bank@example.org", "Payment successful", "", textproto.MIMEHeader{"List-Unsubscribe": {"<https://example.org/unsubscribe>"}}, []Rule{{From: "bank@", Tag: "bank", Important: true}})
-	if !slices.Contains(r.Tags, "bank") || !slices.Contains(r.Tags, "newsletters") || !r.Important {
+	r := Classify("bank@example.org", "Payment successful", "", textproto.MIMEHeader{"List-Unsubscribe": {"<https://example.org/unsubscribe>"}}, []Rule{{From: "bank@", Tag: "bank", Mailbox: "Finance", Important: true}})
+	if !slices.Contains(r.Tags, "bank") || !slices.Contains(r.Tags, "newsletters") || !r.Important || r.Mailbox != "Finance" {
+		t.Fatal(r)
+	}
+	r = Classify("list@news.example", "Weekly", "", textproto.MIMEHeader{"List-Id": {"<news.example>"}}, []Rule{{ListID: "news.example", Mailbox: "Newsletters", Tag: "newsletters"}})
+	if r.Mailbox != "Newsletters" || !slices.Contains(r.Tags, "newsletters") {
 		t.Fatal(r)
 	}
 	// Promotions must not override importance and an empty rule must not tag every mail.

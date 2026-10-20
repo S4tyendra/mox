@@ -672,6 +672,124 @@
 				}
 			],
 			"Returns": []
+		},
+		{
+			"Name": "PasskeyLoginBegin",
+			"Docs": "",
+			"Params": [],
+			"Returns": [
+				{
+					"Name": "r0",
+					"Typewords": [
+						"PasskeyBegin"
+					]
+				}
+			]
+		},
+		{
+			"Name": "PasskeyLoginFinish",
+			"Docs": "",
+			"Params": [
+				{
+					"Name": "challengeID",
+					"Typewords": [
+						"string"
+					]
+				},
+				{
+					"Name": "credentialJSON",
+					"Typewords": [
+						"string"
+					]
+				}
+			],
+			"Returns": [
+				{
+					"Name": "r0",
+					"Typewords": [
+						"CSRFToken"
+					]
+				}
+			]
+		},
+		{
+			"Name": "PasskeyRegisterBegin",
+			"Docs": "",
+			"Params": [
+				{
+					"Name": "name",
+					"Typewords": [
+						"string"
+					]
+				}
+			],
+			"Returns": [
+				{
+					"Name": "r0",
+					"Typewords": [
+						"PasskeyBegin"
+					]
+				}
+			]
+		},
+		{
+			"Name": "PasskeyRegisterFinish",
+			"Docs": "",
+			"Params": [
+				{
+					"Name": "name",
+					"Typewords": [
+						"string"
+					]
+				},
+				{
+					"Name": "challengeID",
+					"Typewords": [
+						"string"
+					]
+				},
+				{
+					"Name": "credentialJSON",
+					"Typewords": [
+						"string"
+					]
+				}
+			],
+			"Returns": [
+				{
+					"Name": "r0",
+					"Typewords": [
+						"Passkey"
+					]
+				}
+			]
+		},
+		{
+			"Name": "PasskeyList",
+			"Docs": "",
+			"Params": [],
+			"Returns": [
+				{
+					"Name": "r0",
+					"Typewords": [
+						"[]",
+						"Passkey"
+					]
+				}
+			]
+		},
+		{
+			"Name": "PasskeyRemove",
+			"Docs": "",
+			"Params": [
+				{
+					"Name": "credentialID",
+					"Typewords": [
+						"string"
+					]
+				}
+			],
+			"Returns": []
 		}
 	],
 	"Sections": [],
@@ -1981,6 +2099,61 @@
 					"Docs": "",
 					"Typewords": [
 						"timestamp"
+					]
+				}
+			]
+		},
+		{
+			"Name": "PasskeyBegin",
+			"Docs": "",
+			"Fields": [
+				{
+					"Name": "ChallengeID",
+					"Docs": "",
+					"Typewords": [
+						"string"
+					]
+				},
+				{
+					"Name": "Options",
+					"Docs": "",
+					"Typewords": [
+						"{}",
+						"any"
+					]
+				}
+			]
+		},
+		{
+			"Name": "Passkey",
+			"Docs": "",
+			"Fields": [
+				{
+					"Name": "CredentialID",
+					"Docs": "",
+					"Typewords": [
+						"string"
+					]
+				},
+				{
+					"Name": "Name",
+					"Docs": "",
+					"Typewords": [
+						"string"
+					]
+				},
+				{
+					"Name": "Created",
+					"Docs": "",
+					"Typewords": [
+						"string"
+					]
+				},
+				{
+					"Name": "LastUsed",
+					"Docs": "",
+					"Typewords": [
+						"string"
 					]
 				}
 			]

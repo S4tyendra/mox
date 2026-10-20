@@ -8,6 +8,7 @@ import (
 	"io"
 	"log/slog"
 	"strings"
+	"time"
 	"unicode/utf8"
 
 	"github.com/mjl-/bstore"
@@ -339,6 +340,105 @@ func (s *service) cmdInbox(ctx context.Context, msg *tgMessage) {
 	}
 }
 
+func (s *service) cmdDigest(ctx context.Context, msg *tgMessage) {
+	sess, err := sessionByChat(ctx, msg.Chat.ID)
+	if err != nil {
+		_, _ = s.client.sendMessage(ctx, msg.Chat.ID, "This chat is not linked. Send /login first.", nil, 0)
+		return
+	}
+	text := s.unreadDigest(sess.AccountName)
+	_, _ = s.client.sendMessage(ctx, msg.Chat.ID, text, nil, 0)
+}
+
+func (s *service) unreadDigest(accountName string) string {
+	acc, err := store.OpenAccount(s.log, accountName, false)
+	if err != nil {
+		return "Could not open the mailbox."
+	}
+	defer acc.Close()
+	var lines []string
+	n := 0
+	err = acc.DB.Read(context.Background(), func(tx *bstore.Tx) error {
+		mb, err := acc.MailboxFind(tx, "Inbox")
+		if err != nil || mb == nil {
+			return err
+		}
+		q := bstore.QueryTx[store.Message](tx)
+		q.FilterNonzero(store.Message{MailboxID: mb.ID})
+		q.FilterEqual("Expunged", false)
+		q.FilterEqual("Seen", false)
+		q.SortDesc("Received")
+		q.Limit(20)
+		msgs, err := q.List()
+		if err != nil {
+			return err
+		}
+		n = len(msgs)
+		for _, m := range msgs {
+			subj := m.SubjectBase
+			if subj == "" {
+				subj = "(no subject)"
+			}
+			from := string(m.MsgFromLocalpart)
+			if m.MsgFromDomain != "" {
+				from += "@" + m.MsgFromDomain
+			}
+			if from == "@" || from == "" {
+				from = "unknown"
+			}
+			lines = append(lines, fmt.Sprintf("• %s — %s", clipRunes(from, 40), clipRunes(subj, 80)))
+		}
+		return nil
+	})
+	if err != nil {
+		return "Could not list unread mail."
+	}
+	if n == 0 {
+		return "No unread messages in Inbox."
+	}
+	return fmt.Sprintf("<b>%d unread in Inbox</b>\n%s", n, strings.Join(lines, "\n"))
+}
+
+func (s *service) digestLoop(ctx context.Context) {
+	for {
+		now := time.Now().UTC()
+		next := time.Date(now.Year(), now.Month(), now.Day(), 8, 0, 0, 0, time.UTC)
+		if !next.After(now) {
+			next = next.Add(24 * time.Hour)
+		}
+		timer := time.NewTimer(time.Until(next))
+		select {
+		case <-ctx.Done():
+			timer.Stop()
+			return
+		case <-timer.C:
+			s.sendDailyDigests(ctx)
+		}
+	}
+}
+
+func (s *service) sendDailyDigests(ctx context.Context) {
+	if DB == nil {
+		return
+	}
+	sessions, err := bstore.QueryDB[Session](ctx, DB).List()
+	if err != nil {
+		return
+	}
+	seen := map[int64]struct{}{}
+	for _, sess := range sessions {
+		if _, ok := seen[sess.ChatID]; ok {
+			continue
+		}
+		seen[sess.ChatID] = struct{}{}
+		text := s.unreadDigest(sess.AccountName)
+		if strings.HasPrefix(text, "No unread") {
+			continue
+		}
+		_, _ = s.client.sendMessage(ctx, sess.ChatID, "Morning digest\n"+text, nil, 0)
+	}
+}
+
 func clipRunes(s string, n int) string {
 	if utf8.RuneCountInString(s) <= n {
 		return s
@@ -366,6 +466,11 @@ func actionKeyboard(msgID int64) *inlineKeyboard {
 			{Text: "Junk", CallbackData: "j:" + id},
 			{Text: "Trash", CallbackData: "t:" + id},
 			{Text: "Read", CallbackData: "s:" + id},
+		},
+		{
+			{Text: "Important", CallbackData: "k:important:" + id},
+			{Text: "Finance", CallbackData: "k:finance:" + id},
+			{Text: "Newsletters", CallbackData: "k:newsletters:" + id},
 		},
 	}}
 }

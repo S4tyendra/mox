@@ -375,8 +375,8 @@ type conn struct {
 	futureReleaseRequest string    // For use in DSNs, either "for;" or "until;" plus original value. ../rfc/4865:305
 	has8bitmime          bool      // If MAIL FROM parameter BODY=8BITMIME was sent. Required for SMTPUTF8.
 	smtputf8             bool      // todo future: we should keep track of this per recipient. perhaps only a specific recipient requires smtputf8, e.g. due to a utf8 localpart.
-	msgSMTPUTF8          bool // Whether message requires SMTPUTF8 (non-ASCII headers). Re-evaluated after whole message is received.
-	msgSMTPUTF8Addr      bool // Whether envelope addresses contain non-ASCII characters (cannot be downgraded).
+	msgSMTPUTF8          bool      // Whether message requires SMTPUTF8 (non-ASCII headers). Re-evaluated after whole message is received.
+	msgSMTPUTF8Addr      bool      // Whether envelope addresses contain non-ASCII characters (cannot be downgraded).
 	recipients           []recipient
 }
 
@@ -3581,6 +3581,9 @@ func (c *conn) deliver(ctx context.Context, recvHdrFor func(string) string, msgW
 					metricDelivery.WithLabelValues("delivererror", a0.reason).Inc()
 					if errors.Is(err, store.ErrOverQuota) {
 						nfull++
+					} else if errors.Is(err, store.ErrAliasDisabled) {
+						addError(rcpt, smtp.C550MailboxUnavail, smtp.SeAddr1UnknownDestMailbox1, false, "user unknown")
+						nerr++
 					} else {
 						addError(rcpt, smtp.C451LocalErr, smtp.SeSys3Other0, false, "error processing")
 						nerr++
