@@ -388,8 +388,8 @@ func htmlToText(r io.Reader, limit int) (string, error) {
 	var ignores []bool
 	var inlines []bool
 
-	var text string // Collecting text.
-	var err error   // Set when walking DOM.
+	var text strings.Builder // Collecting text without quadratic concatenation.
+	var err error            // Set when walking DOM.
 	var quoteLevel int
 
 	// We'll walk the DOM nodes, keeping track of whether we are ignoring text, and
@@ -403,6 +403,30 @@ func htmlToText(r io.Reader, limit int) (string, error) {
 			return false
 
 		case html.ElementNode:
+			for _, a := range n.Attr {
+				if a.Key == "hidden" || a.Key == "aria-hidden" && a.Val == "true" {
+					return true
+				}
+			}
+			if limit == 0 && n.DataAtom == atom.A {
+				for _, a := range n.Attr {
+					if a.Key == "href" && (strings.HasPrefix(strings.ToLower(a.Val), "https://") || strings.HasPrefix(strings.ToLower(a.Val), "http://") || strings.HasPrefix(strings.ToLower(a.Val), "mailto:")) {
+						start := text.Len()
+						defer func() {
+							if strings.TrimSpace(text.String()[start:]) != a.Val {
+								text.WriteString(" <" + a.Val + ">")
+							}
+						}()
+					}
+				}
+			}
+			if limit == 0 && n.DataAtom == atom.Img {
+				for _, a := range n.Attr {
+					if a.Key == "alt" && strings.TrimSpace(a.Val) != "" {
+						text.WriteString(" [" + a.Val + "] ")
+					}
+				}
+			}
 			ignores = append(ignores, ignoreAtoms[n.DataAtom])
 			inline := inlineAtoms[n.DataAtom]
 			inlines = append(inlines, inline)
@@ -413,10 +437,10 @@ func htmlToText(r io.Reader, limit int) (string, error) {
 				if n.DataAtom == atom.Blockquote {
 					quoteLevel--
 				}
-				if !inline && !strings.HasSuffix(text, "\n\n") {
-					text += "\n"
-				} else if (n.DataAtom == atom.Td || n.DataAtom == atom.Th) && !strings.HasSuffix(text, " ") {
-					text += " "
+				if !inline && !strings.HasSuffix(text.String(), "\n\n") {
+					text.WriteByte('\n')
+				} else if (n.DataAtom == atom.Td || n.DataAtom == atom.Th) && !strings.HasSuffix(text.String(), " ") {
+					text.WriteByte(' ')
 				}
 
 				ignores = ignores[:len(ignores)-1]
@@ -428,17 +452,17 @@ func htmlToText(r io.Reader, limit int) (string, error) {
 				return true
 			}
 			// Collapse all kinds of weird whitespace-like characters into a space, except for newline and ignoring carriage return.
-			var s string
+			var textNode strings.Builder
 			for _, c := range n.Data {
 				if c == '\r' {
 					continue
 				} else if c == '\t' {
-					s += " "
+					textNode.WriteByte(' ')
 				} else {
-					s += string(c)
+					textNode.WriteRune(c)
 				}
 			}
-			s = regexpSpace.ReplaceAllString(s, " ")
+			s := regexpSpace.ReplaceAllString(textNode.String(), " ")
 			s = regexpNewline.ReplaceAllString(s, "\n")
 			s = regexpZeroWidth.ReplaceAllString(s, "")
 
@@ -464,12 +488,12 @@ func htmlToText(r io.Reader, limit int) (string, error) {
 					}
 					s = sb.String()
 				}
-				text += s
+				text.WriteString(s)
 			}
 			// When a limit is set (preview use), stop once we have enough. Previews need at
 			// most 256 characters, and the gathered text is cleaned up afterwards (quoting
 			// removed), so a few kilobytes is plenty. A limit of 0 means read everything.
-			if limit > 0 && len(text) >= limit {
+			if limit > 0 && text.Len() >= limit {
 				return false
 			}
 		}
@@ -492,7 +516,7 @@ func htmlToText(r io.Reader, limit int) (string, error) {
 	// Build text.
 	walk(node)
 
-	text = strings.TrimSpace(text)
-	text = regexpSpace.ReplaceAllString(text, " ")
-	return text, err
+	result := strings.TrimSpace(text.String())
+	result = regexpSpace.ReplaceAllString(result, " ")
+	return result, err
 }

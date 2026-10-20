@@ -805,6 +805,8 @@ func portServes(name string, l config.Listener) map[int]*serve {
 		}
 		handler := http.StripPrefix(strings.TrimRight(path, "/"), http.HandlerFunc(webmail.Handler(maxMsgSize, path, l.WebmailHTTP.Forwarded, accountPath)))
 		srv.ServiceHandle("webmail", accountHostMatch, path, handler)
+		srv.SystemHandle("mail-oauth-resource", accountHostMatch, "/.well-known/oauth-protected-resource"+strings.TrimRight(path, "/")+"/mcp", webmail.OAuthMetadata(path, l.WebmailHTTP.Forwarded))
+		srv.SystemHandle("mail-oauth-server", accountHostMatch, "/.well-known/oauth-authorization-server"+strings.TrimRight(path, "/"), webmail.OAuthMetadata(path, l.WebmailHTTP.Forwarded))
 		redirectToTrailingSlash(srv, accountHostMatch, "webmail", path)
 		ensureACMEHTTP01(srv)
 	}
@@ -824,6 +826,8 @@ func portServes(name string, l config.Listener) map[int]*serve {
 		}
 		handler := http.StripPrefix(strings.TrimRight(path, "/"), http.HandlerFunc(webmail.Handler(maxMsgSize, path, l.WebmailHTTPS.Forwarded, accountPath)))
 		srv.ServiceHandle("webmail", accountHostMatch, path, handler)
+		srv.SystemHandle("mail-oauth-resource", accountHostMatch, "/.well-known/oauth-protected-resource"+strings.TrimRight(path, "/")+"/mcp", webmail.OAuthMetadata(path, l.WebmailHTTPS.Forwarded))
+		srv.SystemHandle("mail-oauth-server", accountHostMatch, "/.well-known/oauth-authorization-server"+strings.TrimRight(path, "/"), webmail.OAuthMetadata(path, l.WebmailHTTPS.Forwarded))
 		redirectToTrailingSlash(srv, accountHostMatch, "webmail", path)
 	}
 

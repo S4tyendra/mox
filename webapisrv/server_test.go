@@ -122,7 +122,8 @@ func TestServer(t *testing.T) {
 		testHTTPHdrsBody(s, method, path, nil, "", expCode, false, expCT, "")
 	}
 
-	testHTTP("GET", "/", http.StatusSeeOther, "")
+	// The React web API shell is served directly at the app root.
+	testHTTP("GET", "/", http.StatusOK, "text/html; charset=utf-8")
 	testHTTP("POST", "/", http.StatusMethodNotAllowed, "")
 	testHTTP("GET", "/v0/", http.StatusOK, "text/html; charset=utf-8")
 	testHTTP("GET", "/other/", http.StatusNotFound, "")

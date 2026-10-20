@@ -222,3 +222,20 @@ func TestHTMLToText(t *testing.T) {
 		t.Fatalf("output still contains tags, got: %q", s)
 	}
 }
+
+func TestReceiptTextLinks(t *testing.T) {
+	s, err := HTMLToText(strings.NewReader(`<style>bad css</style><script>bad script</script><p>Payment successful</p><table><tr><td>Amount</td><td>₹50.00</td></tr><tr><td>Order</td><td>D01-123</td></tr></table><a href="https://example.org/statement?a=1&amp;b=2">View statement</a><span hidden>hidden tracking</span><img alt="Amazon Pay" src="https://tracker.example/pixel">`))
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, want := range []string{"₹50.00", "D01-123", "View statement <https://example.org/statement?a=1&b=2>", "Amazon Pay"} {
+		if !strings.Contains(s, want) {
+			t.Fatalf("missing %q: %s", want, s)
+		}
+	}
+	for _, bad := range []string{"bad css", "bad script", "hidden tracking", "tracker.example"} {
+		if strings.Contains(s, bad) {
+			t.Fatalf("included %q: %s", bad, s)
+		}
+	}
+}

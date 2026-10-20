@@ -168,6 +168,7 @@ func TestAPI(t *testing.T) {
 	// Context with different IP, for clear rate limit history.
 	reqInfo := requestInfo{log, "mjl@mox.example", acc, "", nil, &http.Request{RemoteAddr: "127.0.0.1:1234"}}
 	ctx := context.WithValue(ctxbg, requestInfoCtxKey, reqInfo)
+	testOrganizerAI(t, ctx, inboxAlt.ID)
 
 	// FlagsAdd
 	api.FlagsAdd(ctx, []int64{inboxText.ID}, []string{`\seen`, `customlabel`})

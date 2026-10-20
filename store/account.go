@@ -61,6 +61,7 @@ import (
 	"github.com/mjl-/mox/mox-"
 	"github.com/mjl-/mox/moxio"
 	"github.com/mjl-/mox/moxvar"
+	"github.com/mjl-/mox/organizer"
 	"github.com/mjl-/mox/publicsuffix"
 	"github.com/mjl-/mox/scram"
 	"github.com/mjl-/mox/smtp"
@@ -969,6 +970,7 @@ var DBTypes = []any{
 	DiskUsage{},
 	LoginSession{},
 	Settings{},
+	OrganizerSettings{},
 	FromAddressSettings{},
 	RulesetNoListID{},
 	RulesetNoMsgFrom{},
@@ -2424,6 +2426,24 @@ func (a *Account) MessageAdd(log mlog.Log, tx *bstore.Tx, mb *Mailbox, m *Messag
 				return fmt.Errorf("generating preview: %v", err)
 			}
 			m.Preview = &s
+		}
+	}
+
+	// Organize new Inbox deliveries locally. Existing mail is changed only by an
+	// explicit organize request. These keywords are shared with IMAP clients.
+	osettings := OrganizerSettings{ID: 1}
+	if mb.Name == "Inbox" && !m.Junk && tx.Get(&osettings) == nil && osettings.Enabled {
+		if p := getPart(); p != nil && p.Envelope != nil {
+			h, err := p.Header()
+			if err == nil {
+				from := ""
+				if len(p.Envelope.From) > 0 {
+					from = p.Envelope.From[0].User + "@" + p.Envelope.From[0].Host
+				}
+				result := organizer.Classify(from, p.Envelope.Subject, "", h, osettings.Rules)
+				m.Keywords, _ = MergeKeywords(m.Keywords, result.Tags)
+				mb.Keywords, _ = MergeKeywords(mb.Keywords, result.Tags)
+			}
 		}
 	}
 

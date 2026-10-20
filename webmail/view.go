@@ -375,9 +375,10 @@ var sses = struct {
 
 // sse represents an sse connection.
 type sse struct {
-	ID          int64        // Also returned in EventStart and used in Request to identify the request.
-	AccountName string       // Used to check the authenticated user has access to the SSE connection.
-	Request     chan Request // Goroutine will receive requests from here, coming from API calls.
+	ID          int64              // Also returned in EventStart and used in Request to identify the request.
+	AccountName string             // Used to check the authenticated user has access to the SSE connection.
+	Request     chan Request       // Goroutine will receive requests from here, coming from API calls.
+	AI          chan aiStreamEvent // AI progress for a POST /organizer/ai on this connection. Buffered; sends never block.
 }
 
 // called by the goroutine when the connection is closed or breaks.
@@ -390,6 +391,7 @@ func (sse sse) unregister() {
 	for {
 		select {
 		case <-sse.Request:
+		case <-sse.AI:
 		default:
 			return
 		}
@@ -400,9 +402,22 @@ func sseRegister(accountName string) sse {
 	sses.Lock()
 	defer sses.Unlock()
 	sses.gen++
-	v := sse{sses.gen, accountName, make(chan Request, 1)}
+	v := sse{sses.gen, accountName, make(chan Request, 1), make(chan aiStreamEvent, 128)}
 	sses.m[v.ID] = v
 	return v
+}
+
+// sendAI queues one progress event for the mailbox SSE loop. A full or closed
+// connection drops the event; the AI POST still finishes and is logged.
+func (s sse) sendAI(ev aiStreamEvent) {
+	if s.AI == nil || ev.Text == "" {
+		return
+	}
+	select {
+	case s.AI <- ev:
+	default:
+		pkglog.Info("ai event dropped", slog.String("kind", ev.Kind), slog.Int64("sse", s.ID))
+	}
 }
 
 // sseGet returns a reference to an existing connection if it exists and user
@@ -1070,6 +1085,9 @@ func serveEvents(ctx context.Context, log mlog.Log, accountPath string, w http.R
 			reqctx = nil
 			reqctxcancel = nil
 
+		case ev := <-sse.AI:
+			writer.xsendEvent(ctx, log, "ai", ev)
+
 		case req := <-sse.Request:
 			if reqctx != nil {
 				cancelDrain()
@@ -1612,7 +1630,7 @@ func queryMessages(ctx context.Context, log mlog.Log, acc *store.Account, tx *bs
 			return fmt.Errorf("making messageitem for message %d: %v", m.ID, err)
 		}
 		mil := []MessageItem{mi}
-		
+
 		delta := 0
 
 		if query.Threading != ThreadOff {
@@ -1667,7 +1685,7 @@ func queryMessages(ctx context.Context, log mlog.Log, acc *store.Account, tx *bs
 			skipped += delta
 			return nil
 		}
-		
+
 		have += delta
 
 		if pm != nil && len(pm.envelope.From) == 1 {

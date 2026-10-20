@@ -677,10 +677,10 @@ func TestWebmail(t *testing.T) {
 		testHTTPAuthREST("GET", pathInboxText+"/"+elem, http.StatusBadRequest, nil, nil)
 
 	}
-	// No text part.
+	// HTML-only messages now have a generated readable text view.
 	pathInboxHTML := fmt.Sprintf("/msg/%d", inboxHTML.ID)
 	for _, elem := range []string{"text", "msgtext"} {
-		testHTTPAuthREST("GET", pathInboxHTML+"/"+elem, http.StatusBadRequest, nil, nil)
+		testHTTPAuthREST("GET", pathInboxHTML+"/"+elem, http.StatusOK, nil, nil)
 	}
 
 	// HTTP message part: view,viewtext,download

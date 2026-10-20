@@ -214,7 +214,11 @@ func init() {
 // message size coming from the listener and cookiePath.
 func Handler(maxMessageSize int64, cookiePath string, isForwarded bool, accountPath string) func(w http.ResponseWriter, r *http.Request) {
 	sh, err := makeSherpaHandler(maxMessageSize, cookiePath, isForwarded)
+	mcp := &mcpServer{webmail: Webmail{maxMessageSize, cookiePath, isForwarded}, basePath: strings.TrimRight(cookiePath, "/")}
 	return func(w http.ResponseWriter, r *http.Request) {
+		if mcp.serve(w, r) {
+			return
+		}
 		if err != nil {
 			http.Error(w, "500 - internal server error - cannot handle requests", http.StatusInternalServerError)
 			return
@@ -236,6 +240,10 @@ func handle(apiHandler http.Handler, isForwarded bool, accountPath string, w htt
 	}
 
 	if ui.Try(w, r) {
+		return
+	}
+	if r.URL.Path == "/" && r.Method != "GET" && r.Method != "HEAD" {
+		w.WriteHeader(http.StatusMethodNotAllowed)
 		return
 	}
 
@@ -308,15 +316,15 @@ func handle(apiHandler http.Handler, isForwarded bool, accountPath string, w htt
 	if r.URL.Path != "/api/LoginPrep" && r.URL.Path != "/api/Login" {
 		var ok bool
 		isExport := r.URL.Path == "/export"
-		requireCSRF := isAPI || isExport
-		accName, sessionToken, loginAddress, ok = webauth.Check(ctx, log, webauth.Accounts, "webmail", isForwarded, w, r, isAPI, requireCSRF, isExport)
+		requireCSRF := isAPI || isExport || strings.HasPrefix(r.URL.Path, "/organizer/")
+		accName, sessionToken, loginAddress, ok = webauth.Check(ctx, log, webauth.Accounts, "webmail", isForwarded, w, r, isAPI || strings.HasPrefix(r.URL.Path, "/organizer/"), requireCSRF, isExport)
 		if !ok {
 			// Response has been written already.
 			return
 		}
 	}
 
-	if isAPI {
+	if isAPI || strings.HasPrefix(r.URL.Path, "/organizer/") {
 		var acc *store.Account
 		if accName != "" {
 			log = log.With(slog.String("account", accName))
@@ -334,6 +342,10 @@ func handle(apiHandler http.Handler, isForwarded bool, accountPath string, w htt
 		}
 		reqInfo := requestInfo{log, loginAddress, acc, sessionToken, w, r}
 		ctx = context.WithValue(ctx, requestInfoCtxKey, reqInfo)
+		if strings.HasPrefix(r.URL.Path, "/organizer/") {
+			organizerServe(Webmail{cookiePath: r.URL.Path, isForwarded: isForwarded}, w, r.WithContext(ctx))
+			return
+		}
 		apiHandler.ServeHTTP(w, r.WithContext(ctx))
 		return
 	}
@@ -766,6 +778,13 @@ func handle(apiHandler http.Handler, isForwarded bool, accountPath string, w htt
 			sameorigin := r.URL.Query().Get("sameorigin") == "true"
 			allowExternal := strings.HasSuffix(t[1], "external")
 			headers(sameorigin, allowExternal, false, false)
+			if r.URL.Query().Get("images") == "none" {
+				sandbox := "sandbox allow-popups allow-popups-to-escape-sandbox; "
+				if sameorigin {
+					sandbox = "sandbox allow-popups allow-popups-to-escape-sandbox allow-same-origin; "
+				}
+				h.Set("Content-Security-Policy", sandbox+"frame-ancestors 'self'; default-src 'none'; img-src 'none'; style-src 'unsafe-inline'")
+			}
 
 			h.Set("Content-Type", "text/html; charset=utf-8")
 			h.Set("Cache-Control", "no-store, max-age=0")
@@ -782,7 +801,7 @@ func handle(apiHandler http.Handler, isForwarded bool, accountPath string, w htt
 			switch mt {
 			case "TEXT/HTML":
 				done = true
-				err := inlineSanitizeHTML(log, setHeaders, w, p, parents)
+				err := inlineSanitizeHTMLMode(log, setHeaders, w, p, parents, r.URL.Query().Get("images") != "none")
 				if err != nil {
 					http.Error(w, "400 - bad request - "+err.Error(), http.StatusBadRequest)
 				}
@@ -865,6 +884,10 @@ func handle(apiHandler http.Handler, isForwarded bool, accountPath string, w htt
 // CSP. On error, setHeader is not called, no output is written and the caller
 // should write an error response.
 func inlineSanitizeHTML(log mlog.Log, setHeaders func(), w io.Writer, p *message.Part, parents []*message.Part) error {
+	return inlineSanitizeHTMLMode(log, setHeaders, w, p, parents, true)
+}
+
+func inlineSanitizeHTMLMode(log mlog.Log, setHeaders func(), w io.Writer, p *message.Part, parents []*message.Part, images bool) error {
 	node, err := html.Parse(p.ReaderUTF8OrBinary())
 	if err != nil {
 		return fmt.Errorf("parsing html: %v", err)
@@ -872,6 +895,9 @@ func inlineSanitizeHTML(log mlog.Log, setHeaders func(), w io.Writer, p *message
 
 	// We track size, if it becomes too much, we abort and still copy as regular html.
 	var totalSize int64
+	if !images {
+		blockHTMLImages(node)
+	}
 	if err := inlineNode(p, parents, node, &totalSize); err != nil {
 		return fmt.Errorf("inline cid uris in html nodes: %w", err)
 	}
@@ -880,6 +906,49 @@ func inlineSanitizeHTML(log mlog.Log, setHeaders func(), w io.Writer, p *message
 	err = html.Render(w, node)
 	log.Check(err, "writing html")
 	return nil
+}
+
+// Remove image sources on the server too, before an inert browser DOM parser
+// can encounter them. The client also applies img-src 'none' to CSS images.
+func blockHTMLImages(node *html.Node) {
+	for child := node.FirstChild; child != nil; {
+		next := child.NextSibling
+		if child.Type == html.ElementNode {
+			switch child.Data {
+			case "img", "svg", "picture":
+				label := "Image blocked"
+				for _, attr := range child.Attr {
+					if attr.Key == "alt" && strings.TrimSpace(attr.Val) != "" {
+						label = attr.Val
+					}
+				}
+				span := &html.Node{Type: html.ElementNode, Data: "span", Attr: []html.Attribute{{Key: "style", Val: "display:inline-block;padding:6px 10px;border:1px dashed #89918b;border-radius:4px;font:12px system-ui;color:#737b75"}}}
+				span.AppendChild(&html.Node{Type: html.TextNode, Data: label})
+				node.InsertBefore(span, child)
+				node.RemoveChild(child)
+			case "iframe", "object", "embed", "source", "video", "audio", "link", "meta":
+				node.RemoveChild(child)
+			default:
+				blockHTMLImages(child)
+			}
+		}
+		child = next
+	}
+	attrs := node.Attr[:0]
+	for _, attr := range node.Attr {
+		if attr.Key == "background" || attr.Key == "src" || attr.Key == "srcset" || attr.Key == "style" && (strings.Contains(strings.ToLower(attr.Val), "url(") || strings.Contains(strings.ToLower(attr.Val), "@import")) {
+			continue
+		}
+		attrs = append(attrs, attr)
+	}
+	node.Attr = attrs
+	if node.Type == html.ElementNode && node.Data == "style" {
+		for child := node.FirstChild; child != nil; child = child.NextSibling {
+			if strings.Contains(strings.ToLower(child.Data), "url(") || strings.Contains(strings.ToLower(child.Data), "@import") {
+				child.Data = ""
+			}
+		}
+	}
 }
 
 // findCID returns the part with the Content-ID matching cid, which includes

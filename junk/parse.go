@@ -9,6 +9,7 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+	"net/url"
 	"os"
 	"strings"
 	"unicode"
@@ -250,7 +251,7 @@ func (f *Filter) tokenizeText(r io.Reader, words map[string]struct{}) error {
 func (f *Filter) tokenizeHTML(r io.Reader, meta, words map[string]struct{}) error {
 	htmlReader := &htmlTextReader{
 		t:    html.NewTokenizer(r),
-		meta: map[string]struct{}{},
+		meta: meta,
 	}
 	return f.tokenizeText(htmlReader, words)
 }
@@ -303,17 +304,22 @@ func (r *htmlTextReader) Read(buf []byte) (n int, err error) {
 			if len(buf) > 0 {
 				return give(buf)
 			}
-		case html.StartTagToken:
+		case html.StartTagToken, html.SelfClosingTagToken:
 			tagBuf, moreAttr := r.t.TagName()
 			tag := string(tagBuf)
 			//log.Printf("tag %q %v", tag, r.tagStack)
 
-			if tag == "img" && moreAttr {
+			if (tag == "img" || tag == "a") && moreAttr {
 				var key, val []byte
 				for moreAttr {
 					key, val, moreAttr = r.t.TagAttr()
+					if tag == "a" && string(key) == "href" {
+						if u, err := url.Parse(string(val)); err == nil && (u.Scheme == "https" || u.Scheme == "http") && u.Hostname() != "" && len(u.Hostname()) <= 253 && r.meta != nil {
+							r.meta["html-link-host:"+strings.ToLower(u.Hostname())] = struct{}{}
+						}
+					}
 					if string(key) == "alt" && len(val) > 0 {
-						return give(val)
+						return give(append(append([]byte(" "), val...), ' '))
 					}
 				}
 			}
@@ -321,18 +327,34 @@ func (r *htmlTextReader) Read(buf []byte) (n int, err error) {
 			// Empty elements, https://developer.mozilla.org/en-US/docs/Glossary/Empty_element
 			switch tag {
 			case "area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr":
+				if tag == "br" || tag == "hr" {
+					return give([]byte(" "))
+				}
 				continue
 			}
 
 			r.tagStack = append(r.tagStack, tag)
+			if htmlWordBoundary(tag) {
+				return give([]byte(" "))
+			}
 		case html.EndTagToken:
 			// log.Printf("tag pop %v", r.tagStack)
 			if len(r.tagStack) > 0 {
 				r.tagStack = r.tagStack[:len(r.tagStack)-1]
 			}
-		case html.SelfClosingTagToken:
+			if tag, _ := r.t.TagName(); htmlWordBoundary(string(tag)) {
+				return give([]byte(" "))
+			}
 		case html.CommentToken:
 		case html.DoctypeToken:
 		}
 	}
+}
+
+func htmlWordBoundary(tag string) bool {
+	switch tag {
+	case "p", "div", "li", "ul", "ol", "table", "tr", "td", "th", "h1", "h2", "h3", "h4", "section", "article", "blockquote":
+		return true
+	}
+	return false
 }

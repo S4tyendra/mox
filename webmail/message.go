@@ -171,6 +171,7 @@ func parsedMessage(log mlog.Log, m *store.Message, state *msgState, full, msgite
 	}
 
 	pm.Texts = []string{}
+	var htmlTexts []string
 
 	// We track attachments from multipart/mixed differently from other attachments.
 	// The others are often inline, sometimes just some logo's in HTML alternative
@@ -228,6 +229,19 @@ func parsedMessage(log mlog.Log, m *store.Message, state *msgState, full, msgite
 			}
 
 		case "TEXT/HTML":
+			if full {
+				disp, _, _ := p.DispositionFilename()
+				if !strings.EqualFold(disp, "attachment") {
+					text, err := message.HTMLToText(&moxio.LimitReader{R: p.ReaderUTF8OrBinary(), Limit: 2 * 1024 * 1024})
+					if err != nil {
+						rerr = fmt.Errorf("converting html part: %w", err)
+						return
+					}
+					if strings.TrimSpace(text) != "" {
+						htmlTexts = append(htmlTexts, text)
+					}
+				}
+			}
 			pm.HasHTML = true
 			if full && pm.HTMLPath == nil {
 				pm.HTMLPath = slices.Clone(path)
@@ -295,6 +309,11 @@ func parsedMessage(log mlog.Log, m *store.Message, state *msgState, full, msgite
 		}
 	}
 	usePart(*state.part, -1, nil, []int{}, false)
+	// Some senders supply a two-line plain alternative to a complete HTML receipt.
+	// Prefer the complete readable version, preserving original MIME parts in Part.
+	if len(htmlTexts) > 0 && len(strings.Join(htmlTexts, "\n\n")) > len(strings.Join(pm.Texts, "\n\n")) {
+		pm.Texts = htmlTexts
+	}
 
 	pm.attachments = []Attachment{}
 	pm.attachments = append(pm.attachments, attachmentsMixed...)
