@@ -187,7 +187,8 @@ type connections struct {
 }
 
 // Register adds a connection for receiving an immediate i/o deadline on shutdown.
-// When the connection is closed, Remove must be called to cancel the registration.
+// When the connection is closed, Unregister must be called to cancel the
+// registration.
 func (c *connections) Register(nc net.Conn, protocol, listener string) {
 	// This can happen, when a connection was initiated before a shutdown, but it
 	// doesn't hurt to log it.

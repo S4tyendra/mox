@@ -7,6 +7,7 @@ import (
 	"maps"
 	"net/textproto"
 	"slices"
+	"strconv"
 	"strings"
 	"time"
 
@@ -503,7 +504,8 @@ func (c *conn) cmdxSearch(isUID, isE bool, tag, cmd string, p *parser) {
 			if !isUID {
 				v = store.UID(c.xsequence(v))
 			}
-			fmt.Fprintf(&s, " %d", v)
+			s.WriteString(" ")
+			s.WriteString(strconv.FormatUint(uint64(v), 10))
 		}
 
 		// MODSEQ is only attached when there were matches: RFC 7162 ties the

@@ -1034,6 +1034,7 @@ func PrepareStaticConfig(ctx context.Context, log mlog.Log, configFile string, c
 			case "SCRAM-SHA-1":
 			case "CRAM-MD5":
 			case "PLAIN":
+			case "LOGIN":
 			default:
 				addTransportErrorf("unknown authentication mechanism %s", m)
 			}

@@ -191,13 +191,24 @@ func stripLeadingCSS(s string) string {
 func previewText(r io.Reader) (string, error) {
 	// We look quite a bit of lines ahead for trailing signatures with trailing empty lines.
 	var lines []string
-	scanner := bufio.NewScanner(r)
-	ensureLines := func() {
-		for len(lines) < 10 && scanner.Scan() {
-			lines = append(lines, strings.TrimSpace(scanner.Text()))
+	br := bufio.NewReader(r)
+	ensureLines := func() error {
+		for len(lines) < 10 {
+			line, err := br.ReadString('\n')
+			if line != "" {
+				lines = append(lines, strings.TrimSpace(line))
+			}
+			if err == io.EOF {
+				break
+			} else if err != nil {
+				return fmt.Errorf("read: %w", err)
+			}
 		}
+		return nil
 	}
-	ensureLines()
+	if err := ensureLines(); err != nil {
+		return "", err
+	}
 
 	isSnipped := func(s string) bool {
 		return s == "[...]" || s == "[…]" || s == "..."
@@ -236,10 +247,18 @@ func previewText(r io.Reader) (string, error) {
 	if len(lines) > 3 && strings.HasPrefix(lines[0], "On ") && !strings.HasSuffix(lines[0], "wrote:") && strings.HasSuffix(lines[1], ":") && nextLineQuoted(1) {
 		result = "[...]\n"
 		lines = lines[3:]
-		ensureLines()
+		if err := ensureLines(); err != nil {
+			return "", err
+		}
 	}
 
-	for ; len(lines) > 0 && !isSignature(); ensureLines() {
+	var err error // set by ensureLines after each loop
+	for ; len(lines) > 0 && !isSignature(); err = ensureLines() {
+		// handle error from ensureLines
+		if err != nil {
+			return "", err
+		}
+
 		line := lines[0]
 		if strings.HasPrefix(line, ">") {
 			if !resultSnipped() {
@@ -283,7 +302,7 @@ func previewText(r io.Reader) (string, error) {
 		}
 	}
 
-	return result, scanner.Err()
+	return result, nil
 }
 
 // Any text inside these html elements (recursively) is ignored.

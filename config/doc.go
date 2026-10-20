@@ -466,8 +466,8 @@ See https://pkg.go.dev/github.com/mjl-/sconf for details.
 				# limiting and for the "secure" status of cookies. (optional)
 				Forwarded: false
 
-			# Serve prometheus metrics, for monitoring. You should not enable this on a public
-			# IP. (optional)
+			# Serve prometheus metrics at /metrics and a health check at /health, for
+			# monitoring. You should not enable this on a public IP. (optional)
 			MetricsHTTP:
 				Enabled: false
 
@@ -642,8 +642,8 @@ See https://pkg.go.dev/github.com/mjl-/sconf for details.
 
 					# Allowed authentication mechanisms. Defaults to SCRAM-SHA-256-PLUS,
 					# SCRAM-SHA-256, SCRAM-SHA-1-PLUS, SCRAM-SHA-1, CRAM-MD5. Not included by default:
-					# PLAIN. Specify the strongest mechanism known to be implemented by the server to
-					# prevent mechanism downgrade attacks. (optional)
+					# PLAIN, LOGIN. Specify the strongest mechanism known to be implemented by the
+					# server to prevent mechanism downgrade attacks. (optional)
 					Mechanisms:
 						-
 
@@ -675,8 +675,8 @@ See https://pkg.go.dev/github.com/mjl-/sconf for details.
 
 					# Allowed authentication mechanisms. Defaults to SCRAM-SHA-256-PLUS,
 					# SCRAM-SHA-256, SCRAM-SHA-1-PLUS, SCRAM-SHA-1, CRAM-MD5. Not included by default:
-					# PLAIN. Specify the strongest mechanism known to be implemented by the server to
-					# prevent mechanism downgrade attacks. (optional)
+					# PLAIN, LOGIN. Specify the strongest mechanism known to be implemented by the
+					# server to prevent mechanism downgrade attacks. (optional)
 					Mechanisms:
 						-
 
@@ -708,8 +708,8 @@ See https://pkg.go.dev/github.com/mjl-/sconf for details.
 
 					# Allowed authentication mechanisms. Defaults to SCRAM-SHA-256-PLUS,
 					# SCRAM-SHA-256, SCRAM-SHA-1-PLUS, SCRAM-SHA-1, CRAM-MD5. Not included by default:
-					# PLAIN. Specify the strongest mechanism known to be implemented by the server to
-					# prevent mechanism downgrade attacks. (optional)
+					# PLAIN, LOGIN. Specify the strongest mechanism known to be implemented by the
+					# server to prevent mechanism downgrade attacks. (optional)
 					Mechanisms:
 						-
 

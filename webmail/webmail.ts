@@ -64,7 +64,6 @@ Enable consistency checking in UI updates:
 - todo: composing of html messages. possibly based on contenteditable. would be good if we can include original html, but quoted. must make sure to not include dangerous scripts/resources, or sandbox it.
 - todo: make alt up/down keys work on html iframe too. requires loading it from sameorigin, to get access to its inner document.
 - todo: reconnect with last known modseq and don't clear the message list, only update it
-- todo: find and use svg icons for flags in the msgitemView. junk (fire), forwarded, replied, attachment (paperclip), flagged (flag), phishing (?). also for special-use mailboxes (junk, trash, archive, draft, sent). should be basic and slim.
 - todo: for embedded messages (message/rfc822 or message/global), allow viewing it as message, perhaps in a popup?
 - todo: only show orange underline where it could be a problem? in addresses and anchor texts. we may be lighting up a christmas tree now, desensitizing users.
 - todo: saved searches that are displayed below list of mailboxes, for quick access to preset view
@@ -86,6 +85,7 @@ Enable consistency checking in UI updates:
 import {dom, style, attr, prop, ElemArg} from '../lib'
 import {css, ensureCSS, styles, styleClasses, equalAddress, formatAddress, formatAddressShort, formatEmail, loadMsgheaderView, isImage, renderText, formatDomain, join} from './lib'
 import * as api from './api'
+import * as icons from './icons'
 
 // If we had to reload with a cache buster after a server update, the URL will
 // start with ?v=.... Remove it and load again.
@@ -318,16 +318,6 @@ const avatarColor = (a: api.MessageAddress | undefined): string => {
 	const hue = (h % 360)
 	return 'hsl(' + hue + ', 55%, 36%)'
 }
-
-// Icon for a mailbox, by special-use, for the modern theme's folder list.
-const mailboxIcon = (mb: api.Mailbox): string =>
-	mb.Sent ? '↗' :       // Sent
-	mb.Draft ? '✎' :      // Draft
-	mb.Archive ? '📥' :   // Archive
-	mb.Trash ? '🗑' :     // Trash
-	mb.Junk ? '⚠' :      // Junk
-	mb.Name === 'Inbox' ? '✉' : // Inbox
-	'📁'                  // Custom folder
 
 // Squire rich-text editor, loaded as a global from webmail/squire.js (see webmail.html).
 declare class Squire {
@@ -979,6 +969,7 @@ const flagList = (miv: MsgitemView): HTMLElement[] => {
 	}
 	const addFlags = (mi: api.MessageItem) => {
 		const m = mi.Message
+		flag(!m.Junk && !m.Notjunk, '?', 'Unclassified, neither junk nor not junk: message does not contribute to spam classification of new incoming messages')
 		flag(m.Answered, 'r', 'Replied/answered')
 		flag(m.Flagged, '!', 'Flagged')
 		flag(m.Forwarded, 'f', 'Forwarded')
@@ -986,7 +977,6 @@ const flagList = (miv: MsgitemView): HTMLElement[] => {
 		flag(m.Deleted, 'D', 'Deleted, used in IMAP, message will likely be removed soon.')
 		flag(m.Draft, 'd', 'Draft')
 		flag(m.Phishing, 'p', 'Phishing')
-		flag(!m.Junk && !m.Notjunk, '?', 'Unclassified, neither junk nor not junk: message does not contribute to spam classification of new incoming messages')
 		flag(mi.Attachments && mi.Attachments.length > 0 ? true : false, 'a', 'Has at least one attachment')
 		if (m.ThreadMuted) {
 			flag(true, 'm', 'Muted, new messages are automatically marked as read.')
@@ -1000,9 +990,26 @@ const flagList = (miv: MsgitemView): HTMLElement[] => {
 		}
 	}
 
+	const flagCharIcons: { [key: string]: () => SVGSVGElement } = {
+		'r': icons.reply,
+		'!': icons.flag,
+		'f': icons.forward,
+		'j': icons.junk,
+		'a': icons.attachment,
+		'D': icons.trash,
+	}
+
+	const flagChar = (c: string) => {
+		const fn = flagCharIcons[c]
+		if (fn) {
+			return fn()
+		}
+		return c
+	}
+
 	const msgItemFlagStyle = css('msgItemFlag', {marginRight: '1px', fontWeight: 'normal', fontSize: '.9em'})
-	return msgflags.map(t => dom.span(msgItemFlagStyle, t[1], attr.title(t[0])))
-		.concat(othermsgflags.map(t => dom.span(msgItemFlagStyle, css('msgItemFlagCollapsed', {color: styles.colorMilder}), t[1], attr.title(t[0]))))
+	return msgflags.map(t => dom.span(msgItemFlagStyle, flagChar(t[1]), attr.title(t[0])))
+		.concat(othermsgflags.map(t => dom.span(msgItemFlagStyle, css('msgItemFlagCollapsed', {color: styles.colorMilder}), flagChar(t[1]), attr.title(t[0]))))
 }
 
 // Turn filters from the search bar into filters with the refine filters (buttons
@@ -5893,8 +5900,8 @@ const newMailboxView = (xmb: api.Mailbox, mailboxlistView: MailboxlistView, othe
 		cmdExpand()
 	})
 
+	let icon: HTMLElement
 	let name: HTMLElement, unread: HTMLElement
-	let iconSpan: HTMLElement, nameBox: HTMLElement
 	let actionBtn: HTMLButtonElement
 
 	const cmdOpenActions = async () => {
@@ -6036,6 +6043,25 @@ const newMailboxView = (xmb: api.Mailbox, mailboxlistView: MailboxlistView, othe
 	ensureCSS('.mailboxCollapse', {visibility: 'hidden'})
 	ensureCSS('.mailboxItem:hover .mailboxCollapse, .mailboxItem:focus .mailboxCollapse', {visibility: 'visible'})
 
+	const mailboxIcons = (mb: api.Mailbox) => {
+		const l: SVGSVGElement[] = []
+		const add = (v: boolean, fn: () => SVGSVGElement) => {
+			if (v) {
+				l.push(fn())
+			}
+		}
+
+		add(mb.Archive, icons.archive)
+		add(mb.Draft, icons.draft)
+		add(mb.Junk, icons.junk)
+		add(mb.Sent, icons.sent)
+		add(mb.Trash, icons.trash)
+		add(mb.Name === 'Inbox', icons.inbox)
+		add(mb.Name === rejectsMailbox, icons.rejects)
+		add(mb.Name === introboxMailbox, icons.introbox)
+		return l
+	}
+
 	const root = dom.div(
 		mailboxItemStyle,
 		attr.tabindex('0'),
@@ -6104,11 +6130,9 @@ const newMailboxView = (xmb: api.Mailbox, mailboxlistView: MailboxlistView, othe
 			}
 		},
 		dom.div(
-			css('mailbox', {padding: '.15em .25em', display: 'flex', justifyContent: 'space-between'}),
-			nameBox=dom.div(css('mailboxNameBox', {display: 'flex', alignItems: 'center', minWidth: 0}),
-				iconSpan=dom.span(css('mailboxIcon', {display: 'none'}), mailboxIcon(xmb)),
-				name=dom.div(css('mailboxName', {whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'})),
-			),
+			css('mailbox', {padding: '.15em .25em', display: 'flex', gap: '.25em', justifyContent: 'space-between', alignItems: 'baseline'}),
+			icon=dom.div(css('mailboxIcon', {width: '1.1em', fontSize: '1.1em'}), mailboxIcons(xmb)),
+			name=dom.div(css('mailboxName', {whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', flexGrow: '1'})),
 			dom.div(
 				style({whiteSpace: 'nowrap'}),
 				actionBtn=dom.clickbutton(dom._class('mailboxHoverOnly'),
@@ -6145,11 +6169,7 @@ const newMailboxView = (xmb: api.Mailbox, mailboxlistView: MailboxlistView, othe
 				}
 			}
 		}
-		// Indent the whole name box (icon + name) by depth, so the modern theme's
-		// folder icon is indented with the name for subfolders too. Visually identical
-		// to the classic per-name indent.
-		nameBox.style.paddingLeft = mbv.parents > 0 ? (mbv.parents*2/3)+'em' : ''
-		dom._kids(name, dom.span(mbv.shortname, attr.title('Total messages: ' + ntotal), moreElems))
+		dom._kids(name, dom.span(mbv.parents > 0 ? style({paddingLeft: ''+(mbv.parents*2/3)+'em'}) : [], mbv.shortname, attr.title('Total messages: ' + ntotal), moreElems))
 		dom._kids(unread, nunread === 0 ? ['', attr.title('')] : [''+nunread, attr.title(''+nunread+' unread')])
 	}
 
@@ -6179,7 +6199,7 @@ const newMailboxView = (xmb: api.Mailbox, mailboxlistView: MailboxlistView, othe
 			mbv.mailbox.Junk = specialUse.Junk
 			mbv.mailbox.Sent = specialUse.Sent
 			mbv.mailbox.Trash = specialUse.Trash
-			dom._kids(iconSpan, mailboxIcon(mbv.mailbox))
+			dom._kids(icon, mailboxIcons(mbv.mailbox))
 		},
 		setKeywords: (keywords: string[]) => {
 			mbv.mailbox.Keywords = keywords
@@ -7036,6 +7056,12 @@ const init = async () => {
 	let msglistscrollElem: HTMLElement
 	let queryactivityElem: HTMLElement // We show ... when a query is active and data is forthcoming.
 
+	// Elements we make inactive when we are not connected.
+	let composeBtn: HTMLButtonElement
+	let searchbarElemBox: HTMLElement
+	let settingsBtn: HTMLButtonElement
+	let mailboxesListMsgBox: HTMLDivElement
+
 	// Shown at the bottom of msglistscrollElem, immediately below the msglistView, when appropriate.
 	const listendElem = dom.div(css('msgListEnd', {borderTop: '1px solid', borderColor: styles.borderColor, color: styles.colorMilder, margin: '1ex'}))
 	const listloadingElem = dom.div(css('msgListLoading', {textAlign: 'center', padding: '.15em 0', color: styles.colorMild, border: '1px solid', borderColor: styles.borderColor, margin: '1ex', backgroundColor: styles.backgroundColorMild}), 'loading...')
@@ -7066,6 +7092,76 @@ const init = async () => {
 		} else {
 			document.title = ['('+mb.Unread+') '+mb.Name, addr, 'Mox Webmail'].join(' - ')
 		}
+	}
+
+	const faviconLink = document.head.querySelector('link[rel="icon"]') as HTMLLinkElement
+	const faviconImg = dom.img(attr.src('/favicon.ico'))
+	const faviconProm = new Promise<void>((resolve, reject) => {
+		faviconImg.addEventListener('load', () => resolve())
+		faviconImg.addEventListener('error', () => reject())
+	})
+	let faviconState = 0 // Number of messages, -1 is "no connection". We only redraw when this changes.
+	const faviconDraw = async () => {
+		try {
+			await faviconProm
+		} catch (err) {
+			return
+		}
+
+		let state: number
+		if (!eventSource) {
+			state = -1
+		} else {
+			const inbox = mailboxlistView.findMailboxByName('Inbox')
+			state = Math.min(999, inbox?.Unread || 0)
+		}
+		if (faviconState === state) {
+			return
+		}
+
+		const canvas = dom.canvas(prop({width: faviconImg.naturalWidth, height: faviconImg.naturalHeight}))
+		const ctx = canvas.getContext('2d')
+		if (!ctx || !faviconLink) {
+			return
+		}
+		ctx.drawImage(faviconImg, 0, 0)
+		if (state < 0) {
+			// Draw in grayscale indicating disconnected.
+			const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+			const px = imageData.data
+			for (let i = 0; i < px.length; i += 4) {
+				const r = px[i]
+				const g = px[i+1]
+				const b = px[i+2]
+				const grey = Math.floor(0.2126 * r + 0.715 * g + 0.0722 * b)
+				px[i] = grey
+				px[i+1] = grey
+				px[i+2] = grey
+				px[i+3] = 127
+			}
+			ctx.putImageData(imageData, 0, 0)
+		} else if (state > 0) {
+			ctx.font = 'bold 14px sans-serif'
+			const size = ctx.measureText(''+state)
+
+			ctx.beginPath()
+			const radius = (size.fontBoundingBoxAscent + size.fontBoundingBoxDescent)/2
+			const slack = radius/3
+			const left = Math.min(32 - 2 * radius, 32 - 2*slack - size.width)
+			const bottom = 32 // bottom
+			const right = 32 // right
+			ctx.arc(right-radius, bottom-radius, radius, 1.5*Math.PI, .5*Math.PI, false)
+			ctx.lineTo(left-radius, bottom)
+			ctx.arc(left+radius, bottom-radius, radius, .5*Math.PI, 1.5*Math.PI, false)
+			ctx.lineTo(right+radius, bottom-2*radius)
+			ctx.fillStyle = '#222'
+			ctx.fill()
+
+			ctx.fillStyle = 'white'
+			ctx.fillText(''+state, (right+left)/2 - size.width/2, bottom - size.fontBoundingBoxDescent)
+		}
+		faviconLink.href = canvas.toDataURL('image/png')
+		faviconState = state
 	}
 
 	const setLocationHash = () => {
@@ -7445,8 +7541,6 @@ const init = async () => {
 	let mailboxesElem: HTMLElement, topcomposeboxElem: HTMLElement, mailboxessplitElem: HTMLElement
 	let splitElem: HTMLElement
 
-	let searchbarElemBox: HTMLElement // Detailed search form, opened when searchbarElem gets focused.
-
 	const searchbarInitial = () => {
 		const mailboxActive = mailboxlistView.activeMailbox()
 		if (mailboxActive && mailboxActive.Name !== 'Inbox') {
@@ -7527,7 +7621,7 @@ const init = async () => {
 			attr.role('region'), attr.arialabel('Top bar'),
 			topcomposeboxElem=dom.div(dom._class('pad'),
 				style({width: settings.mailboxesWidth + 'px', textAlign: 'center'}),
-				dom.clickbutton(dom._class('composeButton'), 'Compose', attr.title('Compose new email message.'), function click() {
+				composeBtn=dom.clickbutton(dom._class('composeButton'), 'Compose', attr.title('Compose new email message.'), function click() {
 					shortcutCmd(cmdCompose, shortcuts)
 				}),
 			),
@@ -7621,12 +7715,11 @@ const init = async () => {
 								selectLayout(layoutElem.value)
 							}
 						},
-					), ' ',
-					dom.clickbutton('Tooltip', attr.title('Show tooltips, based on the title attributes (underdotted text) for the focused element and all user interface elements below it. Use the keyboard shortcut "ctrl ?" instead of clicking on the tooltip button, which changes focus to the tooltip button.'), clickCmd(cmdTooltip, shortcuts)),
+					),
 					' ',
 					dom.clickbutton('Help', attr.title('Show popup with basic usage information and a keyboard shortcuts.'), clickCmd(cmdHelp, shortcuts)),
 					' ',
-					dom.clickbutton('Settings', attr.title('Change settings for composing messages.'), clickCmd(cmdSettings, shortcuts)),
+					settingsBtn=dom.clickbutton('Settings', attr.title('Change settings for composing messages.'), clickCmd(cmdSettings, shortcuts)),
 					' ',
 					accountElem=dom.span(),
 					' ',
@@ -7645,7 +7738,7 @@ const init = async () => {
 				),
 			),
 		),
-		dom.div(
+		mailboxesListMsgBox=dom.div(
 			css('mailboxesListMsgBox', {flexGrow: '1', position: 'relative'}),
 			mailboxesElem=dom.div(topMailboxesStyle,
 				style({width: settings.mailboxesWidth + 'px'}),
@@ -7950,8 +8043,11 @@ const init = async () => {
 
 	let eventSource: EventSource | null = null // If set, we have a connection.
 	let connecting = false // Check before reconnecting.
-	let noreconnect = false // Set after one reconnect attempt fails.
-	let noreconnectTimer = 0 // Timer ID for resetting noreconnect.
+	// autoreconnect is set to 0 when one reconnect attempt fails, which is cleared by
+	// window "focus" event. Set to -1 on fatal protocol errors, not cleared by window
+	// "focus" event (i.e. after the alert box is closed).
+	let autoReconnect = 1
+	let autoReconnectResetTimer = 0 // Timer ID for resetting autoReconnect.
 	// Set to timer when we plan to reconnect after a server shutdown. Cleared when we
 	// try to connect.
 	let shutdownReconnectTimer = 0
@@ -7975,15 +8071,15 @@ const init = async () => {
 	// have left, closed the connection, so we should restore it.
 	window.addEventListener('pageshow', async (e: PageTransitionEvent) => {
 		if (e.persisted && !eventSource && !connecting) {
-			noreconnect = false
+			autoReconnect = 1
 			connect(false)
 		}
 	})
 
 	// If user comes back to tab/window, and we are disconnected, try another reconnect.
 	window.addEventListener('focus', () => {
-		if (!eventSource && !connecting) {
-			noreconnect = false
+		if (!eventSource && !connecting && autoReconnect >= 0) {
+			autoReconnect = 0
 			connect(true)
 		}
 	})
@@ -7995,7 +8091,7 @@ const init = async () => {
 			' ',
 			dom.clickbutton('Reconnect', function click() {
 				if (!eventSource && !connecting) {
-					noreconnect = false
+					autoReconnect = 1
 					connect(true)
 				}
 			}),
@@ -8011,6 +8107,24 @@ const init = async () => {
 	// connected.
 	let connectOpenComposeMessageID = 0
 
+	const uiConnectionStatus = (connected: boolean) => {
+		faviconDraw()
+
+		composeBtn.disabled = !connected
+		settingsBtn.disabled = !connected
+
+		const toggle = (e: HTMLElement) => {
+			e.style.opacity = connected ? '' : '.3'
+			e.style.pointerEvents = connected ? '' : 'none' // Prevent mouse events.
+			e.toggleAttribute('inert', !connected) // Prevent navigation through keyboard.
+		}
+
+		toggle(searchbarElemBox)
+		toggle(mailboxesListMsgBox)
+	}
+
+	uiConnectionStatus(false)
+
 	const connect = async (isreconnect: boolean) => {
 		if (shutdownReconnectTimer) {
 			window.clearTimeout(shutdownReconnectTimer)
@@ -8020,7 +8134,7 @@ const init = async () => {
 		dom._kids(connectionElem)
 		connectionElem.classList.toggle('loading', false)
 
-		noreconnect = isreconnect
+		autoReconnect = isreconnect ? 0 : 1
 		connecting = true
 
 		let token: string
@@ -8028,7 +8142,7 @@ const init = async () => {
 			token = await withStatus('Fetching token for connection with real-time updates', client.Token(), undefined, true)
 		} catch (err) {
 			connecting = false
-			noreconnect = true
+			autoReconnect = 0
 			dom._kids(statusElem, (capitalizeFirst((err as any).message || 'Error fetching connection token'))+', not automatically retrying. ')
 			showNotConnected()
 			return
@@ -8109,13 +8223,14 @@ const init = async () => {
 		})
 
 		const sseError = (errmsg: string, addNotRetrying: boolean) => {
+			uiConnectionStatus(false)
 			sseID = 0
 			eventSource!.close()
 			eventSource = null
 			connecting = false
-			if (noreconnectTimer) {
-				clearTimeout(noreconnectTimer)
-				noreconnectTimer = 0
+			if (autoReconnectResetTimer) {
+				clearTimeout(autoReconnectResetTimer)
+				autoReconnectResetTimer = 0
 			}
 			if (leaving) {
 				return
@@ -8126,7 +8241,7 @@ const init = async () => {
 			}
 			document.title = ['(not connected)', loginAddress ? (loginAddress.User+'@'+formatDomain(loginAddress.Domain)) : '', 'Mox Webmail'].filter(s => s).join(' - ')
 			dom._kids(connectionElem)
-			if (noreconnect) {
+			if (autoReconnect < 1) {
 				let msg = capitalizeFirst(errmsg)
 				if (addNotRetrying) {
 					msg += ', not automatically retrying. '
@@ -8151,7 +8266,7 @@ const init = async () => {
 		})
 		// Server is stopping, we'll assume for a restart, and will try to reconnect with some jitter.
 		eventSource.addEventListener('serverShutdown', (_: MessageEvent) => {
-			noreconnect = true
+			autoReconnect = 0
 			sseError('Server shutting down, will try to reconnect in a few seconds', false)
 
 			shutdownReconnectTimer = window.setTimeout(() => {
@@ -8163,7 +8278,10 @@ const init = async () => {
 			try {
 				return fn()
 			} catch (err) {
-				window.alert('invalid event from server: ' + ((err as any).message || '(no message)'))
+				const errmsg = 'invalid event from server: ' + ((err as any).message || '(no message)')
+				window.alert(errmsg)
+				autoReconnect = -1
+				sseError(errmsg, true)
 				throw err
 			}
 		}
@@ -8266,13 +8384,15 @@ const init = async () => {
 			dom._kids(queryactivityElem, 'loading...')
 			msglistscrollElem.appendChild(listloadingElem)
 
-			// We'll clear noreconnect when we've held a connection for 5 seconds. Firefox
+			// We'll set autoReconnect to 1 when we've held a connection for 5 seconds. Firefox
 			// disconnects often, on any network change including with docker container starts,
 			// such as for integration tests.
-			noreconnectTimer = window.setTimeout(() => {
-				noreconnect = false
-				noreconnectTimer = 0
+			autoReconnectResetTimer = window.setTimeout(() => {
+				autoReconnect = 1
+				autoReconnectResetTimer = 0
 			}, 5*1000)
+
+			uiConnectionStatus(true)
 		})
 		eventSource.addEventListener('viewErr', async (e: MessageEvent) => {
 			const viewErr = checkParse(() => api.parser.EventViewErr(JSON.parse(e.data)))
@@ -8394,6 +8514,8 @@ const init = async () => {
 						throw new Error('unknown change tag ' + tag)
 					}
 				})
+
+				faviconDraw()
 			} catch (err) {
 				window.alert('Error processing changes (reloading advised): ' + errmsg(err))
 			}

@@ -103,10 +103,11 @@ func faviconHandle(w http.ResponseWriter, r *http.Request) {
 	http.ServeContent(w, r, "favicon.ico", faviconModTime, strings.NewReader(faviconIco))
 }
 
-// healthzHandle returns 200 when the server is healthy, 503 when shutting down.
-// Registered as a SystemHandler on all HTTP ports for Kubernetes health probes.
-func healthzHandle(w http.ResponseWriter, r *http.Request) {
-	if r.Method != "GET" {
+// healthHandle returns 200 when the server is healthy, 503 when shutting down.
+// Registered as /health on the metrics listener, and as /healthz on all HTTP
+// ports for Kubernetes-style probes.
+func healthHandle(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "GET" && r.Method != "HEAD" {
 		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
 		return
 	}
@@ -118,6 +119,10 @@ func healthzHandle(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		fmt.Fprint(w, "ok")
 	}
+}
+
+func healthzHandle(w http.ResponseWriter, r *http.Request) {
+	healthHandle(w, r)
 }
 
 type responseWriterFlusher interface {
@@ -826,6 +831,7 @@ func portServes(name string, l config.Listener) map[int]*serve {
 		port := config.Port(l.MetricsHTTP.Port, 8010)
 		srv := ensureServe(false, false, false, port, "metrics-http", false)
 		srv.SystemHandle("metrics", nil, "/metrics", mox.SafeHeaders(promhttp.Handler()))
+		srv.SystemHandle("health", nil, "/health", mox.SafeHeaders(http.HandlerFunc(healthHandle)))
 		srv.SystemHandle("metrics", nil, "/", mox.SafeHeaders(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			if r.URL.Path != "/" {
 				http.NotFound(w, r)

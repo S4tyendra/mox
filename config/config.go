@@ -194,7 +194,7 @@ type Listener struct {
 	MetricsHTTP  struct {
 		Enabled bool
 		Port    int `sconf:"optional" sconf-doc:"Default 8010."`
-	} `sconf:"optional" sconf-doc:"Serve prometheus metrics, for monitoring. You should not enable this on a public IP."`
+	} `sconf:"optional" sconf-doc:"Serve prometheus metrics at /metrics and a health check at /health, for monitoring. You should not enable this on a public IP."`
 	PprofHTTP struct {
 		Enabled bool
 		Port    int `sconf:"optional" sconf-doc:"Default 8011."`
@@ -269,7 +269,7 @@ type TransportSMTP struct {
 type SMTPAuth struct {
 	Username   string
 	Password   string
-	Mechanisms []string `sconf:"optional" sconf-doc:"Allowed authentication mechanisms. Defaults to SCRAM-SHA-256-PLUS, SCRAM-SHA-256, SCRAM-SHA-1-PLUS, SCRAM-SHA-1, CRAM-MD5. Not included by default: PLAIN. Specify the strongest mechanism known to be implemented by the server to prevent mechanism downgrade attacks."`
+	Mechanisms []string `sconf:"optional" sconf-doc:"Allowed authentication mechanisms. Defaults to SCRAM-SHA-256-PLUS, SCRAM-SHA-256, SCRAM-SHA-1-PLUS, SCRAM-SHA-1, CRAM-MD5. Not included by default: PLAIN, LOGIN. Specify the strongest mechanism known to be implemented by the server to prevent mechanism downgrade attacks."`
 
 	EffectiveMechanisms []string `sconf:"-" json:"-"`
 }
